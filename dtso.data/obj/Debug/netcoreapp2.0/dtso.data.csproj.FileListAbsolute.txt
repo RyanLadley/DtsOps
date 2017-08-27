@@ -1,0 +1,9 @@
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.deps.json
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.csprojResolveAssemblyReference.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.csproj.CoreCompileInputs.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.AssemblyInfoInputs.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.AssemblyInfo.cs
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.pdb
