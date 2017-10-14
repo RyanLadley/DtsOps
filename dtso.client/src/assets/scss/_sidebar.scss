@@ -1,0 +1,104 @@
+﻿@import "shared/variables";
+@import "shared/mixins";
+@import "shared/colors";
+
+
+//sidebar-width defined in variables
+$sidebar-width: 60px;
+$sidebar-item-height: $sidebar-width;
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background: $dark-grey;
+    width: $sidebar-width;
+    overflow: hidden;
+    font-size: 0;
+    z-index: 99;
+    @include transition-time(.5s);
+
+    &:hover {
+        width: $sidebar-extended-width;
+
+        #logo-top {
+            opacity: 0;
+        }
+
+        #logo-bottom {
+            opacity: 1;
+        }
+    }
+
+    .selected {
+        .sidebar-text, &:hover .sidebar-text {
+            color: white;
+        }
+
+        i {
+            color: white;
+            text-shadow: 1px 1px 3px #fcfcfc;
+        }
+
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+.sidebar-image-container {
+    color: $grey;
+    border-bottom: 1px solid $grey;
+    height: $sidebar-item-height*(3/2);
+    display: inline-block;
+    width: $sidebar-extended-width;
+    position: relative;
+}
+
+.sidebar-image {
+    margin-top: 18px;
+    height: $sidebar-item-height;
+    position: absolute;
+    top: 0;
+    -webkit-transition: opacity 0.65s linear;
+    -moz-transition: opacity 0.65s linear;
+    -o-transition: opacity 0.65s linear;
+    transition: opacity 0.65s linear;
+}
+
+#logo-bottom {
+    opacity: 0;
+    max-width: $sidebar-extended-width - 15px;
+    margin-left: 17px;
+    margin-top: 17PX;
+}
+#logo-top {
+    max-width: $sidebar-width - 8px;
+    margin-left: 5px;
+}
+.sidebar-item {
+    font-size: 16px;
+    color: $grey;
+    border-bottom: 1px solid $grey;
+    height: $sidebar-item-height;
+    display: inline-block;
+    width: $sidebar-extended-width;
+    @include transition-time(.3s);
+
+    &:hover {
+        background: $dark-grey - 10;
+        color: $grey + 90;
+    }
+}
+
+    .sidebar-icon {
+        text-align: center;
+        margin: 23px 19px;
+        float: left;
+    }
+
+.sidebar-text {
+    margin-top: 22px;
+    float: left;
+    margin-left: 5px;
+}

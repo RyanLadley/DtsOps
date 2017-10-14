@@ -1,0 +1,85 @@
+﻿@import "shared/colors";
+@import "shared/mixins";
+
+.button{
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.icon-button {
+    cursor: pointer;
+}
+
+.standard-button {
+    background: $blue;
+    border: 2px solid $blue;
+    color: white;
+    padding: 8px;
+    font-size: 15px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+
+    &:hover {
+        background: none;
+        color: $blue;
+    }
+}
+
+
+.submit-button {
+    background: $green;
+    border: 2px solid $green;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+    float: right;
+
+    &:hover {
+        background: none;
+        color: $green;
+    }
+}
+
+.remove-button {
+    color: #cf0f0f;
+    background: white;
+    height: auto;
+    float: left;
+    padding: 0;
+    display: inline-block;
+
+    &:disabled {
+        color: #a27272;
+    }
+
+    &:hover {
+        text-shadow: 1px 1px 1px #cf0f0f;
+    }
+
+    &:active {
+        color: red;
+    }
+}
+
+.add-button {
+    color: $light-green;
+    background: white;
+    float: left;
+    padding: 0;
+    display: inline-block;
+
+    &:disabled {
+        color: #8bd895;
+    }
+
+    &:hover {
+        text-shadow: 1px 1px 1px #d5d5d5;
+    }
+
+    &:active {
+        color: green;
+    }
+}

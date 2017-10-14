@@ -1,0 +1,58 @@
+﻿@import "shared/mixins";
+@import "shared/colors";
+
+.invoice-details-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/colorado_balloon_classic.jpg', center, right);
+    background-size: cover;
+}
+.invoice-header-bar {
+    background: $dark-red;
+    margin: 10px 0 10px 0;
+    color: white;
+}
+.invoice-label-value {
+    padding: 8px 10px;
+    font-size: 15px;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        background: #f6f6f6;
+    }
+}
+
+.invoice-table-container {
+    width: 1100px;
+    //float: left;
+    display: inline-block;
+
+    .table-title {
+        margin-top: 15px;
+    }
+
+    .filter {
+        float: left;
+        border-bottom: 5px solid $dark-red;
+        color: white;
+        cursor: pointer;
+        padding: 10px;
+
+        &:hover {
+            border-bottom: 5px solid #318a31;
+            text-shadow: 1px 1px 1px #888888;
+        }
+    }
+
+    .selected-filter, .selected-filter:hover {
+        border-bottom: 5px solid #00ff00;
+        text-shadow: 1px 1px 1px #c8c8c8;
+    }
+}
+
+.invoice-details-table {
+    tr:hover {
+        background: #fef1f1;
+    }
+}

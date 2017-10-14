@@ -61,7 +61,7 @@ namespace dtso.core.unittests._TestData
                     {
                         AccountNumber = account.AccountNumber,
                         SubNo = (account.SubNo.HasValue) ? account.SubNo : i,
-                        ShredNo = (account.SubNo.HasValue) ? i : -1,
+                        ShredNo = (account.SubNo.HasValue) ? i : (int?)null,
                         Description = $"Child Account {i}",
                         AnnualBudget = (decimal)i,
                         FundNumber = i,

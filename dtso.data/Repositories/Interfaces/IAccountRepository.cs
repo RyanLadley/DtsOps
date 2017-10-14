@@ -9,7 +9,7 @@ namespace dtso.data.Repositories.Interfaces
     public interface IAccountRepository
     {
         vAccount Add(Account account);
-        vAccount Get(int id);
+        vAccount Get(int accountNumber, int? subNumber, int? shredNumber);
         List<vAccount> GetRootAccounts();
         List<vAccount> GetChildAccounts(vAccount account);
         void Remove(int id);

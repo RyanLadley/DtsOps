@@ -9,6 +9,7 @@ using dtso.data.Repositories;
 using dtso.data.Repositories.Interfaces;
 using dtso.core.Managers;
 using dtso.core.Managers.Interfaces;
+using dtso.api.Utilities;
 
 namespace dtso.api
 {
@@ -40,6 +41,9 @@ namespace dtso.api
             //Core
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<IInvoiceManager, InvoiceManager>();
+
+            //Api
+            services.AddTransient<ResponseGenerator>();
 
             services.AddDbContext<MainContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }

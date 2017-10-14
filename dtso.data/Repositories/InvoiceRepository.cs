@@ -5,6 +5,7 @@ using dtso.data.Entities;
 using dtso.data.Context;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using dtso.data.Repositories.Interfaces;
 
 namespace dtso.data.Repositories
 {
@@ -24,7 +25,15 @@ namespace dtso.data.Repositories
 
         public Invoice Get(int id)
         {
-            throw new NotImplementedException();
+            var singleInvoice = _context.Invoices
+                .Where(invoice => invoice.InvoiceId == id)
+
+                .Include(invoice => invoice.Vendor)
+                .Include(invoice => invoice.InvoiceType)
+                .Include(invoice => invoice.InvoiceAccounts)
+                    .ThenInclude(ia => ia.vAccount);
+
+            return singleInvoice.FirstOrDefault();
         }
 
         public List<Invoice> GetInvoicesForAccount(int AccountNumber, int? SubNo, int? ShredNo)

@@ -1,7 +1,7 @@
 ﻿using dtso.data.Entities;
 using System.Collections.Generic;
 
-namespace dtso.data.Repositories
+namespace dtso.data.Repositories.Interfaces
 {
     public interface IInvoiceRepository
     {

@@ -1,0 +1,148 @@
+﻿@import "shared/mixins";
+
+.home-backround {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/pikes-peak.png', top, right);
+    background-size: cover;
+}
+
+.home-page {
+    display: block;
+}
+
+.home-main{
+    min-height: 100%;
+}
+
+.home-selection {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+    overflow: hidden;
+    position: relative;
+    @include box-shadow(1px, 1px, 5px, black);
+    cursor: pointer;
+
+    &:hover {
+        .home-selection-background {
+            left: -100%;
+        }
+
+        .home-selection-gradiant {
+            left: 0;
+        }
+    }
+}
+
+.home-greating {
+    position: relative;
+
+    h1{
+        position: absolute;;
+        top: 25%;
+        margin: 0;
+    }
+}
+
+
+.settings-dropdown {
+    cursor: pointer;
+
+    .caret-down {
+        margin-top: 45px;
+    }
+
+
+    i {
+        margin-top: 40px;
+        margin-left: 3px;
+        float: right;
+    }
+}
+
+.home-selection-background {
+
+    @include transition-time(0.5s);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.home-selection-gradiant {
+
+    @include transition-time(0.5s);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 100%;
+}
+
+.home-selection-text {
+    padding: 10%;
+    position: relative;
+}
+
+.white-background {
+    background: #FAFAFA;
+    color: black;
+}
+
+.white-gradiant {
+    @include background-horiz-gradient(#FAFAFA, rgba(255,255,255,0.8));
+}
+
+.blue-background {
+    background: #151C3F;
+}
+
+.blue-gradiant {
+    @include background-horiz-gradient(#151C3F, rgba(40,55,128,0.7));
+}
+
+.blue-selection {
+    color: #F3F3F3;
+}
+
+.overview-title {
+    border-bottom: solid 3px #474EB6;
+}
+.overview-selection {
+    background: url('../images/overview.jpg') center center;
+}
+
+.entry-title {
+    border-bottom: solid 3px #7E39C4;
+}
+.entry-selection {
+    background: url('../images/data_entry.jpg') center center;
+}
+.reports-title {
+    border-bottom: solid 3px #DB3F3F;
+}
+.reports-selection {
+    background: url('../images/reports.jpg') center center;
+}
+
+.vendors-title {
+    border-bottom: solid 3px #DBCB3F;
+}
+.vendors-selection {
+    background: url('../images/vendor.jpg') center center;
+}
+.home-search {
+    width: 100%;
+    height: 50%;
+    @include box-shadow(1px, 3px, 5px, grey);
+
+    .fa {
+        font-size: 24px;
+        left: 10px;
+    }
+
+    input {
+        width: 100%;
+        height: 100%;
+        font-size: 24px;
+        padding-left: 40px;
+    }
+}

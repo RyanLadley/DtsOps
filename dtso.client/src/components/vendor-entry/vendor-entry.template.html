@@ -1,0 +1,108 @@
+<div class="section data-entry-section">
+    <h2 class="section-title">New Vendor</h2>
+    <div class="column-6">
+        <div class="sub-header-bar header-bar">
+            <h3>Basic Information</h3>
+        </div>
+
+        <div class="label-input">
+            <label>Vendor Name</label>
+            <input type="text" ng-model="vendor.name" placeholder="Vendor Name" required>
+        </div>
+        <div class="row">
+            <div class="label-input">
+                <label>Contract Number</label>
+                <input type="text"  [(ngModel)]="vendor.contractNumber" placeholder="Contract Number" required>
+            </div>
+            <div class="label-input">
+                <label>Contract Start</label>
+                <input type="date" class="invoice-textfield"  [(ngModel)]="vendor.contractStart" required>
+            </div>
+            <div class="label-input">
+                <label>Contract End</label>
+                <input type="date" class="invoice-textfield"  [(ngModel)]="vendor.contractEnd" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4 class="divide-title">(Optional) Contact Information</h4>
+            <div class="label-input">
+                <label>Point of Contact</label>
+                <input type="text"  [(ngModel)]="vendor.pointOfContact" placeholder="Point of Contact">
+            </div>
+            <div class="label-input">
+                <label>Phone Number</label>
+                <input type="tel"  [(ngModel)]="vendor.phoneNumber" placeholder="Phone Number">
+            </div>
+            <div class="label-input">
+                <label>Email</label>
+                <input type="email"  [(ngModel)]="vendor.email" placeholder="Email">
+            </div>
+            <div class="label-input">
+                <label>Website</label>
+                <input type="text" [(ngModel)]="vendor.website" placeholder="Website">
+            </div>
+        </div>
+        <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Vendor</button>
+    </div> 
+    <div class="column-6  column-divider">
+        <div class="sub-header-bar header-bar">
+            <h3>Materials</h3>
+        </div>
+        <div class="breakdown-section">
+
+
+            <div class="row">
+                <h4 class="divide-title">Known Material</h4>
+                <div class="row" *ngFor="let known of vendor.knownMaterial; let i = index">
+                    <a class=" remove-button button" (click)="removeKnownMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                    <div class="label-input">
+                        <label>Material</label>
+                        <select  [(ngModel)]="known.materialId" ng-change="selectKnownMaterial(known.material_id, $index)">
+                            <option value="" disabled selected hidden>Select a Material</option>
+                        </select>
+                    </div>
+
+                    <div class="label-display">
+                        <label>Unit</label>
+                        <p>{{known.unit || "None Selected"}}</p>
+                    </div>
+
+                    <div class="label-input">
+                        <label>Cost per Unit</label>
+                        <div class="dollar-input">
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01"  [(ngModel)]="known.cost">
+                        </div>
+                    </div>
+                </div>
+                <a class=" add-button button row" (click)="addKnownMaterial()"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+            </div>
+
+
+            <div class="row">
+                <h4 class="divide-title">New Material</h4>
+                <div class="row" *ngFor="let new of vendor.newMaterial; let i = index">
+                    <a class=" remove-button button" (click)="removeNewMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                    <div class="label-input">
+                        <label>Material Name</label>
+                        <input type="text" ng-model="new.name" placeholder="Material Name" required>
+                    </div>
+
+                    <div class="label-input">
+                        <label>Unit</label>
+                        <input type="text" ng-model="new.unit" placeholder="Material Units" required>
+                    </div>
+
+                    <div class="label-input">
+                        <label>Cost per Unit</label>
+                        <div class="dollar-input">
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model="new.cost">
+                        </div>
+                    </div>
+                </div>
+                <a class=" add-button button row" (click)="addNewMaterial()"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

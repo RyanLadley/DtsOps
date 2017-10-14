@@ -1,0 +1,48 @@
+<div class="background vendor-overview-background "></div>
+
+<h1 class="title">Vendors</h1>
+
+<div class="section vendor-section">
+    <div class="vendor-header-bar header-bar">
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'All'}" (click)="selectFilter('All')">
+            <h3>All</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Active'}" (click)="selectFilter('Active')">
+            <h3>Active</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Inactive'}" (click)="selectFilter('Inactive')">
+            <h3>Inactive</h3>
+        </div>
+    </div>
+</div>
+<div class="section vendor-section">
+    <table class="table" id="vendor-overview-table">
+        <tr class="table-head">
+            <th class="default-size">Name</th>
+            <th class="default-size">Contract Number</th>
+            <th class="default-size">Contract Start</th>
+            <th class="default-size">Contract End</th>
+            <th class="default-size">Point Of Contact</th>
+            <th class="default-size">Phone Number</th>
+            <th class="default-size">Email</th>
+            <th class="default-size">Website</th>
+            <th class="number">Status</th>
+            <th></th>
+
+        </tr>
+        <ng-container *ngFor="let vendor of displayedVendors">
+            <tr  [routerLink]="['/vendor', vendor.vendorId]">
+                <td class="default-size">{{vendor.name}}</td>
+                <td class="default-size">{{vendor.contractNumber}}</td>
+                <td class="default-size">{{vendor.contractStart |  date:'shortDate'}}</td>
+                <td class="default-size">{{vendor.contractEnd | date:'shortDate'}}</td>
+                <td class="default-size">{{vendor.pointOfContact}}</td>
+                <td class="default-size">{{vendor.phoneNumber}}</td>
+                <td class="default-size">{{vendor.email}}</td>
+                <td class="default-size">{{vendor.website}}</td>
+                <td class="number">{{vendor.status}}</td>
+                <td class="default-size"><i class="fa fa-lg" [ngClass]="getStatusIcon(vendor.status)"></i></td>
+            </tr>
+        </ng-container>
+    </table>
+</div>

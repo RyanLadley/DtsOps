@@ -6,6 +6,7 @@ namespace dtso.core.Managers.Interfaces
 {
     public interface IInvoiceManager
     {
-        List<Invoice> GetInvoicesForAccount(AccountNumberBreakdown accountNumber);
+        List<Invoice> GetInvoicesForAccount(AccountNumberTemplate accountNumber);
+        Invoice GetInvoice(int invoiceId);
     }
 }

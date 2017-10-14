@@ -1,0 +1,57 @@
+﻿//This represents a 12x12 grid.
+//Format is grid-x-y
+
+$grid-container-width: 1450px;
+$grid-container-height: 600px;
+$grid-margins: 10px;
+
+@mixin grid-common() {
+    float: left;
+    display: inline-block;
+    margin: $grid-margins;
+
+}
+
+.grid-container {
+    width: 95%;
+    padding: 10px;
+
+    display: block;
+}
+
+.grid-6-12 {
+    @include grid-common();
+    height: $grid-container-height - $grid-margins*2;
+    width: $grid-container-width/2 - $grid-margins*2;
+}
+.grid-3-6 {
+    @include grid-common();
+    height: $grid-container-height/2 - $grid-margins*2;
+    width: $grid-container-width/4 - $grid-margins*2;
+    background: black;
+}
+.grid-6-6 {
+    @include grid-common();
+    height: $grid-container-height/2 - $grid-margins*2;
+    width: $grid-container-width/2 - $grid-margins*2;
+    background: black;
+}
+
+.grid-12-3 {
+    @include grid-common();
+    height: $grid-container-height/4 - $grid-margins*2;
+    width: $grid-container-width - $grid-margins*2;
+}
+
+.grid-12-2 {
+    @include grid-common();
+    height: $grid-container-height/6 - $grid-margins*2;
+    width: $grid-container-width - $grid-margins*2;
+}
+
+.grid-3-9 {
+    @include grid-common();
+    height: $grid-container-height*(3/4) - $grid-margins*2;
+    width: $grid-container-width/4 - $grid-margins*2;
+    background: black;
+}

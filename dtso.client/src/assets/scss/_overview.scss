@@ -1,0 +1,89 @@
+﻿.overview-backround {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/usafa.jpg', top, right);
+    background-size: cover;
+}
+
+#overview-table {
+    width: 1400px;
+    background: #F5F5F5;
+    margin-bottom: 50px;
+
+    tr {
+        position: relative;
+        display: block;
+        cursor: pointer;
+
+        td, th {
+            display: inline-block;
+            margin: 0 auto;
+            width: 13%;
+            padding: 8px 5px;
+            text-align: left;
+        }
+
+        &:hover {
+            background: #D7DCF5;
+        }
+    }
+
+    .table-head {
+        font-size: 14px;
+        border-bottom: none;
+
+        @include box-shadow(3px, 3px, 10px, grey);
+        background: #535A7C;
+        z-index: 4;
+        color: white;
+
+        th {
+            font-weight: 600;
+            padding: 10px 5px;
+        }
+
+        &:hover {
+            background: #535A7C;
+        }
+    }
+
+    .sub-account {
+        text-align: center;
+    }
+
+    .shred-out {
+        text-align: right;
+    }
+
+    .account-row {
+        background: white;
+        @include box-shadow(3px, 3px, 10px, grey);
+        z-index: 3;
+    }
+
+    .subaccount-row {
+        font-size: 15px;
+        background: #EFEFEF;
+        @include box-shadow(3px, 3px, 10px, grey);
+        z-index: 2;
+    }
+
+    .shred-row {
+        font-size: 14px;
+        background: #DBDBDB;
+        @include box-shadow(3px, 3px, 10px, grey);
+        z-index: 1;
+    }
+
+    .number {
+        text-align: right;
+    }
+
+
+    a {
+        color: #4C4C61;
+        font-weight: 600;
+
+        &:hover {
+            color: #2020DE;
+        }
+    }
+}

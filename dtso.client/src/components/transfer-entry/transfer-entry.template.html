@@ -1,0 +1,24 @@
+<div class="section data-entry-section">
+    <h2 class="section-title">New Account Budget Transfer</h2>
+    <h4 class="divide-title">From Account</h4>
+    <div class="row">
+        <account-select [accounts]="accounts" (selectedAccountId)="transfer.fromAccountId = $event"></account-select>
+    </div>
+    <h4 class="divide-title">To Account</h4>
+    <div class="row">
+        <account-select [accounts]="accounts" (selectedAccountId)="transfer.toAccountId = $event"></account-select>
+    </div>
+    <div class="label-input">
+        <label>Transfer Amount</label>
+        <div class="dollar-input icon-input">
+            <i class="fa fa-usd" aria-hidden="true"></i>
+            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="transfer.amount" required>
+        </div>
+    </div>
+    <div class="label-input row">
+        <label>Description</label>
+        <textarea placeholder="Enter Discription" [(ngModel)]="transfer.description"></textarea>
+    </div>
+
+    <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Transfer</button>
+</div>

@@ -1,0 +1,75 @@
+﻿.account-backround {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/broadmoor.jpg', center, right);
+    background-size: cover;
+}
+
+.account-table-container {
+    width: 1100px;
+    //float: left;
+    display: inline-block;
+
+    .table-title {
+        margin-top: 15px;
+    }
+
+    .filter {
+        float: left;
+        border-bottom: 5px solid #2f4433;
+        color: white;
+        cursor: pointer;
+        padding: 10px;
+
+        &:hover {
+            border-bottom: 5px solid #0a9b92;
+            text-shadow: 1px 1px 1px #888888;
+        }
+    }
+
+    #selected-filter {
+        border-bottom: 5px solid #00ffbd;
+        text-shadow: 1px 1px 1px #c8c8c8;
+    }
+}
+
+#account-details-table {
+    .table-row {
+        cursor: default;
+    }
+
+    .table-head {
+        cursor: default;
+        &:hover {
+            background: white;
+        }
+    }
+
+    tr {
+        cursor: pointer;
+
+        &:hover {
+            background: #ebfaee;
+        }
+    }
+}
+
+.account-details-section {
+    box-sizing: border-box;
+    width: 100%;
+}
+.account-header-bar {
+    background: #2f4433;
+    margin: 10px 0 10px 0;
+    color: white;
+}
+
+
+.filter-container {
+    margin: 10px 0 30px 0;
+}
+
+.account-details-column{
+    float: left;
+    margin-right: 40px;
+    width: 350px;
+    display: inline-block;
+}

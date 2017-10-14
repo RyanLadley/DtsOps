@@ -1,0 +1,30 @@
+
+<div class="sidebar">
+    <a [routerLink]="['/']" class="sidebar-image-container">
+        <img class="sidebar-image" id="logo-bottom" src="../../assets/images/colorado-springs-logo.png" />
+        <img class="sidebar-image" id="logo-top" src="../../assets/images/springs-icon-small.png"/>
+    </a>
+
+    <a [routerLink]="['/']" class="sidebar-item" [ngClass]="{selected : icons.home}">
+        <i class="fa fa-home fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Home</h4>
+    </a>
+
+    <a [routerLink]="['/overview']" class="sidebar-item" [ngClass]="{selected : icons.overview}">
+        <i class="fa   fa-globe fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Overview</h4>
+    </a>
+
+    <a [routerLink]="['/entry']" class="sidebar-item" [ngClass]="{selected : icons.entry}">
+        <i class="fa fa-keyboard-o fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Data Entry</h4>
+    </a>
+    <a [routerLink]="['/vendor']" class="sidebar-item" [ngClass]="{selected : icons.vendors}">
+        <i class="fa fa-truck  fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Vendors</h4>
+    </a>
+    <a [routerLink]="['/reports']" class="sidebar-item" [ngClass]="{selected : icons.reports}">
+        <i class="fa fa-pie-chart fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Reports</h4>
+    </a>
+</div>

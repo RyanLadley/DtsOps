@@ -1,6 +1,6 @@
 ﻿using dtso.api.Models.Responses;
-using dtso.api.ResponseGenerators;
 using dtso.api.unittests._TestData;
+using dtso.api.Utilities;
 using dtso.core.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -11,13 +11,13 @@ namespace dtso.api.unittests.ReponseGenerators
     public class AccountResponseGeneratorTests
     {
         AccountCoreServices_TestData account_data;
-        AccountResponseGenerator responseGenerator;
+        ResponseGenerator responseGenerator;
 
         [TestInitialize]
         public void TestInit()
         {
             account_data = new AccountCoreServices_TestData();
-            responseGenerator = new AccountResponseGenerator();
+            responseGenerator = new ResponseGenerator();
         }
 
         [TestMethod]
@@ -26,10 +26,10 @@ namespace dtso.api.unittests.ReponseGenerators
         {
             var account = account_data.SingleAccount();
 
-            var overview = responseGenerator.GenerateOverview(account);
+            var overview = AccountOverview.MapFromObject(account);
 
             _verifyProperMapping(account, overview);
-            Assert.IsTrue(overview.Subaccounts.Count == 0);
+            Assert.IsTrue(overview.ChildAccounts.Count == 0);
             
         }
 
@@ -39,11 +39,11 @@ namespace dtso.api.unittests.ReponseGenerators
         {
             var account = account_data.SingleAccountWithChildren();
 
-            var overview = responseGenerator.GenerateOverview(account);
+            var overview = AccountOverview.MapFromObject(account);
 
             _verifyProperMapping(account, overview);
 
-            var accountAndOverviews = account.Subaccounts.Zip(overview.Subaccounts, (a, o) => new { Account = a, Overview = o });
+            var accountAndOverviews = account.ChildAccounts.Zip(overview.ChildAccounts, (a, o) => new { Account = a, Overview = o });
             foreach(var mapped in accountAndOverviews)
             {
                 _verifyProperMapping(mapped.Account, mapped.Overview);

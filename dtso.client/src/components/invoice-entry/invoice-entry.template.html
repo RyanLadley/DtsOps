@@ -1,0 +1,83 @@
+<div class="section data-entry-section">
+    <h2 class="section-title">New Invoice</h2>
+
+    <div class="column-6">
+        <div class="sub-header-bar header-bar">
+            <h3>Basic Information</h3>
+        </div>
+        <div class="row">
+            <div class="label-input">
+                <label>Vendor</label>
+                <select [(ngModel)]="invoice.vendorId" ng-options="vendor.vendor_id as vendor.name for vendor in vendors" required>
+                    <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
+                </select>
+            </div>
+
+            <div class="label-input">
+                <label>Invoice Number</label>
+                <input type="text" [(ngModel)]="invoice.invoiceNumber" placeholder="Invoice Number" class="input-long"  required>
+            </div>
+
+            <div class="label-input">
+                <label>Transaction Type</label>
+                <select [(ngModel)]="invoice.transactionTypeId" required>
+                    <option [ngValue]="undefined" disabled selected hidden>Select a Type</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label-input">
+                <label>Invoice Date</label>
+                <input type="date" class="invoice-textfield"  [(ngModel)]="invoice.invoiceDate" required>
+            </div>
+
+            <div class="label-input">
+                <label>Date Paid</label>
+                <input type="date" class="invoice-textfield" [(ngModel)]="invoice.datePaid" required>
+            </div>
+        </div>
+
+        <div class="label-input row">
+            <label>Description</label>
+            <textarea placeholder="Enter Description" class="invoice-textarea" [(ngModel)]="invoice.description" required></textarea>
+        </div>
+
+        <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Invoice</button>
+    </div>
+    <div class="column-6 column-divider">
+        <div class="sub-header-bar header-bar">
+            <h3>Account Breakdown</h3>
+        </div>
+
+        <div class="breakdown-section">
+            <div class="breakdown-row" *ngFor="let account of invoice.invoiceAccounts; let i = index">
+                <div class="row">
+                    <a class=" remove-button button" (click)="removeAccount(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                    <account-select [accounts]="accounts" (selectedAccountId)="account.accountId = $event"></account-select>
+                </div>
+                <div class="city-account-selection" *ngFor="let cityAccount of account.cityAccounts; let j = index">
+                    <div class="row">
+                        <a class=" remove-button button" (click)="removeCityAccount(i,j)"><i class="fa fa-minus-square-o" aria-hidden="true"></i></a>
+
+                        <div class="label-input">
+                            <label>City Account</label>
+                            <select [(ngModel)]="cityAccount.cityAccountId">
+                                <option [ngValue]="undefined" selected>Unassigned</option>
+                                <option [ngValue]="shredAccount" *ngFor="let shredAccount of shredAccounts"></option>
+                            </select>
+                        </div>
+                        <div class="label-input">
+                            <label>Ammount</label>
+                            <input type="number" value="0" [(ngModel)]="cityAccount.expense" (ngModelChange)="calculateAccountExpense(i)"required>
+                        </div>
+                    </div>
+                </div>
+
+                <a class=" add-button button city-account-add" (click)="addCityAccount(i)"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a>
+                <p class="total row">Account Total: {{account.expense | currency:'USD':true:'1.2-2'}}</p>
+            </div>
+            <a class=" add-button button row" (click)="addAccount()"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+

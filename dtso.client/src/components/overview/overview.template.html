@@ -1,0 +1,49 @@
+﻿<div class="background overview-backround"></div>
+
+<h1 class="title">Accounts Overview</h1>
+
+<table id="overview-table">
+    <tr class="table-head" (click)="toggleCollapse()">
+        <th>Account</th>
+        <th>Description</th>
+        <th class="number">2017 Budget</th>
+        <th class="number">Misc Transfer</th>
+        <th class="number">Total Budget</th>
+        <th class="number">Expedetures to Date</th>
+        <th class="number">Remaining Balance</th>
+    </tr>
+    <ng-container *ngFor="let account of accounts">
+
+        <tr class="account-row" (click) ="account.hideChildren = !account.hideChildren">
+            <td class="account"> <a class="account-link" [routerLink]="['/account', account | accountName]">{{account.accountNumber}}</a></td>
+            <td class="description"> {{account.description}}</td>
+            <td class="number"> {{account.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+            <td class="number"> {{account.transfers | currency:'USD':true:'1.2-2'}}</td>
+            <td class="number"> {{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+            <td class="number"> {{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+            <td class="number"> {{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+        </tr>
+        <ng-container *ngFor=" let subAccount of account.childAccounts">
+            <tr class="subaccount-row" *ngIf="!account.hideChildren" (click) ="subAccount.hideChildren = !subAccount.hideChildren">
+                <td class="account sub-account"> <a class="account-link" [routerLink]="['/account', subAccount | accountName]">{{subAccount.accountNumber}}-{{subAccount.subNo}}</a></td>
+                <td class="description"> {{subAccount.description}}</td>
+                <td class="number"> {{subAccount.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{subAccount.transfers | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{subAccount.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{subAccount.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{subAccount.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+            <ng-container *ngFor="let shredOut of subAccount.childAccounts">
+                <tr class="shred-row" *ngIf="!subAccount.hideChildren && !account.hideChildren" >
+                    <td class="account shred-out"> <a class="account-link" [routerLink]="['/account', shredOut | accountName]">{{shredOut.accountNumber}}-{{shredOut.subNo}}-{{shredOut.shredNo}}</a></td>
+                    <td class="description"> {{shredOut.description}}</td>
+                    <td class="number"> {{shredOut.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{shredOut.transfers | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{shredOut.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{shredOut.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{shredOut.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</table>

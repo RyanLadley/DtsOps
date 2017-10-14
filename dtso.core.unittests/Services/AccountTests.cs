@@ -34,7 +34,7 @@ namespace dtso.core.unittests.Services
             Assert.AreEqual(account.AccountNumber, accountToTest.AccountNumber);
             Assert.AreEqual(account.FundNumber, accountToTest.FundNumber);
             Assert.AreEqual(account.ProjectNumber, accountToTest.ProjectNumber);
-            Assert.IsTrue(accountToTest.Subaccounts.Count == 0);
+            Assert.IsTrue(accountToTest.ChildAccounts.Count == 0);
         }
     }
 }

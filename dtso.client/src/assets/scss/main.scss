@@ -1,0 +1,28 @@
+﻿@import "shared/colors";
+@import "shared/mixins";
+@import "shared/input";
+@import "shared/tables";
+@import "shared/buttons";
+@import "shared/page";
+@import "shared/grid";
+@import "overview";
+@import "sidebar";
+@import "home";
+@import "vendor-overview";
+@import "vendor-details";
+@import "account-details";
+@import "invoice-details";
+@import "data-entry";
+
+body {
+    margin: 0px;
+    font-family: 'Source Sans Pro', sans-serif;
+    h1, h2, h3, h4{
+        font-weight: 100;
+    }
+}
+
+.content {
+    
+    margin-left: $sidebar-extended-width + 20px;
+}

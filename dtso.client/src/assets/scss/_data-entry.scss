@@ -1,0 +1,69 @@
+﻿.data-entry-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/garden.jpg', top, center);
+    background-size: cover;
+}
+
+.data-entry-page-head {
+    box-sizing: border-box;
+    width: 95%;
+    min-width: 560px;
+}
+.data-entry-header-bar {
+    background: $purple;
+    color: white;
+
+    .tab {
+        border-bottom: 5px solid $purple;
+
+        &:hover {
+            border-bottom: 5px solid #2a8a7a;
+        }
+    }
+
+    .selected-tab {
+        border-bottom: 5px solid #00ffd4;
+        color: white;
+        text-shadow: 1px 1px 1px #c8c8c8;
+
+        &:hover {
+            border-bottom: 5px solid #00ffd4;
+        }
+    }
+}
+
+.data-entry-section {
+    width: 95%;
+    box-sizing: border-box;
+
+    .remove-button, .add-button {
+        font-size: 20px;
+        margin: 20px 10px 10px 10px;
+    }
+}
+.data-entry-input {
+    font-size: 30px;
+    height: 20px;
+}
+
+.breakdown-section {
+
+    .city-account-selection {
+        margin-left: 50px;
+    }
+
+    .city-account-add {
+        padding-left: 50px;
+    }
+
+    .breakdown-row {
+        display: inline-block;
+        border-bottom: 1px solid #dfdfdf;
+        width: 100%;
+    }
+}
+
+.divide-title {
+    border-bottom: 2px solid #eaeaea;
+    margin-bottom: 5px;
+    margin-right: 25%;
+}

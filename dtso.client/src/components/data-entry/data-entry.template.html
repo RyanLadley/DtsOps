@@ -1,0 +1,25 @@
+<div class="background data-entry-background"></div>
+
+<h1 class="title">Data Entry</h1>
+
+<div class="section data-entry-page-head">
+    <div class="data-entry-header-bar header-bar">
+        <div  class="tab" [ngClass]="{'selected-tab': page == 'invoice'}" (click)="gotoPage('invoice')">
+            <h3>Invoice</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-tab': page == 'vendor'}" (click)="gotoPage('vendor')">
+            <h3>Vendor</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-tab': page == 'tickets'}" (click)="gotoPage('tickets')">
+            <h3>Tickets</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-tab': page == 'transfer'}" (click)="gotoPage('transfer')">
+            <h3>Transfer</h3>
+        </div>
+    </div>
+</div>
+
+<invoice-entry [accounts]="accounts" *ngIf="page == 'invoice'"></invoice-entry>
+<vendor-entry  *ngIf="page == 'vendor'"></vendor-entry>
+<ticket-entry [accounts]="accounts" *ngIf="page == 'tickets'"></ticket-entry>
+<transfer-entry  [accounts]="accounts" *ngIf="page == 'transfer'"></transfer-entry>

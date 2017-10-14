@@ -1,4 +1,5 @@
 ﻿using dtso.core.Managers;
+using dtso.core.Managers.Interfaces;
 using dtso.core.unittests._TestData;
 using dtso.data.Repositories.Interfaces;
 using dtso.data.Views;
@@ -13,6 +14,7 @@ namespace dtso.core.unittests.Managers
         vAccounts_TestData testData;
 
         Mock<IAccountRepository> accountRepositoryMock;
+        Mock<IInvoiceManager> invoiceManagerMock;
         AccountManager accountManager;
         
         [TestInitialize]
@@ -21,6 +23,7 @@ namespace dtso.core.unittests.Managers
             testData = new vAccounts_TestData();
 
             accountRepositoryMock = new Mock<IAccountRepository>();
+            invoiceManagerMock = new Mock<IInvoiceManager>();
 
             accountRepositoryMock.Setup(repo => repo.GetRootAccounts())
                 .Returns(testData.RootAccounts())
@@ -30,51 +33,51 @@ namespace dtso.core.unittests.Managers
                 .Returns((vAccount account) => testData.ChildAccounts(account))
                 .Verifiable();
 
-            accountManager = new AccountManager(accountRepositoryMock.Object);
+            accountManager = new AccountManager(accountRepositoryMock.Object, invoiceManagerMock.Object);
         }
 
         [TestMethod]
         [Description("Verified AccountManager.GetOverview() calls the appropriate repository calls")]
         public void GetOverview_RepositoryCalled()
         {
-            accountManager.GetOverview();
+            accountManager.GetHierarchy();
 
             accountRepositoryMock.Verify(mock => mock.GetRootAccounts());
             accountRepositoryMock.Verify(mock => mock.GetChildAccounts(It.IsAny<vAccount>()));
         }
 
         [TestMethod]
-        [Description("Verified that Root Level Ascoutns are AccountManager.GetOverview()")]
+        [Description("Verified that Root Level Ascoutns are AccountManager.GetHierarchy()")]
         public void GetOverview_RootsCreated()
         {
-            var accounts = accountManager.GetOverview();
+            var accounts = accountManager.GetHierarchy();
 
             Assert.IsTrue(accounts.Count > 0);
         }
 
         [TestMethod]
-        [Description("Verified that Subaccounts are AccountManager.GetOverview()")]
+        [Description("Verified that Subaccounts are AccountManager.GetHierarchy()")]
         public void GetOverview_SubaccountsCreated()
         {
-            var accounts = accountManager.GetOverview();
+            var accounts = accountManager.GetHierarchy();
 
             foreach(var account in accounts)
             {
-                Assert.IsTrue(account.Subaccounts.Count > 0);
+                Assert.IsTrue(account.ChildAccounts.Count > 0);
             }
         }
 
         [TestMethod]
-        [Description("Verified that Shred Out Accounts are AccountManager.GetOverview()")]
+        [Description("Verified that Shred Out Accounts are AccountManager.GetHierarchy()")]
         public void GetOverview_ShredacountsCreated()
         {
-            var accounts = accountManager.GetOverview();
+            var accounts = accountManager.GetHierarchy();
 
             foreach (var account in accounts)
             {
-                foreach(var subaccount in account.Subaccounts)
+                foreach(var subaccount in account.ChildAccounts)
                 {
-                    Assert.IsTrue(subaccount.Subaccounts.Count > 0);
+                    Assert.IsTrue(subaccount.ChildAccounts.Count > 0);
                 }
             }
         }

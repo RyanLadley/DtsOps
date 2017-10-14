@@ -24,9 +24,12 @@ namespace dtso.data.Repositories
             throw new NotImplementedException();
         }
 
-        public vAccount Get(int id)
+        public vAccount Get(int accountNumber, int? subNumber, int? shredNumber)
         {
-            throw new NotImplementedException();
+            return _context.vAccounts
+                .Where(account => account.AccountNumber == accountNumber
+                               && account.SubNo == subNumber
+                               && account.ShredNo == shredNumber).FirstOrDefault();
         }
 
         /// <summary>

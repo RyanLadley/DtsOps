@@ -1,0 +1,59 @@
+﻿@mixin background-vert-gradient($color-top, $color-bottom) {
+    background: $color-top;
+    background: -webkit-linear-gradient($color-top, $color-bottom);
+    background: -o-linear-gradient($color-top, $color-bottom);
+    background: -moz-linear-gradient($color-top, $color-bottom);
+    background: linear-gradient($color-top, $color-bottom);
+}
+
+@mixin background-horiz-img-gradient($color-left, $color-right, $url, $img-vrt, $img-hrz) {
+    background: -webkit-linear-gradient(left, $color-left 30%, $color-right), url($url) $img-vrt $img-hrz no-repeat;
+    background: -o-linear-gradient(right, $color-left 30%, $color-right), url($url) $img-vrt $img-hrz no-repeat;
+    background: -moz-linear-gradient(right, $color-left 30%, $color-right), url($url) $img-vrt $img-hrz no-repeat;
+    background: linear-gradient(to right, $color-left 30%, $color-right), url($url) $img-vrt $img-hrz no-repeat;
+}
+
+@mixin background-horiz-gradient($color-left, $color-right) {
+    background: -webkit-linear-gradient(left, $color-left, $color-right);
+    background: -o-linear-gradient(right, $color-left, $color-right);
+    background: -moz-linear-gradient(right, $color-left, $color-right);
+    background: linear-gradient(to right, $color-left, $color-right);
+}
+
+@mixin horizontal-mirrored-gradient($color-inner, $color-outer) {
+    background: $color-inner;
+    background: -webkit-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+    background: -o-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+    background: -moz-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+    background: linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+}
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow: inset $top $left $blur $color;
+        -moz-box-shadow: inset $top $left $blur $color;
+        box-shadow: inset $top $left $blur $color;
+    }
+    @else {
+        -webkit-box-shadow: $top $left $blur $color;
+        -moz-box-shadow: $top $left $blur $color;
+        box-shadow: $top $left $blur $color;
+    }
+}
+
+@mixin blur($pixels) {
+    filter: blur($pixels);
+    -webkit-filter: blur($pixels);
+    -moz-filter: blur($pixels);
+    -o-filter: blur($pixels);
+    -ms-filter: blur($pixels);
+}
+
+@mixin transition-time($time) {
+    -webkit-transition-duration: $time;
+    transition-duration: $time;
+}
+
+@mixin text-outline($color) {
+    text-shadow: -1px -1px 0 $color, 1px -1px 0 $color, -1px 1px 0 #000, 1px 1px 0 $color;
+}

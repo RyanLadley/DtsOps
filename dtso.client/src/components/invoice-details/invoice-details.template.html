@@ -1,0 +1,89 @@
+﻿<div class="background invoice-details-background"></div>
+
+<h1 class="title multi-title">{{invoice.invoiceNumber}}</h1>
+<h2 class="sub-title">{{invoice.vendor.name}} Invoice</h2>
+
+<div class="account-details-column invoice-details-section section">
+    <div class="invoice-details">
+        <h2 class="section-title">Summary</h2>
+        <div class="invoice-header-bar header-bar">
+            <h3>Basics</h3>
+        </div>
+        <table class="table invoice-basics-table">
+            <tr>
+                <td class="default-size bold">Invoice Number</td>
+                <td class="number">{{invoice.invoiceNumber}}</td>
+            </tr>
+            <tr>
+                <td class="default-size bold">Vendor</td>
+                <td class="number">{{invoice.vendor.name}}</td>
+            </tr>
+            <tr>
+                <td class="default-size bold">Invoice Type</td>
+                <td class="number">{{invoice.invoiceType}}</td>
+            </tr>
+            <tr>
+                <td class="default-size bold">Invoice Date</td>
+                <td class="number">{{invoice.invoiceDate | date:'shortDate'}}</td>
+            </tr>
+            <tr>
+                <td class="default-size bold">Date Paid</td>
+                <td class="number">{{invoice.datePaid  | date:'shortDate'}}</td>
+            </tr>
+            <tr>
+                <td class="default-size bold">Total Expense</td>
+                <td class="number">{{invoice.totalExpense | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+        </table>
+        <div class="label-value invoice-label-value">
+            <label class="bold">Description</label>
+            <p>{{invoice.description}}</p>
+        </div>
+        <button class="button standard-button row">Print Coversheet</button>
+    </div>
+</div>
+<div class="invoice-table-container section">
+    <h2 class="section-title">Invoice Breakdown</h2>
+    <div class="filter-container invoice-header-bar header-bar">
+        <div class="filter" [ngClass]="{'selected-filter' : displayedBreakdown == 'Expenses'}" (click)="setDisplayedBreakdown('Expenses')">
+            <p>Expenses</p>
+        </div>
+        <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Tickets'}" (click)="setDisplayedBreakdown('Tickets')">
+            <p>Tickets</p>
+        </div>
+    </div>
+
+
+    <table *ngIf="displayedBreakdown == 'Expenses'" class="invoice-details-table table">
+        <tr class="table-head">
+            <th class="default-size">Account</th>
+            <th class="number">Expense</th>
+        </tr>
+        <ng-container *ngFor="let accountExpense of invoice.expenses">
+            <tr>
+                <td class="default-size">{{accountExpense.account | accountName}}</td>
+                <td class="number">{{accountExpense.expense  | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+        </ng-container>
+    </table>
+
+    <table *ngIf="displayedBreakdown == 'Tickets'" class="invoice-details-table table">
+        <tr class="table-head">
+            <th class="default-size">Account</th>
+            <th class="default-size">Ticket Number</th>
+            <th class="default-size">Vendor</th>
+            <th class="default-size">Material</th>
+            <th class="number">Cost</th>
+        </tr>
+        <ng-container *ngFor="let ticket of invoice.tickets">
+            <tr>
+                <td class="default-size">{{ticket.account | accountName}}</td>
+                <td class="default-size">{{ticket.ticketNumber}}</td>
+                <td class="default-size">{{ticket.vendor.name}}</td>
+                <td class="default-size">{{ticket.material.name}}</td>
+                <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+        </ng-container>
+    </table>
+</div>
+

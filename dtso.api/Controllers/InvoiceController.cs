@@ -1,5 +1,5 @@
 ﻿using dtso.api.Models.Responses;
-using dtso.api.ResponseGenerators;
+using dtso.api.Utilities;
 using dtso.core.Managers.Interfaces;
 using dtso.core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +14,29 @@ namespace dtso.api.Controllers
     public class InvoiceController : Controller
     {
         private IInvoiceManager _invoiceManager;
-        InvoiceResponseGenerator _responseGenerator;
+        ResponseGenerator _responseGenerator;
 
         public InvoiceController(IInvoiceManager invoiceMan)
         {
             _invoiceManager = invoiceMan;
-            _responseGenerator = new InvoiceResponseGenerator();
+            _responseGenerator = new ResponseGenerator();
+        }
+
+        [HttpGet("{invoiceId}")]
+        public IActionResult GetInvoiceDetails(int invoiceId)
+        {
+            var invoice = _invoiceManager.GetInvoice(invoiceId);
+
+            var response = InvoiceDetails.MapFromObject(invoice);
+
+            return Ok(response);
         }
 
         [HttpGet("account/{accountNumber}")]
         public IActionResult InvoicesForAccounts(string accountNumber)
         {
 
-            var parsedAccountNumber = new AccountNumberBreakdown(accountNumber);
+            var parsedAccountNumber = new AccountNumberTemplate(accountNumber);
             if (!parsedAccountNumber.IsValid())
                 return BadRequest("Account Number is invalid");
 
@@ -34,7 +44,7 @@ namespace dtso.api.Controllers
             var response = new List<InvoiceBasic>();
             foreach (var invoice in invoices)
             {
-                var flattenedInvoices = _responseGenerator.GenerateBasicInvoicesForAccount(invoice, parsedAccountNumber);
+                var flattenedInvoices = _responseGenerator.GenerateBasicInvoices(invoice);
                 response = response.Concat(flattenedInvoices).ToList();
             }
 

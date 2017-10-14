@@ -1,0 +1,46 @@
+<div class="section data-entry-section">
+    <h2 class="section-title">New Tickets</h2>
+
+    <div class="row">
+        <div class="label-input">
+            <label>Vendor</label>
+            <select [(ngModel)]="vendorId" required>
+                <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
+            </select>
+        </div>
+        <account-select [accounts]="accounts" (selectedAccountId)="account.accountId = $event"></account-select>
+    </div>
+    <div class="row" *ngFor="let ticket of tickets; let i = index">
+
+        <a class=" remove-button button" (click)="removeTicket(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+
+        <div class="label-input">
+            <label>Date</label>
+            <input type="date" class="invoice-textfield" [(ngModel)]="ticket.date" required>
+        </div>
+
+        <div class="label-input">
+            <label>Ticket Number</label>
+            <input type="text" [(ngModel)]="ticket.ticketNumber" placeholder="Ticket Number" required>
+        </div>
+
+        <div class="label-input">
+            <label>Material</label>
+            <select [(ngModel)]="ticket.material" required>
+                <option value="" disabled selected hidden>Select a Materials</option>
+            </select>
+        </div>
+        <div class="label-input">
+            <label>Quantity</label>
+            <input type="Number" [(ngModel)]="ticket.quantity" step="0.01" placeholder="Quantity" ng-change="calulateCost(ticket)" required>
+        </div>
+
+        <div class="label-display">
+            <label>Cost</label>
+            <p title="{{ticket.material.cost| currency}} per {{ticket.material.unit}}">{{ticket.cost |currency}}</p>
+        </div>
+    </div>
+
+    <a class=" add-button button row" (click)="addTicket()"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+    <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Tickets</button>
+</div>

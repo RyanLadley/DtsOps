@@ -20,7 +20,7 @@ namespace dtso.api.unittests._TestData
                 FundNumber = 96,
                 ProjectNumber = $"Test Project",
                 AccountPrefix = $"-Test",
-                Subaccounts = new List<Account>()
+                ChildAccounts = new List<Account>()
             };
         
             return account;
@@ -30,10 +30,10 @@ namespace dtso.api.unittests._TestData
         {
             var account = SingleAccount();
 
-            account.Subaccounts = ChildAccounts(account);
-            foreach(var subaccount in account.Subaccounts)
+            account.ChildAccounts = ChildAccounts(account);
+            foreach(var subaccount in account.ChildAccounts)
             {
-                subaccount.Subaccounts = ChildAccounts(subaccount);
+                subaccount.ChildAccounts = ChildAccounts(subaccount);
             }
 
             return account;
@@ -58,7 +58,7 @@ namespace dtso.api.unittests._TestData
                         FundNumber = i,
                         ProjectNumber = $"Project {i}",
                         AccountPrefix = $"-AA{i}",
-                        Subaccounts = new List<Account>()
+                        ChildAccounts = new List<Account>()
                     });
                 }
             }
