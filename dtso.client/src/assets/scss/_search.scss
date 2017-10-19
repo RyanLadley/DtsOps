@@ -1,0 +1,91 @@
+﻿.search-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/America-The-Beautiful-Park.jpg', top, center);
+    background-size: cover;
+}
+
+.search-bar-section {
+    margin-top: 30px;
+    box-sizing: border-box;
+    width: 95%;
+    min-width: 560px;
+    padding: 40px;
+
+    .icon-input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 30px;
+
+        .fa {
+            font-size: 24px;
+            left: 10px;
+        }
+
+        input {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            padding-left: 40px;
+        }
+    }
+}
+
+.search-header-bar {
+    background: #f7f7f7;
+
+    .tab {
+        color: black;
+        border-bottom: 5px solid #f7f7f7;
+    }
+
+    .selected-filter {
+        text-shadow: 1px 1px 1px grey;
+        color: black;
+        border-bottom: 5px solid #14d32d;
+    }
+}
+
+.search-result-listing {
+    margin-bottom: 20px;
+    border-left: 5px solid white;
+    padding: 10px 0 10px 20px;
+
+    h3, p {
+        margin: 0;
+    }
+
+    &:hover {
+        background: #f6f6f6
+    }
+}
+
+.invoice-result {
+
+    &:hover{
+        border-left: 5px solid $red;
+    }
+
+    h3 {
+        color: $red;
+    }
+}
+
+.ticket-result {
+
+    &:hover {
+        border-left: 5px solid $purple;
+    }
+
+    h3 {
+        color: $purple;
+    }
+}
+
+.vendor-result {
+    &:hover {
+        border-left: 5px solid $orange;
+    }
+
+    h3 {
+        color: $orange;
+    }
+}

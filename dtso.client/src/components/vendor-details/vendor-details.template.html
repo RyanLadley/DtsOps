@@ -99,6 +99,7 @@
             <th class="default-size">Ticket Number</th>
             <th class="default-size">Vendor</th>
             <th class="default-size">Material</th>
+            <th class="default-size">Amount</th>
             <th class="number">Cost</th>
         </tr>
         <ng-container *ngFor="let ticket of vendor.tickets">
@@ -107,6 +108,7 @@
                 <td class="default-size">{{ticket.ticketNumber}}</td>
                 <td class="default-size">{{ticket.vendor.name}}</td>
                 <td class="default-size">{{ticket.material.name}}</td>
+                <td class="default-size">{{ticket.material.amount}} {{ticket.material.unit}}<span *ngIf="ticket.material.amount != 1">s</span></td>
                 <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
             </tr>
         </ng-container>

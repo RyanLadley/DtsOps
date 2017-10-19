@@ -7,3 +7,4 @@ export * from './material-known.model';
 export * from './material-new.model';
 export * from './ticket-form.model';
 export * from './transfer-form.model';
+export * from './search-result.model';

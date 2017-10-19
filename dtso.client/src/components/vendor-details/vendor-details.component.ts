@@ -111,7 +111,9 @@ export class VendorDetailsComponent implements OnInit {
                     },
                     "material": {
                         "materialId": 2,
-                        "name": "Big ole 2x4 Extra Woody"
+                        "name": "Big ole 2x4 Extra Woody",
+                        "amount": 1,
+                        "unit": "Gallon"
                     },
                     "cost": 12.00
                 },
@@ -130,7 +132,9 @@ export class VendorDetailsComponent implements OnInit {
                     },
                     "material": {
                         "materialId": 2,
-                        "name": "Big ole 2x4 Extra Woody"
+                        "name": "Big ole 2x4 Extra Woody",
+                        "amount": 2.6,
+                        "unit": "Ton"
                     },
                     "cost": 12.00
                 }

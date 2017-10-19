@@ -1,5 +1,5 @@
 ﻿import { Routes } from '@angular/router'
-import { HomeComponent, OverviewComponent, AccountDetailsComponent, InvoiceDetailsComponent, DataEntryComponent, VendorOverviewComponent, VendorDetailsComponent } from '../components/index'
+import { HomeComponent, OverviewComponent, AccountDetailsComponent, InvoiceDetailsComponent, DataEntryComponent, VendorOverviewComponent, VendorDetailsComponent, SearchComponent, TicketDetailsComponent } from '../components/index'
 
 export const appRoutes = [
     { path: '', component: HomeComponent },
@@ -8,5 +8,7 @@ export const appRoutes = [
     { path: 'invoice/:id', component: InvoiceDetailsComponent },
     { path: 'entry', component: DataEntryComponent },
     { path: 'vendor', component: VendorOverviewComponent },
-    { path: 'vendor/:id', component: VendorDetailsComponent }
+    { path: 'vendor/:id', component: VendorDetailsComponent },
+    { path: 'search', component: SearchComponent },
+    { path: 'ticket/:id', component: TicketDetailsComponent }
 ];

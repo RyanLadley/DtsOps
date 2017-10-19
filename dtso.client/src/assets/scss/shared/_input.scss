@@ -1,6 +1,6 @@
 ﻿.icon-input {
     position: relative;
-
+    float:left;
     input {
         padding-left: 13px;
         box-sizing: border-box;
@@ -13,6 +13,8 @@
         top: 50%;
         transform: translate(0, -50%);
         left: 2%;
+        text-decoration: none;
+        color: black;
     }
 }
 
