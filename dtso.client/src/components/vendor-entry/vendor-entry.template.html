@@ -7,7 +7,7 @@
 
         <div class="label-input">
             <label>Vendor Name</label>
-            <input type="text" ng-model="vendor.name" placeholder="Vendor Name" required>
+            <input type="text" [(ngModel)]="vendor.vendorName" placeholder="Vendor Name" required>
         </div>
         <div class="row">
             <div class="label-input">
@@ -43,7 +43,7 @@
                 <input type="text" [(ngModel)]="vendor.website" placeholder="Website">
             </div>
         </div>
-        <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Vendor</button>
+        <button class="submit-button button" (click)="submitNewVendor()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Vendor</button>
     </div> 
     <div class="column-6  column-divider">
         <div class="sub-header-bar header-bar">
@@ -58,8 +58,9 @@
                     <a class=" remove-button button" (click)="removeKnownMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
                     <div class="label-input">
                         <label>Material</label>
-                        <select  [(ngModel)]="known.materialId" ng-change="selectKnownMaterial(known.material_id, $index)">
-                            <option value="" disabled selected hidden>Select a Material</option>
+                        <select  [(ngModel)]="known.materialId" (change)="selectKnownMaterial(known.materialId, i)">
+                            <option [ngValue]="" disabled selected hidden>Select a Material</option>
+                            <option [ngValue]="material.materialId" *ngFor="let material of materials">{{material.name}}</option>
                         </select>
                     </div>
 
@@ -85,18 +86,18 @@
                     <a class=" remove-button button" (click)="removeNewMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
                     <div class="label-input">
                         <label>Material Name</label>
-                        <input type="text" ng-model="new.name" placeholder="Material Name" required>
+                        <input type="text" [(ngModel)]="new.name" placeholder="Material Name" required>
                     </div>
 
                     <div class="label-input">
                         <label>Unit</label>
-                        <input type="text" ng-model="new.unit" placeholder="Material Units" required>
+                        <input type="text" [(ngModel)]="new.unit" placeholder="Material Units" required>
                     </div>
 
                     <div class="label-input">
                         <label>Cost per Unit</label>
                         <div class="dollar-input">
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" ng-model="new.cost">
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="new.cost">
                         </div>
                     </div>
                 </div>

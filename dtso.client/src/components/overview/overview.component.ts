@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { ServerRequest } from '../../services/index';
 
 @Component({
     selector: 'overview',
@@ -6,32 +7,42 @@
 })
 export class OverviewComponent implements OnInit {
     collapse: boolean;
+    accounts: any;
 
-    constructor() {
+    constructor(private _server: ServerRequest) {
 
     }
 
     ngOnInit() {
         this.collapse = false;
+        this.accounts = this.getAccounts();
+
         this.toggleCollapse();
     }
 
     toggleCollapse() {
-        this.collapse = !this.collapse;
+        if (this.accounts) {
+            this.collapse = !this.collapse;
 
-        for (var i = 0; i < this.accounts.length; i++) {
-            this.accounts[i].hideChildren = this.collapse;
+            for (var i = 0; i < this.accounts.length; i++) {
+                this.accounts[i].hideChildren = this.collapse;
 
-            for (var j = 0; j < this.accounts[i].childAccounts.length; j++) {
-                this.accounts[i].childAccounts[j].hideChildren = this.collapse;
+                for (var j = 0; j < this.accounts[i].childAccounts.length; j++) {
+                    this.accounts[i].childAccounts[j].hideChildren = this.collapse;
+                }
             }
         }
     }
 
 
+    getAccounts() {
+        this._server.get('api/account/overview').subscribe(
+            response => { this.accounts = response },
+            error => { }
+        )
+    }
 
-
-    accounts: any = [
+    /*accounts: any = [
         {
             "accountId" : 1,
             "accountNumber": 12345,
@@ -563,5 +574,5 @@ export class OverviewComponent implements OnInit {
                 }
             ]
         }
-    ]
+    ]*/
 }

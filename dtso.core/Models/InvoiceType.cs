@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace dtso.core.Services
+namespace dtso.core.Models
 {
     public class InvoiceType
     {

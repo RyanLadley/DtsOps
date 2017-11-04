@@ -3,7 +3,7 @@ using dtso.core;
 using Microsoft.AspNetCore.Mvc;
 using dtso.api.Models.Responses;
 using System.Collections.Generic;
-using dtso.core.Services;
+using dtso.core.Models;
 using dtso.api.Utilities;
 
 namespace dtso.api.Controllers
@@ -20,7 +20,22 @@ namespace dtso.api.Controllers
             _responseGenerator = responseGenerator;
         }
 
+
         [HttpGet]
+        public IActionResult GetAccountListing()
+        {
+            var accounts = _accountManager.GetHierarchy();
+
+            var response = new List<AccountListing>();
+            foreach (var account in accounts)
+            {
+                response.Add(AccountListing.MapFromObject(account));
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("overview")]
         public IActionResult Overview()
         {
             var accounts = _accountManager.GetHierarchy();
@@ -30,6 +45,20 @@ namespace dtso.api.Controllers
             foreach (var account in accounts)
             {
                 response.Add(AccountOverview.MapFromObject(account));
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("city")]
+        public IActionResult GetCityAccoutns()
+        {
+            var accounts = _accountManager.GetCityAccounts();
+
+            var response = new List<CityAccountListing>();
+            foreach (var account in accounts)
+            {
+                response.Add(CityAccountListing.MapFromObject(account));
             }
 
             return Ok(response);

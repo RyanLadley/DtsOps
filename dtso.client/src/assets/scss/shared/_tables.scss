@@ -33,6 +33,12 @@
         font-size: 15px;
     }
 
+    .div-td {
+        div {
+            margin-top: 20px;
+        }
+    }
+
     .default-size {
         max-width: 10%;
     }
@@ -43,6 +49,10 @@
 
     .number {
         text-align: right;
+
+        div, input {
+            float: right;
+        }
     }
 
 

@@ -37,10 +37,16 @@ namespace dtso.api
             //Data
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
 
             //Core
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<IInvoiceManager, InvoiceManager>();
+            services.AddScoped<VendorManager>();
+            services.AddScoped<MaterialManager>();
+            services.AddScoped<TicketManager>();
 
             //Api
             services.AddTransient<ResponseGenerator>();

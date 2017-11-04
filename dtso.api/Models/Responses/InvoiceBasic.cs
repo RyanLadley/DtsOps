@@ -1,4 +1,4 @@
-﻿using dtso.core.Services;
+﻿using dtso.core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +16,11 @@ namespace dtso.api.Models.Responses
 
         public VendorListing Vendor { get; set; }
 
-        public string InvoiceType { get; set; }
+        public InvoiceTypeListing InvoiceType { get; set; }
 
         public DateTime InvoiceDate { get; set; }
-        
+        public DateTime DatePaid { get; set; }
+
         public string Description { get; set; }
 
 
@@ -33,7 +34,8 @@ namespace dtso.api.Models.Responses
                 InvoiceId = invoice.InvoiceId,
                 InvoiceNumber = invoice.InvoiceNumber,
                 InvoiceDate = invoice.InvoiceDate,
-                InvoiceType = invoice.InvoiceType.Name,
+                DatePaid = invoice.DatePaid,
+                InvoiceType = InvoiceTypeListing.MapFromObject(invoice.InvoiceType),
                 AccountNumber = accountNumber,
                 Expense = expense,
                 Description = invoice.Description,

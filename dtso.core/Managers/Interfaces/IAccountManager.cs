@@ -1,4 +1,4 @@
-﻿using dtso.core.Services;
+﻿using dtso.core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +11,7 @@ namespace dtso.core.Managers.Interfaces
         decimal GetExpedituresToDate(AccountNumberTemplate accountNumber);
         Account GetAccountDetails(AccountNumberTemplate accountNumber);
         List<Account> PopulateExpeditures(List<Account> accounts);
+
+        List<CityAccount> GetCityAccounts();
     }
 }

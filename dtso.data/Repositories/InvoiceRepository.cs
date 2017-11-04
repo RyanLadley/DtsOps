@@ -18,9 +18,18 @@ namespace dtso.data.Repositories
             _context = context;
 
         }
-        public Invoice Add(Invoice account)
+        public bool Add(Invoice invoice)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Invoices.Add(invoice);
+                _context.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public Invoice Get(int id)
@@ -31,8 +40,11 @@ namespace dtso.data.Repositories
                 .Include(invoice => invoice.Vendor)
                 .Include(invoice => invoice.InvoiceType)
                 .Include(invoice => invoice.InvoiceAccounts)
-                    .ThenInclude(ia => ia.vAccount);
-
+                    .ThenInclude(ia => ia.vAccount)
+                .Include(invoice => invoice.InvoiceAccounts)
+                    .ThenInclude(ia => ia.CityExpenses)
+                        .ThenInclude(cityExpense => cityExpense.CityAccount);
+            
             return singleInvoice.FirstOrDefault();
         }
 
@@ -99,9 +111,23 @@ namespace dtso.data.Repositories
 
                 .Include(invoice => invoice.InvoiceAccounts)
                     .ThenInclude(ia => ia.vAccount)
+                .Include(invoice => invoice.InvoiceAccounts)
+                    .ThenInclude(ia => ia.CityExpenses)
                 .Include(invoice => invoice.Vendor);
 
             return invoices.ToList(); 
+        }
+
+        public List<Invoice> GetInvoicesForVendor(int vendorId)
+        {
+            return _context.Invoices
+                .Where(invoice => invoice.VendorId == vendorId)
+
+                .Include(invoice => invoice.Vendor)
+                .Include(invoice => invoice.InvoiceType)
+                .Include(invoice => invoice.InvoiceAccounts)
+                    .ThenInclude(ia => ia.vAccount)
+                .ToList();
         }
 
         public void Remove(int id)
@@ -109,9 +135,49 @@ namespace dtso.data.Repositories
             throw new NotImplementedException();
         }
 
-        public Invoice Update(Invoice invoice)
+        public int Update(Invoice invoice)
         {
-            throw new NotImplementedException();
+            _context.Invoices.Update(invoice);
+            _context.SaveChanges();
+
+            return invoice.InvoiceId;
+        }
+
+        public List<InvoiceType> GetTypes()
+        {
+            return _context.InvoiceTypes.ToList();
+        }
+
+        public int Add(InvoiceAccount invoiceAccount)
+        {
+            _context.InvoiceAccounts.Add(invoiceAccount);
+            _context.SaveChanges();
+
+            return invoiceAccount.InvoiceAccountId;
+        }
+
+        public int Add(CityExpense cityExpense)
+        {
+            _context.CityExpenses.Add(cityExpense);
+            _context.SaveChanges();
+
+            return cityExpense.CityExpenseId;
+        }
+
+        public int Update(InvoiceAccount invoiceAccount)
+        {
+            _context.InvoiceAccounts.Update(invoiceAccount);
+            _context.SaveChanges();
+
+            return invoiceAccount.InvoiceAccountId;
+        }
+
+        public int Update(CityExpense cityExpense)
+        {
+            _context.CityExpenses.Update(cityExpense);
+            _context.SaveChanges();
+
+            return cityExpense.CityExpenseId;
         }
     }
 }

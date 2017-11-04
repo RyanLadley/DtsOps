@@ -25,13 +25,18 @@
         }
     }
 
-    #selected-filter {
+    .selected-filter {
         border-bottom: 5px solid #00ffbd;
         text-shadow: 1px 1px 1px #c8c8c8;
+
+        &:hover {
+            border-bottom: 5px solid #00ffbd;
+            text-shadow: 1px 1px 1px #c8c8c8;
+        }
     }
 }
 
-#account-details-table {
+.account-details-table {
     .table-row {
         cursor: default;
     }

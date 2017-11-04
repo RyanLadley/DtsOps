@@ -21,5 +21,6 @@ namespace dtso.data.Views
         public int RegionalAccountCodeId { get; set; }
 
         public List<InvoiceAccount> InvoiceAccounts { get; set; }
+        public List<Ticket> Tickets { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using dtso.core.Enums;
 using dtso.core.Managers.Interfaces;
-using dtso.core.Services;
+using dtso.core.Models;
 using dtso.data.Repositories.Interfaces;
 using dtso.data.Views;
 using System;
@@ -13,11 +13,13 @@ namespace dtso.core.Managers
     {
         private IAccountRepository _accountRepository;
         private IInvoiceManager _invoiceManager;
+        private TicketManager _ticketManager;
 
-        public AccountManager(IAccountRepository accountRepo, IInvoiceManager invoiceManager)
+        public AccountManager(IAccountRepository accountRepo, IInvoiceManager invoiceManager, TicketManager ticketManager)
         {
             _accountRepository = accountRepo;
             _invoiceManager = invoiceManager;
+            _ticketManager = ticketManager;
         }
 
         public List<Account> PopulateExpeditures(List<Account> accounts)
@@ -37,14 +39,17 @@ namespace dtso.core.Managers
         {
             decimal expenditures = 0;
 
-            var invoices = _invoiceManager.GetInvoicesForAccount(accountNumber);
-
-            foreach(var invoice in invoices)
+            foreach(var invoice in _invoiceManager.GetInvoicesForAccount(accountNumber))
             {
                 foreach(var accountExpense in invoice.AccountTotals)
                 {
                     expenditures += accountExpense.Expense;
                 }
+            }
+
+            foreach(var ticket in _ticketManager.GetTicketsForAccount(accountNumber, true))
+            {
+                expenditures += ticket.Cost;
             }
 
             return expenditures;
@@ -66,6 +71,18 @@ namespace dtso.core.Managers
             return accounts;
         }
 
+        public List<CityAccount> GetCityAccounts()
+        {
+            var cityAccounts = new List<CityAccount>();
+
+            foreach(var cityAccount in _accountRepository.GetCityAccounts())
+            {
+                cityAccounts.Add(CityAccount.MapFromEntity(cityAccount));
+            }
+
+            return cityAccounts;
+        }
+
         public Account GetAccountDetails(AccountNumberTemplate accountNumber)
         {
             var account = Account.MapFromObject(_accountRepository.Get(accountNumber.AccountNumber.Value, accountNumber.SubNo, accountNumber.ShredNo));
@@ -74,7 +91,8 @@ namespace dtso.core.Managers
                 return null;
 
             var monthlyBreakdown = _initiateMonthlyBreakdown();
-            monthlyBreakdown = _addInvoicesToMonthlyBreakdown(accountNumber, monthlyBreakdown);
+            monthlyBreakdown = _addInvoicesToMonthlyBreakdown(accountNumber, monthlyBreakdown); //Invoice
+            monthlyBreakdown = _addTicketsToMonthlyBreakdown(accountNumber, monthlyBreakdown); //Ticket
 
             account.MonthlyDetails = monthlyBreakdown;
             account.ExpedituresToDate = _getMonthlyBreakdownTotalExpense(account.MonthlyDetails);
@@ -131,6 +149,25 @@ namespace dtso.core.Managers
 
                 currentBreakdown.Invoices.Add(invoice);
                 monthlyBreakdown[invoiceMonth] = currentBreakdown;
+            }
+
+            return monthlyBreakdown;
+        }
+
+        private Dictionary<int, MonthlyBreakdown> _addTicketsToMonthlyBreakdown(AccountNumberTemplate accountNumber, Dictionary<int, MonthlyBreakdown> monthlyBreakdown)
+        {
+            var tickets = _ticketManager.GetTicketsForAccount(accountNumber);
+            foreach (var ticket in tickets)
+            {
+                var ticketMonth = ticket.Date.Month;
+                var currentBreakdown = monthlyBreakdown[ticketMonth];
+
+                //If ticket invoice is not null, then the expense was already counted with the incvoices
+                if(ticket.Invoice == null)
+                    currentBreakdown.TotalExpense += ticket.Cost;
+
+                currentBreakdown.Tickets.Add(ticket);
+                monthlyBreakdown[ticketMonth] = currentBreakdown;
             }
 
             return monthlyBreakdown;

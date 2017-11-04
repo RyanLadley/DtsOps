@@ -14,5 +14,7 @@ namespace dtso.data.Repositories.Interfaces
         List<vAccount> GetChildAccounts(vAccount account);
         void Remove(int id);
         vAccount Update(int id);
+
+        List<CityAccount> GetCityAccounts(); 
     }
 }

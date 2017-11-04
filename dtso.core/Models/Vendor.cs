@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace dtso.core.Services
+namespace dtso.core.Models
 {
     public class Vendor
     {
@@ -13,15 +13,21 @@ namespace dtso.core.Services
         public DateTime? ContractEnd { get; set; }
         public string PointOfContact { get; set; }
         public string PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string ZipCode { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
+        public bool Active { get; set; }
+
+        //Not Populated From Entity
+        public List<Invoice> Invoices { get; set; }
+        public List<Ticket> Tickets { get; set; }
+        public List<MaterialVendor> Materials { get; set; }
+
 
         public static Vendor MapFromEntity(data.Entities.Vendor entity)
         {
+            if (entity == null)
+                return null;
+
             return new Vendor()
             {
                 VendorId = entity.VendorId,
@@ -31,12 +37,26 @@ namespace dtso.core.Services
                 ContractEnd = entity.ContractEnd,
                 PointOfContact = entity.PointOfContact,
                 PhoneNumber = entity.PhoneNumber,
-                Address = entity.Address,
-                City = entity.City,
-                State = entity.State,
-                ZipCode = entity.ZipCode,
                 Email = entity.Email,
-                Website = entity.Website
+                Website = entity.Website,
+                Active = entity.Active
+            };
+        }
+
+        public data.Entities.Vendor MapToEntity()
+        {
+            return new data.Entities.Vendor()
+            {
+                VendorId = this.VendorId,
+                Name = this.Name,
+                ContractNumber = this.ContractNumber,
+                ContractStart = this.ContractStart,
+                ContractEnd = this.ContractEnd,
+                PointOfContact = this.PointOfContact,
+                PhoneNumber = this.PhoneNumber,
+                Email = this.Email,
+                Website = this.Website,
+                Active = this.Active
             };
         }
     }

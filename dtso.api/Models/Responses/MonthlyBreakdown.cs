@@ -10,27 +10,18 @@ namespace dtso.api.Models.Responses
     {
         public int Month { get; set; }
         public List<InvoiceBasic> Invoices { get; set; }
+        public List<TicketBasic> Tickets { get; set; }
         public decimal TotalExpense { get; set; }
 
-        public static MonthlyBreakdown MapFromObject(core.Services.MonthlyBreakdown obj, ResponseGenerator responseGenerator)
+        public static MonthlyBreakdown MapFromObject(core.Models.MonthlyBreakdown obj, ResponseGenerator responseGenerator)
         {
-            var breakdown = new MonthlyBreakdown()
+            return new MonthlyBreakdown()
             {
                 Month = obj.Month,
-                TotalExpense = obj.TotalExpense
+                TotalExpense = obj.TotalExpense,
+                Invoices = responseGenerator.GenerateBasicInvoicesList(obj.Invoices),
+                Tickets = responseGenerator.GenerateBasicTicketList(obj.Tickets)
             };
-
-            var invoices = new List<InvoiceBasic>();
-            foreach(var invoice in obj.Invoices)
-            {
-                foreach(var mappedinvoice in responseGenerator.GenerateBasicInvoices(invoice))
-                {
-                    invoices.Add(mappedinvoice);
-                }
-            }
-            breakdown.Invoices = invoices;
-
-            return breakdown;
         }
     }
 }

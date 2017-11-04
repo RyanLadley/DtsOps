@@ -1,7 +1,7 @@
 ﻿using dtso.api.Models.Responses;
 using dtso.api.unittests._TestData;
 using dtso.api.Utilities;
-using dtso.core.Services;
+using dtso.core.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 

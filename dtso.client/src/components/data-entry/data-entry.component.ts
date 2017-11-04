@@ -12,17 +12,28 @@ export class DataEntryComponent implements OnInit {
 
     routeSubscription: any;
     page: string;
+    accounts: any[];
+    vendors: any[];
+    materials: any[];
 
-    constructor(private _route: ActivatedRoute, private _router: Router) {
+    cityAccounts: any[];
+    invoiceTypes: any[];
+    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
         
     }
 
     ngOnInit() {
+
+        this.getAccounts();
+        this.getVendors();
+        this.getInvoiceTypes();
+        this.getCityAccounts();
+
+        this.getMaterials();
         this.routeSubscription = this._route.queryParams.subscribe(queryParams => {
             this.page = queryParams['page'] || "invoice";
         });
-
-
+        
         this.gotoPage(this.page);
     }
 
@@ -30,7 +41,41 @@ export class DataEntryComponent implements OnInit {
         this._router.navigate(['/entry'], { queryParams: { page: newPage } });
     }
 
-    accounts: any = [
+
+    getAccounts() {
+        this._server.get('api/account').subscribe(
+            response => { this.accounts = response },
+            error => { }
+        )
+    }
+    getVendors() {
+        this._server.get('api/vendor').subscribe(
+            response => { this.vendors = response },
+            error => { }
+        )
+    }
+
+    getMaterials() {
+        this._server.get('api/material').subscribe(
+            response => { this.materials = response },
+            error => { }
+        )
+    }
+
+    getInvoiceTypes() {
+        this._server.get('api/invoice/types').subscribe(
+            response => { this.invoiceTypes = response },
+            error => { }
+        )
+    }
+
+    getCityAccounts() {
+        this._server.get('api/account/city').subscribe(
+            response => { this.cityAccounts = response },
+            error => { }
+        )
+    }
+    /*accounts: any = [
         {
             "accountId": 1,
             "accountNumber": 12345,
@@ -562,5 +607,5 @@ export class DataEntryComponent implements OnInit {
                 }
             ]
         }
-    ]
+    ]*/
 }

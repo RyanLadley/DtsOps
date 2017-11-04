@@ -1,5 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { MonthProvider} from '../../services/index';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServerRequest } from '../../services/index';
+import { InvoiceForm } from '../../models/index';
+
 @Component({
     selector: 'invoice-details',
     templateUrl: './invoice-details.template.html'
@@ -7,90 +10,143 @@ import { MonthProvider} from '../../services/index';
 export class InvoiceDetailsComponent implements OnInit {
 
     displayedBreakdown: string
+    editBasics: boolean;
+    editTable: boolean;
+    tempInvoice: any;
+    invoice: any;
 
-    constructor() {
+    //Edit Data
+    invoiceTypes: any[];
+    vendors: any[];
+    cityAccounts: any[];
+    accounts: any[];
+    constructor(private _route: ActivatedRoute, private _server: ServerRequest) {
 
     }
 
     ngOnInit() {
+        let urlId = "";
+        this._route.params.subscribe(params => {
+            urlId = params['id']
+        });
+
+        this.getInvoice(urlId);
         this.displayedBreakdown = "Expenses";
+        this.editBasics = false;
+        this.editTable = false;
+        
     }
 
     setDisplayedBreakdown(displayed) {
         this.displayedBreakdown = displayed;
+        this.toggleEditTable(false);
     }
 
-    invoice: any = {
-        "invoiceId": 2,
-        "invoiceNumber": "17POS/092790A",
-        "vendor": {
-            "vendorId": 1,
-            "name": "Grainger"
-        },
-        "invoiceType": "Equipment",
-        "invoiceDate": "2017-08-23T12:30:00",
-        "datePaid": "2017-09-23T12:30:00",
-        "description": "Donec vestibulum convallis tortor",
-        "totalExpense" : 850.23,
-        "expenses": [
-            {
-                "account": {
-                    "accountId": 4,
-                    "accountNumber": 521000,
-                    "subNo": 2,
-                    "shredNo" : 5
-                },
-                "expense": 40.56
+    toggleEditBasics(editing: boolean) {
+        
+        this.editBasics = editing;
+        if (editing) {
+            this.getEditData();
+            this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
+        }
+        else {
+            this.invoice = JSON.parse(JSON.stringify(this.tempInvoice));
+        }
+    }
+
+    toggleEditTable(editing: boolean) {
+        //This is so when we switch tabs, we can call the toggle without issue
+        if (!this.editTable && !editing)
+            return;
+        
+        this.editTable = editing;
+        if (editing) {
+            this.getEditData();
+            this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
+        }
+        else {
+            this.invoice = JSON.parse(JSON.stringify(this.tempInvoice));
+        }
+    }
+
+    isEditing(): boolean{
+        return this.editBasics || this.editTable;
+    }
+
+    getInvoice(id: string) {
+        this._server.get('api/invoice/' + id).subscribe(
+            response => {
+                this.invoice = response; console.log(response);
             },
-            {
-                "account": {
-                    "accountId": 4,
-                    "accountNumber": 523000,
-                    "subNo": 2,
-                    "shredNo": 5
-                },
-                "expense": 698.45
-            }
-        ],
-        "tickets": [
-            {
-                "ticketId": 1,
-                "ticketNumber": "657894231ASF",
-                "vendor": {
-                    "vendorId": 1,
-                    "name": "Grainger"
-                },
-                "account": {
-                    "accountId": 4,
-                    "accountNumber": 523000,
-                    "subNo": 2,
-                    "shredNo": 5
-                },
-                "material": {
-                    "materialId": 2,
-                    "name": "Big ole 2x4 Extra Woody"
-                },
-                "cost": 12.00
+            error => { }
+        )
+    }
+
+    getEditData() {
+        if (!this.invoiceTypes) {
+            this.getInvoiceTypes();
+        }
+
+        if (!this.vendors) {
+            this.getVendors();
+        }
+
+        if (!this.accounts) {
+            this.getAccounts();
+        }
+
+        if (!this.cityAccounts) {
+            this.getCityAccounts();
+        }
+    }
+
+    getInvoiceTypes() {
+        this._server.get('api/invoice/types').subscribe(
+            response => { this.invoiceTypes = response },
+            error => { }
+        )
+    }
+
+    getVendors() {
+        this._server.get('api/vendor').subscribe(
+            response => { this.vendors = response },
+            error => { }
+        )
+    }
+
+    getCityAccounts() {
+        this._server.get('api/account/city').subscribe(
+            response => { this.cityAccounts = response },
+            error => { }
+        )
+    }
+
+    getAccounts() {
+        this._server.get('api/account').subscribe(
+            response => { this.accounts = response },
+            error => { }
+        )
+    }
+
+    parseDate(dateString: string): Date {
+        if (dateString) {
+            return new Date(dateString);
+        } else {
+            return null;
+        }
+    }
+
+    submitAdjustment() {
+        var invoiceForm = InvoiceForm.MapFromDetials(this.invoice);
+
+        this._server.post('api/invoice/edit', invoiceForm).subscribe(
+            response => {
+                console.log(response);
+                this.invoice = response;
+                this.editTable = false;
+                this.editBasics = false;
             },
-            {
-                "ticketId": 3,
-                "ticketNumber": "6EGHS4231ASF",
-                "vendor": {
-                    "vendorId": 1,
-                    "name": "Grainger"
-                },
-                "account": {
-                    "accountId": 4,
-                    "accountNumber": 523000,
-                    "subNo": 2,
-                    "shredNo": 5
-                },
-                "material": {
-                    "materialId": 2,
-                    "name": "Big ole 2x4 Extra Woody"
-                },
-                "cost": 12.00
-            }
-        ]
-    };
+            error => { }
+        )
+    }
 }

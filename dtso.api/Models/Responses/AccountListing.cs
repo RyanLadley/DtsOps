@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using dtso.core.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,28 @@ namespace dtso.api.Models.Responses
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<AccountListing> ChildAccounts { get; set; }
+
+        public static AccountListing MapFromObject(Account account)
+        {
+            if (account == null)
+                return null;
+
+            var listing = new AccountListing()
+            {
+                AccountId = account.AccountId,
+                AccountNumber = account.AccountNumber,
+                SubNo = account.SubNo,
+                ShredNo = account.ShredNo,
+                Description = account.Description,
+                ChildAccounts = new List<AccountListing>()
+            };
+
+            foreach (var subaccount in account.ChildAccounts)
+            {
+                listing.ChildAccounts.Add(AccountListing.MapFromObject(subaccount));
+            }
+
+            return listing;
+        }
     }
 }

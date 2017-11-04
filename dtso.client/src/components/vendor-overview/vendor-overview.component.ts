@@ -13,13 +13,14 @@ export class VendorOverviewComponent implements OnInit {
     routeSubscription: any;
     page: string;
     displayedVendors: any[]
+    vendors: any[];
     filter: string;
-    constructor(private _route: ActivatedRoute, private _router: Router) {
+    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
         
     }
 
     ngOnInit() {
-        this.selectFilter("Active");
+        this.getVendors();
     }
 
     selectFilter(filter: string) {
@@ -47,7 +48,17 @@ export class VendorOverviewComponent implements OnInit {
         }
     }
 
-    vendors: any = [
+    getVendors() {
+        this._server.get('api/vendor/overview').subscribe(
+            response => {
+                this.vendors = response;
+                this.selectFilter("Active");
+            },
+            error => { }
+        )
+    }
+
+    /*vendors: any = [
         {
             "vendorId": 1,
             "name": "Flynn",
@@ -126,5 +137,5 @@ export class VendorOverviewComponent implements OnInit {
             "website": null,
             "status": "Active"
         }
-    ]
+    ]*/
 }

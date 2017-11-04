@@ -1,4 +1,4 @@
-﻿using dtso.core.Services;
+﻿using dtso.core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +13,12 @@ namespace dtso.api.Models.Responses
 
         public List<InvoiceExpense> Expenses { get; set; }
         public VendorListing Vendor { get; set; }
-        public string InvoiceType { get; set; }
+        public InvoiceTypeListing InvoiceType { get; set; }
 
         public DateTime InvoiceDate { get; set; }
+        public DateTime DatePaid { get; set; }
         public string Description { get; set; }
+        public decimal TotalExpense { get; set; }
 
 
         /// <summary>
@@ -30,37 +32,35 @@ namespace dtso.api.Models.Responses
             {
                 InvoiceId = invoice.InvoiceId,
                 InvoiceDate = invoice.InvoiceDate,
+                DatePaid = invoice.DatePaid,
                 InvoiceNumber = invoice.InvoiceNumber,
-                InvoiceType = invoice.InvoiceType.Name,
-                Description = invoice.Description
+                InvoiceType = InvoiceTypeListing.MapFromObject(invoice.InvoiceType),
+                Description = invoice.Description,
+                Vendor = VendorListing.MapFromObject(invoice.Vendor)
             };
 
+            decimal totalExpense = 0;
             details.Expenses = new List<InvoiceExpense>();
             foreach (var accountTotal in invoice.AccountTotals)
             {
+                totalExpense += accountTotal.Expense;
 
-                var account = new AccountListing()
+                var cityExpenses = new List<CityExpenseBasic>();
+                foreach(var expense in accountTotal.CityExpenses)
                 {
-                    AccountId = accountTotal.Account.AccountId,
-                    AccountNumber = accountTotal.Account.AccountNumber,
-                    SubNo = accountTotal.Account.SubNo,
-                    ShredNo = accountTotal.Account.ShredNo
-
-                };
+                    cityExpenses.Add(CityExpenseBasic.MapFromObject(expense));
+                }
 
                 details.Expenses.Add(new InvoiceExpense()
                 {
+                    InvoiceAccountId = accountTotal.InvoiceAccountId,
                     Expense = accountTotal.Expense,
-                    Account = account
+                    Account = AccountListing.MapFromObject(accountTotal.Account),
+                    CityExpense = cityExpenses
                 });
             }
 
-            details.Vendor = new VendorListing()
-            {
-                VendorId = invoice.Vendor.VendorId,
-                Name = invoice.Vendor.Name
-            };
-
+            details.TotalExpense = totalExpense;
             return details;
         }
 

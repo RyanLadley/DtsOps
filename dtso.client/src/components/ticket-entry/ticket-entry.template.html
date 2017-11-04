@@ -4,11 +4,12 @@
     <div class="row">
         <div class="label-input">
             <label>Vendor</label>
-            <select [(ngModel)]="vendorId" required>
+            <select [(ngModel)]="vendorId" (change)="getMaterials(vendorId)" required>
                 <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
+                <option [ngValue]="vendor.vendorId" *ngFor="let vendor of vendors">{{vendor.name}}</option>
             </select>
         </div>
-        <account-select [accounts]="accounts" (selectedAccountId)="account.accountId = $event"></account-select>
+        <account-select [accounts]="accounts" [(selectedAccountId)]="accountId"></account-select>
     </div>
     <div class="row" *ngFor="let ticket of tickets; let i = index">
 
@@ -26,21 +27,22 @@
 
         <div class="label-input">
             <label>Material</label>
-            <select [(ngModel)]="ticket.material" required>
-                <option value="" disabled selected hidden>Select a Materials</option>
+            <select [(ngModel)]="ticket.material.materialVendorId" (change)="selectTicketMaterial(ticket.material.materialVendorId, i); caluculateCost(ticket)">
+                <option [ngValue]="" disabled selected hidden>Select a Material</option>
+                <option [ngValue]="material.materialVendorId" *ngFor="let material of materials">{{material.name}}</option>
             </select>
         </div>
         <div class="label-input">
             <label>Quantity</label>
-            <input type="Number" [(ngModel)]="ticket.quantity" step="0.01" placeholder="Quantity" ng-change="calulateCost(ticket)" required>
+            <input type="Number" [(ngModel)]="ticket.quantity" step="0.01" (change)="caluculateCost(ticket)" required>
         </div>
 
         <div class="label-display">
             <label>Cost</label>
-            <p title="{{ticket.material.cost| currency}} per {{ticket.material.unit}}">{{ticket.cost |currency}}</p>
+            <p title="{{ticket.material.cost| currency}} per {{ticket.material.unit}}">{{ticket.cost |currency:'USD':true:'1.2-2'}}</p>
         </div>
     </div>
 
     <a class=" add-button button row" (click)="addTicket()"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
-    <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Tickets</button>
+    <button class="submit-button button" (click)="submitNewTickets()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Tickets</button>
 </div>

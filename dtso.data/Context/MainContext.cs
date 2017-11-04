@@ -28,6 +28,11 @@ namespace dtso.data.Context
             modelBuilder = _buildVendors(modelBuilder);
             modelBuilder = _buildInvoices(modelBuilder);
             modelBuilder = _buildInvoiceAccounts(modelBuilder);
+            modelBuilder = _buildCityAccounts(modelBuilder);
+            modelBuilder = _buildCityExpenses(modelBuilder);
+            modelBuilder = _buildMaterials(modelBuilder);
+            modelBuilder = _buildMaterialVendors(modelBuilder);
+            modelBuilder = _buildTickets(modelBuilder);
         }
 
 
@@ -37,6 +42,11 @@ namespace dtso.data.Context
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceType> InvoiceTypes { get; set; }
         public DbSet<InvoiceAccount> InvoiceAccounts { get; set; }
+        public DbSet<CityAccount> CityAccounts { get; set; }
+        public DbSet<CityExpense> CityExpenses { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialVendor> MaterialVendors { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         public virtual DbSet<vAccount> vAccounts { get; set; }
 
@@ -123,20 +133,21 @@ namespace dtso.data.Context
 
         private ModelBuilder _buildVendors(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Vendor>()
-                .Property(vendor => vendor.PhoneNumber)
-                    .HasMaxLength(12);
+            modelBuilder.Entity<Vendor>(entity =>
+                {
+                    entity.HasKey(vendor => vendor.VendorId);
 
-            modelBuilder.Entity<Vendor>()
-                .Property(vendor => vendor.ZipCode)
-                    .HasMaxLength(8);
+                    entity.Property(vendor => vendor.PhoneNumber)
+                            .HasMaxLength(12);
 
-            modelBuilder.Entity<Vendor>()
-                .Property(vendor => vendor.ContractNumber)
-                    .HasMaxLength(45);
+                    entity.Property(vendor => vendor.ContractNumber)
+                         .HasMaxLength(45);
 
-            modelBuilder.Entity<Vendor>()
-                .HasKey(vendor => vendor.VendorId);
+                    entity.Property(vendor => vendor.Active)
+                        .HasDefaultValue(true);
+                }
+            );
+            
 
             return modelBuilder;
         }
@@ -168,7 +179,11 @@ namespace dtso.data.Context
         private ModelBuilder _buildInvoiceAccounts(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<InvoiceAccount>()
-                .HasKey(ia => new { ia.InvoiceId, ia.AccountId});
+                .HasKey(ia => ia.InvoiceAccountId);
+
+            modelBuilder.Entity<InvoiceAccount>()
+                .HasIndex(ia => new { ia.InvoiceId, ia.AccountId })
+                .IsUnique();
 
             modelBuilder.Entity<InvoiceAccount>()
                 .HasOne(ia => ia.Invoice)
@@ -191,6 +206,113 @@ namespace dtso.data.Context
                 .Property(invoiceAccount => invoiceAccount.Expense)
                     .HasDefaultValue(0)
                     .HasColumnType("Money");
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildCityAccounts(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CityAccount>(entity =>
+                {
+                    entity.HasKey(cityAccount => cityAccount.CityAccountId);
+                
+                }
+            );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildCityExpenses(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CityExpense>(entity =>
+            {
+                entity.HasKey(cityExpense => cityExpense.CityExpenseId);
+
+                entity.HasIndex(cityExpense => new { cityExpense.CityAccountId, cityExpense.InvoiceAccountId })
+                    .IsUnique();
+
+                entity.HasOne(cityExpense => cityExpense.CityAccount)
+                    .WithMany(account => account.CityExpenses)
+                    .HasForeignKey(cityExpense => cityExpense.CityAccountId);
+
+                entity.HasOne(cityExpense => cityExpense.InvoiceAccount)
+                    .WithMany(account => account.CityExpenses)
+                    .HasForeignKey(cityExpense => cityExpense.InvoiceAccountId);
+
+                entity.Property(cityExpense => cityExpense.Expense)
+                    .HasDefaultValue(0)
+                    .HasColumnType("Money");
+            }
+            );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildMaterials(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Material>(entity =>
+            {
+                entity.HasKey(material => material.MaterialId);
+            }
+            );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildMaterialVendors(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MaterialVendor>(entity =>
+            {
+                entity.HasKey(materialVendor => materialVendor.MaterialVendorId);
+
+                entity.HasOne(materialVendor => materialVendor.Material)
+                    .WithMany(material => material.MaterialVendors)
+                    .HasForeignKey(materialVendor => materialVendor.MaterialId);
+
+                entity.HasOne(materialVendor => materialVendor.Vendor)
+                    .WithMany(vendor => vendor.MaterialVendors)
+                    .HasForeignKey(materialVendor => materialVendor.VendorId);
+
+                entity.Property(materialVnedor => materialVnedor.Cost)
+                    .HasDefaultValue(0)
+                    .HasColumnType("Money");
+            }
+            );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildTickets(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Ticket>(entity =>
+            {
+                entity.HasKey(ticket => ticket.TicketId);
+
+                entity.HasOne(ticket => ticket.MaterialVendor)
+                    .WithMany(material => material.Tickets)
+                    .HasForeignKey(ticket => ticket.MaterialVendorId);
+
+                entity.HasOne(ticket => ticket.Invoice)
+                    .WithMany(invoice => invoice.Tickets)
+                    .HasForeignKey(ticket => ticket.InvoiceId);
+
+                entity.HasOne(ticket => ticket.Vendor)
+                    .WithMany(vendor => vendor.Tickets)
+                    .HasForeignKey(ticket => ticket.VendorId);
+
+                entity.HasOne(ticket => ticket.Account)
+                    .WithMany(account => account.Tickets)
+                    .HasForeignKey(ticket => ticket.AccountId);
+
+                entity.HasOne(ticket => ticket.vAccount)
+                    .WithMany(vaccount => vaccount.Tickets)
+                    .HasForeignKey(ticket => ticket.AccountId);
+
+                entity.Property(ticket => ticket.Cost)
+                    .HasDefaultValue(0)
+                    .HasColumnType("Money");
+            }
+            );
 
             return modelBuilder;
         }

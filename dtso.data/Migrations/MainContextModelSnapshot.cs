@@ -51,14 +51,58 @@ namespace dtso.data.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("dtso.data.Entities.CityAccount", b =>
+                {
+                    b.Property<int>("CityAccountId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("CityAccountId");
+
+                    b.ToTable("CityAccounts");
+                });
+
+            modelBuilder.Entity("dtso.data.Entities.CityExpense", b =>
+                {
+                    b.Property<int>("CityExpenseId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("AccountId");
+
+                    b.Property<int>("CityAccountId");
+
+                    b.Property<decimal>("Expense")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("Money")
+                        .HasDefaultValue(0m);
+
+                    b.Property<int>("InvoiceAccountId");
+
+                    b.HasKey("CityExpenseId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("InvoiceAccountId");
+
+                    b.HasIndex("CityAccountId", "InvoiceAccountId")
+                        .IsUnique();
+
+                    b.ToTable("CityExpenses");
+                });
+
             modelBuilder.Entity("dtso.data.Entities.Invoice", b =>
                 {
                     b.Property<int>("InvoiceId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("DatePaid");
+
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("InvoiceDate");
+
+                    b.Property<string>("InvoiceNumber");
 
                     b.Property<int>("InvoiceTypeId");
 
@@ -68,14 +112,17 @@ namespace dtso.data.Migrations
 
                     b.HasIndex("InvoiceTypeId");
 
-                    b.HasIndex("VendorId");
+                    b.HasIndex("VendorId", "InvoiceNumber")
+                        .IsUnique()
+                        .HasFilter("[InvoiceNumber] IS NOT NULL");
 
                     b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("dtso.data.Entities.InvoiceAccount", b =>
                 {
-                    b.Property<int>("InvoiceId");
+                    b.Property<int>("InvoiceAccountId")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccountId");
 
@@ -84,9 +131,14 @@ namespace dtso.data.Migrations
                         .HasColumnType("Money")
                         .HasDefaultValue(0m);
 
-                    b.HasKey("InvoiceId", "AccountId");
+                    b.Property<int>("InvoiceId");
+
+                    b.HasKey("InvoiceAccountId");
 
                     b.HasIndex("AccountId");
+
+                    b.HasIndex("InvoiceId", "AccountId")
+                        .IsUnique();
 
                     b.ToTable("InvoiceAccounts");
                 });
@@ -100,7 +152,7 @@ namespace dtso.data.Migrations
 
                     b.HasKey("InvoiceTypeId");
 
-                    b.ToTable("InvoiceType");
+                    b.ToTable("InvoiceTypes");
                 });
 
             modelBuilder.Entity("dtso.data.Entities.RegionalAccountCode", b =>
@@ -132,9 +184,9 @@ namespace dtso.data.Migrations
                     b.Property<int>("VendorId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime?>("ContractEnd");
 
@@ -152,16 +204,45 @@ namespace dtso.data.Migrations
 
                     b.Property<string>("PointOfContact");
 
-                    b.Property<string>("State");
-
                     b.Property<string>("Website");
-
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(8);
 
                     b.HasKey("VendorId");
 
                     b.ToTable("Vendors");
+                });
+
+            modelBuilder.Entity("dtso.data.Views.vAccount", b =>
+                {
+                    b.Property<int>("AccountId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccountNumber");
+
+                    b.Property<string>("AccountPrefix");
+
+                    b.Property<decimal>("AnnualBudget");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("FundNumber");
+
+                    b.Property<string>("ProjectDescription");
+
+                    b.Property<string>("ProjectNumber");
+
+                    b.Property<int>("RegionalAccountCodeId");
+
+                    b.Property<int?>("ShredNo");
+
+                    b.Property<int?>("SubNo");
+
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("RegionalAccountCodeId", "SubNo", "ShredNo")
+                        .IsUnique()
+                        .HasFilter("[SubNo] IS NOT NULL AND [ShredNo] IS NOT NULL");
+
+                    b.ToTable("vAccounts");
                 });
 
             modelBuilder.Entity("dtso.data.Entities.Account", b =>
@@ -169,6 +250,23 @@ namespace dtso.data.Migrations
                     b.HasOne("dtso.data.Entities.RegionalAccountCode", "RegionalAccountCode")
                         .WithMany()
                         .HasForeignKey("RegionalAccountCodeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("dtso.data.Entities.CityExpense", b =>
+                {
+                    b.HasOne("dtso.data.Entities.Account")
+                        .WithMany("CityExpenses")
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("dtso.data.Entities.CityAccount", "CityAccount")
+                        .WithMany("CityExpenses")
+                        .HasForeignKey("CityAccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("dtso.data.Entities.InvoiceAccount", "InvoiceAccount")
+                        .WithMany("CityExpenses")
+                        .HasForeignKey("InvoiceAccountId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -188,6 +286,11 @@ namespace dtso.data.Migrations
             modelBuilder.Entity("dtso.data.Entities.InvoiceAccount", b =>
                 {
                     b.HasOne("dtso.data.Entities.Account", "Account")
+                        .WithMany("InvoiceAccounts")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("dtso.data.Views.vAccount", "vAccount")
                         .WithMany("InvoiceAccounts")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);

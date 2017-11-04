@@ -18,6 +18,10 @@ namespace dtso.data.Entities
         public InvoiceType InvoiceType { get; set; }
 
         public DateTime InvoiceDate { get; set; }
+        public DateTime DatePaid { get; set; }
         public string Description { get; set; }
+
+        public List<Ticket> Tickets { get; set; }
+
     }
 }

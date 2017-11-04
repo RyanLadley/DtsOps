@@ -3,6 +3,6 @@
 @Injectable()
 export class AppSettings {
 
-    serverUrl: string = "http://localhost:52165/"
+    serverUrl: string = "http://localhost:50641/"
 
 }

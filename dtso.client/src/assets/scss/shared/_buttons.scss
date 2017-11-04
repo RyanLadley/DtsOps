@@ -43,9 +43,24 @@
     }
 }
 
+.cancel-button {
+    background: none;
+    border: 2px solid red;
+    color: red;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+    float: right;
+
+    &:hover {
+        background: red;
+        color: white;
+    }
+}
+
 .remove-button {
     color: #cf0f0f;
-    background: white;
     height: auto;
     float: left;
     padding: 0;
@@ -66,7 +81,6 @@
 
 .add-button {
     color: $light-green;
-    background: white;
     float: left;
     padding: 0;
     display: inline-block;

@@ -1,131 +1,136 @@
 <div class="background vendor-details-background "></div>
+<ng-container *ngIf="vendor">
+    <h1 class="title multi-title">{{vendor.name}}</h1>
+    <h2 class="sub-title">Vendor Details</h2>
 
-<h1 class="title multi-title">{{vendor.name}}</h1>
-<h2 class="sub-title">Vendor Details</h2>
-
-<div class="account-details-column vendor-details-section section">
-    <div class="vendor-details">
-        <h2 class="section-title">Summary</h2>
-        <div class="vendor-details-header-bar header-bar">
-            <h3>Basics</h3>
-        </div>
-        <table class="table vendor-basics-table">
-            <tr>
-                <td class="default-size bold">Name</td>
-                <td class="number">{{vendor.name}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Contract Number</td>
-                <td class="number">{{vendor.contractNumber}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Contract Start</td>
-                <td class="number">{{vendor.contractStart | date:'shortDate'}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Contract End</td>
-                <td class="number">{{vendor.contractEnd | date:'shortDate'}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Status</td>
-                <td class="number">{{vendor.status}}</td>
-            </tr>
-        </table>
-        <div class="vendor-details-header-bar header-bar">
-            <h3>Contact</h3>
-        </div>
-        <table class="table vendor-basics-table">
-            <tr>
-                <td class="default-size bold">Point of Contact</td>
-                <td class="number">{{vendor.pointOfContact}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Phone Number</td>
-                <td class="number">{{vendor.phoneNumber}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Website</td>
-                <td class="number">{{vendor.web}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Emai</td>
-                <td class="number">{{vendor.email}}</td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-<div class="vendor-details-table-container section">
-    <h2 class="section-title">Vendor Breakdown</h2>
-    <div class="filter-container vendor-details-header-bar header-bar">
-        <div class="filter" [ngClass]="{'selected-filter' : displayedBreakdown == 'Invoice'}" (click)="setDisplayedBreakdown('Invoice')">
-            <p>Invoices</p>
-        </div>
-        <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Ticket'}" (click)="setDisplayedBreakdown('Ticket')">
-            <p>Tickets</p>
-        </div>
-        <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Material'}" (click)="setDisplayedBreakdown('Material')">
-            <p>Materials</p>
+    <div class="account-details-column vendor-details-section section">
+        <div class="vendor-details">
+            <h2 class="section-title">Summary</h2>
+            <div class="vendor-details-header-bar header-bar">
+                <h3>Basics</h3>
+            </div>
+            <table class="table vendor-basics-table">
+                <tr>
+                    <td class="default-size bold">Name</td>
+                    <td class="number">{{vendor.name}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Contract Number</td>
+                    <td class="number">{{vendor.contractNumber}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Contract Start</td>
+                    <td class="number">{{vendor.contractStart | date:'shortDate'}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Contract End</td>
+                    <td class="number">{{vendor.contractEnd | date:'shortDate'}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Status</td>
+                    <td class="number">{{vendor.status}}</td>
+                </tr>
+            </table>
+            <div class="vendor-details-header-bar header-bar">
+                <h3>Contact</h3>
+            </div>
+            <table class="table vendor-basics-table">
+                <tr>
+                    <td class="default-size bold">Point of Contact</td>
+                    <td class="number">{{vendor.pointOfContact}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Phone Number</td>
+                    <td class="number">{{vendor.phoneNumber}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Website</td>
+                    <td class="number">{{vendor.website}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Email</td>
+                    <td class="number">{{vendor.email}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 
+    <div class="vendor-details-table-container section">
+        <h2 class="section-title">Vendor Breakdown</h2>
+        <div class="filter-container vendor-details-header-bar header-bar">
+            <div class="filter" [ngClass]="{'selected-filter' : displayedBreakdown == 'Invoice'}" (click)="setDisplayedBreakdown('Invoice')">
+                <p>Invoices</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Ticket'}" (click)="setDisplayedBreakdown('Ticket')">
+                <p>Tickets</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Material'}" (click)="setDisplayedBreakdown('Material')">
+                <p>Materials</p>
+            </div>
+        </div>
 
-    <table *ngIf="displayedBreakdown == 'Invoice'" class="vendor-details-table table">
-        <tr class="table-head">
-            <th class="default-size">Account</th>
-            <th class="default-size">Invoice</th>
-            <th class="default-size">Vendor</th>
-            <th class="description">Descrpition</th>
-            <th class="number">Invoice Date</th>
-            <th class="number">Date Paid</th>
-            <th class="number">Expense</th>
-        </tr>
-        <ng-container *ngFor="let invoice of vendor.invoices">
-            <tr [routerLink]="['/invoice', invoice.invoiceId]" class="clickable">
-                <td class="default-size">{{invoice.accountNumber}}</td>
-                <td class="default-size">{{invoice.invoiceNumber}}</td>
-                <td class="default-size">{{invoice.vendor.name}}</td>
-                <td class="description">{{invoice.description}}</td>
-                <td class="number default-size">{{invoice.invoiceDate | date:'shortDate'}}</td>
-                <td class="number default-size">{{invoice.datePaid  | date:'shortDate'}}</td>
-                <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-        </ng-container>
-    </table>
 
-    <table *ngIf="displayedBreakdown == 'Ticket'" class="vendor-details-table table">
-        <tr class="table-head">
-            <th class="default-size">Account</th>
-            <th class="default-size">Ticket Number</th>
-            <th class="default-size">Vendor</th>
-            <th class="default-size">Material</th>
-            <th class="default-size">Amount</th>
-            <th class="number">Cost</th>
-        </tr>
-        <ng-container *ngFor="let ticket of vendor.tickets">
-            <tr class="clickable">
-                <td class="default-size">{{ticket.account | accountName}}</td>
-                <td class="default-size">{{ticket.ticketNumber}}</td>
-                <td class="default-size">{{ticket.vendor.name}}</td>
-                <td class="default-size">{{ticket.material.name}}</td>
-                <td class="default-size">{{ticket.material.amount}} {{ticket.material.unit}}<span *ngIf="ticket.material.amount != 1">s</span></td>
-                <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+        <table *ngIf="displayedBreakdown == 'Invoice'" class="vendor-details-table table">
+            <tr class="table-head">
+                <th class="default-size">Account</th>
+                <th class="default-size">Invoice</th>
+                <th class="default-size">Vendor</th>
+                <th class="default-size">Type</th>
+                <th class="description">Descrpition</th>
+                <th class="number">Invoice Date</th>
+                <th class="number">Date Paid</th>
+                <th class="number">Expense</th>
             </tr>
-        </ng-container>
-    </table>
+            <ng-container *ngFor="let invoice of vendor.invoices">
+                <tr [routerLink]="['/invoice', invoice.invoiceId]" class="clickable">
+                    <td class="default-size">{{invoice.accountNumber}}</td>
+                    <td class="default-size">{{invoice.invoiceNumber}}</td>
+                    <td class="default-size">{{invoice.vendor.name}}</td>
+                    <td class="default-size">{{invoice.invoiceType.name}}</td>
+                    <td class="description">{{invoice.description}}</td>
+                    <td class="number default-size">{{invoice.invoiceDate | date:'shortDate'}}</td>
+                    <td class="number default-size">{{invoice.datePaid  | date:'shortDate'}}</td>
+                    <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
 
-    <table *ngIf="displayedBreakdown == 'Material'" class="vendor-details-table table">
-        <tr class="table-head">
-            <th class="default-size">Material Name</th>
-            <th class="default-size">Unit</th>
-            <th class="number">Cost</th>
-        </tr>
-        <ng-container *ngFor="let material of vendor.materials">
-            <tr class="clickable">
-                <td class="default-size">{{material.name}}</td>
-                <td class="default-size">{{material.unit}}</td>
-                <td class="number">{{material.cost | currency:'USD':true:'1.2-2'}}</td>
+        <table *ngIf="displayedBreakdown == 'Ticket'" class="vendor-details-table table">
+            <tr class="table-head">
+                <th class="default-size">Account</th>
+                <th class="default-size">Ticket Number</th>
+                <th class="default-size">Vendor</th>
+                <th class="default-size">Invoice</th>
+                <th class="default-size">Material</th>
+                <th class="default-size">Quantity</th>
+                <th class="number">Cost</th>
             </tr>
-        </ng-container>
-    </table>
-</div>
+            <ng-container *ngFor="let ticket of vendor.tickets">
+                <tr class="clickable">
+                    <td class="default-size">{{ticket.account | accountName}}</td>
+                    <td class="default-size">{{ticket.ticketNumber}}</td>
+                    <td class="default-size">{{ticket.vendor.name}}</td>
+                    <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoice}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
+                    <td class="default-size">{{ticket.material.name}}</td>
+                    <td class="default-size">{{ticket.quantity}} {{ticket.material.unit}}</td>
+                    <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+
+        <table *ngIf="displayedBreakdown == 'Material'" class="vendor-details-table table">
+            <tr class="table-head">
+                <th class="default-size">Material Name</th>
+                <th class="default-size">Unit</th>
+                <th class="number">Cost</th>
+            </tr>
+            <ng-container *ngFor="let material of vendor.materials">
+                <tr class="clickable">
+                    <td class="default-size">{{material.name}}</td>
+                    <td class="default-size">{{material.unit}}</td>
+                    <td class="number">{{material.cost | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+</ng-container>

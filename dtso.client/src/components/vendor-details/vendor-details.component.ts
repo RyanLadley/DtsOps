@@ -10,13 +10,18 @@ import { ServerRequest } from '../../services/index';
 export class VendorDetailsComponent implements OnInit {
 
     displayedBreakdown: string;
-
-    constructor(private _route: ActivatedRoute, private _router: Router) {
+    vendor: any;
+    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
         
     }
 
     ngOnInit() {
-        this.displayedBreakdown = "Invoice";
+        let urlId = "";
+        this._route.params.subscribe(params => {
+            urlId = params['id']
+        });
+
+        this.getVendor(urlId);
     }
 
     setDisplayedBreakdown(displayed) {
@@ -30,7 +35,17 @@ export class VendorDetailsComponent implements OnInit {
     getStatusIcon(status: string) {
     }
 
-    vendor: any =
+    getVendor(id: string) {
+        this._server.get('api/vendor/' + id).subscribe(
+            response => {
+                this.vendor = response; console.log(response);
+                this.displayedBreakdown = "Invoice";
+            },
+            error => { }
+        )
+    }
+
+    /*vendor: any =
         {
             "name": "Flynn",
             "contractNumber": 9912298,
@@ -151,6 +166,6 @@ export class VendorDetailsComponent implements OnInit {
                     "cost": 3.50
                 }
             ]
-        }
+        }*/
       
 }

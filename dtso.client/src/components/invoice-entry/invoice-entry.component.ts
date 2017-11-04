@@ -9,9 +9,13 @@ import { InvoiceForm, InvoiceAccount, CityAccount } from '../../models/index';
 export class InvoiceEntryComponent implements OnInit {
 
     @Input() accounts: any[]
+    @Input() vendors: any[];
+    @Input() invoiceTypes: any[];
+    @Input() cityAccounts: any[];
 
     invoice: InvoiceForm;
-    constructor(private _serverRequest: ServerRequest) {
+    errorMessage: string;
+    constructor(private _server: ServerRequest) {
 
     }
     ngOnInit(){
@@ -35,19 +39,23 @@ export class InvoiceEntryComponent implements OnInit {
     removeCityAccount(accountIndex: number, cityAccountIndex: number) {
         if (this.invoice.invoiceAccounts[accountIndex].cityAccounts.length > 1) {
             this.invoice.invoiceAccounts[accountIndex].cityAccounts.splice(cityAccountIndex, 1);
-
         }
     }
 
     submitNewInvoice() {
         //Add validation and stuff. Have fun future me
         console.log(this.invoice);
+        this._server.post("api/invoice", this.invoice).subscribe(
+            response => {/*add navigation to the new invoice details */ },
+            error => { this.errorMessage = error }
+        )
     }
 
     //Called whenever an expense is changed in the template
     calculateAccountExpense(accountIndex: number) {
         let sum: number = 0;
-        let cityAccounts = this.invoice.invoiceAccounts[accountIndex].cityAccounts
+        let cityAccounts = this.invoice.invoiceAccounts[accountIndex].cityAccounts;
+
         for (var i = 0; i < cityAccounts.length; i++) {
             sum += cityAccounts[i].expense;
         }

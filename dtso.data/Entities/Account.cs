@@ -17,5 +17,6 @@ namespace dtso.data.Entities
         public RegionalAccountCode RegionalAccountCode { get; set; }
 
         public List<InvoiceAccount> InvoiceAccounts { get; set; }
+        public List<Ticket> Tickets { get; set; }
     }
 }

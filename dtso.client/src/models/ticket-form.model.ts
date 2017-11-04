@@ -11,6 +11,8 @@
 
     constructor() {
         this.material = { cost: 0 };
+        this.cost = 0;
+        this.quantity = 0;
     }
 
 }

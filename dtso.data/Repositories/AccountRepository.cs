@@ -90,5 +90,10 @@ namespace dtso.data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public List<CityAccount> GetCityAccounts()
+        {
+            return _context.CityAccounts.ToList();
+        }
     }
 }

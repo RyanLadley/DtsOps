@@ -1,88 +1,126 @@
 ﻿<div class="background account-backround"></div>
 
-<h1 class="title multi-title">{{account | accountName}}</h1>
-<h2 class="sub-title"> {{account.description}}</h2>
 
-<div class="account-details-column">
-    <div class="account-details-section section">
-        <div class="account-summary">
-            <h2 class="section-title">Account Summary</h2>
+<ng-container *ngIf="account">
+    <h1 class="title multi-title">{{account | accountName}}</h1>
+    <h2 class="sub-title"> {{account.description}}</h2>
+
+    <div class="account-details-column" *ngIf="account">
+        <div class="account-details-section section">
+            <div class="account-summary">
+                <h2 class="section-title">Account Summary</h2>
+                <div class="account-header-bar header-bar">
+                    <h3>MonthlyTotals</h3>
+                </div>
+                <table class="table">
+                    <tr class="table-head">
+                        <th class="default-size">Month</th>
+                        <th class="number">% of Total</th>
+                        <th class="number">Expense</th>
+                    </tr>
+                    <ng-container *ngFor="let month of months; let i = index">
+                        <tr>
+                            <td class="default-size bold">{{month}}</td>
+                            <td class="number">{{account.monthlyDetails[i+1].totalExpense/account.totalBudget | percent:'1.2-2'}}</td>
+                            <td class="number">{{account.monthlyDetails[i+1].totalExpense   | currency:'USD':true:'1.2-2'}}</td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <td class="default-size bold">All</td>
+                        <td class="number">{{account.expedituresToDate/account.totalBudget | percent:'1.2-2'}}</td>
+                        <td class="number">{{account.expedituresToDate   | currency:'USD':true:'1.2-2'}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="account-details-section section">
             <div class="account-header-bar header-bar">
-                <h3>MonthlyTotals</h3>
+                <h3>Budget</h3>
             </div>
             <table class="table">
-                <tr class="table-head">
-                    <th class="default-size">Month</th>
-                    <th class="number">% of Total</th>
-                    <th class="number">Expense</th>
+                <tr>
+                    <td class="default-size bold">Budet</td>
+                    <td class="number">{{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
-                <ng-container *ngFor="let month of months; let i = index">
-                    <tr>
-                        <td class="default-size bold">{{month}}</td>
-                        <td class="number">{{account.monthlyDetails[i+1].totalExpense/account.totalBudget | percent:'1.2'}}</td>
-                        <td class="number">{{account.monthlyDetails[i+1].totalExpense   | currency:'USD':true:'1.2-2'}}</td>
-                    </tr>
-                </ng-container>
+                <tr>
+                    <td class="default-size bold">Expensed</td>
+                    <td class="number">{{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Remaining</td>
+                    <td class="number">{{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
             </table>
         </div>
-
-    </div>
-    <div class="account-details-section section">
-        <div class="account-header-bar header-bar">
-            <h3>Budget</h3>
-        </div>
-        <table class="table">
-            <tr>
-                <td class="default-size bold">Budet</td>
-                <td class="number">{{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Expensed</td>
-                <td class="number">{{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Remaining</td>
-                <td class="number">{{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-         </table>
-    </div>
-</div>
-
-<div class="account-table-container section">
-    <h2 class="section-title">{{months[selectedMonth-1]}} Breakdown</h2>
-    <div class="filter-container account-header-bar header-bar">
-        <div class="filter" id="selected-filter">
-            <p>Invoices</p>
-        </div>
-        <div class="filter">
-            <p>Tickets</p>
-        </div>
-        <div class="filter">
-            <p>Transfers</p>
-        </div>
     </div>
 
+    <div class="account-table-container section">
+        <h2 class="section-title">Breakdown For
+            <select [(ngModel)]="selectedMonth" (change)="selectMonth(selectedMonth)">
+                <option [ngValue]="i" *ngFor="let month of months;let i = index">{{month}}</option>
+                <option value="All">All</option>
+            </select>
+        </h2>
+        <div class="filter-container account-header-bar header-bar">
+            <div class="filter" [ngClass]="{'selected-filter' : displayedBreakdown == 'Invoice'}" (click)="setDisplayedBreakdown('Invoice')">
+                <p>Invoices</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Ticket'}" (click)="setDisplayedBreakdown('Ticket')">
+                <p>Tickets</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedBreakdown == 'Transfer'}" (click)="setDisplayedBreakdown('Transfer')">
+                <p>Transfers</p>
+            </div>
+        </div>
 
-    <table class="table" id="account-details-table">
-        <tr class="table-head">
-            <th class="default-size">Account</th>
-            <th class="default-size">Invoice</th>
-            <th class="default-size">Vendor</th>
-            <th class="description">Descrpition</th>
-            <th class="number">Invoice Date</th>
-            <th class="number">Date Paid</th>
-            <th class="number">Expense</th>
-        </tr>
-        <ng-container *ngFor="let invoice of displayedInvoices">
-            <tr  [routerLink]="['/invoice', invoice.invoiceId]">
-                <td class="default-size">{{invoice.accountNumber}}</td>
-                <td class="default-size">{{invoice.invoiceNumber}}</td>
-                <td class="default-size">{{invoice.vendor.name}}</td>
-                <td class="description">{{invoice.description}}</td>
-                <td class="number default-size">{{invoice.invoiceDate | date:'shortDate'}}</td>
-                <td class="number default-size">{{invoice.datePaid  | date:'shortDate'}}</td>
-                <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
+
+        <table *ngIf="displayedBreakdown == 'Invoice'" class="table account-details-table">
+            <tr class="table-head">
+                <th class="default-size">Account</th>
+                <th class="default-size">Invoice</th>
+                <th class="default-size">Vendor</th>
+                <th class="default-size">Type</th>
+                <th class="description">Descrpition</th>
+                <th class="number">Invoice Date</th>
+                <th class="number">Date Paid</th>
+                <th class="number">Expense</th>
             </tr>
-        </ng-container>
-    </table>
-</div>
+            <ng-container *ngFor="let invoice of displayedInvoices">
+                <tr [routerLink]="['/invoice', invoice.invoiceId]">
+                    <td class="default-size">{{invoice.accountNumber}}</td>
+                    <td class="default-size">{{invoice.invoiceNumber}}</td>
+                    <td class="default-size">{{invoice.vendor.name}}</td>
+                    <td class="default-size">{{invoice.invoiceType.name}}</td>
+                    <td class="description">{{invoice.description}}</td>
+                    <td class="number default-size">{{invoice.invoiceDate | date:'shortDate'}}</td>
+                    <td class="number default-size">{{invoice.datePaid  | date:'shortDate'}}</td>
+                    <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+
+        <table *ngIf="displayedBreakdown == 'Ticket'" class="table account-details-table">
+            <tr class="table-head">
+                <th class="default-size">Account</th>
+                <th class="default-size">Ticket Number</th>
+                <th class="default-size">Vendor</th>
+                <th class="default-size">Invoice</th>
+                <th class="default-size">Material</th>
+                <th class="default-size">Quantity</th>
+                <th class="number">Cost</th>
+            </tr>
+            <ng-container *ngFor="let ticket of displayedTickets">
+                <tr class="clickable">
+                    <td class="default-size">{{ticket.account | accountName}}</td>
+                    <td class="default-size">{{ticket.ticketNumber}}</td>
+                    <td class="default-size">{{ticket.vendor.name}}</td>
+                    <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoice}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
+                    <td class="default-size">{{ticket.material.name}}</td>
+                    <td class="default-size">{{ticket.quantity}} {{ticket.material.unit}}</td>
+                    <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+</ng-container>

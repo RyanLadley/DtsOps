@@ -44,9 +44,9 @@ export class ServerRequest {
             body: payload,
             params: parameters
         }));
-        console.log(requestOptions);
+
         return this._http.request(new Request(requestOptions))
-            .map(response => { console.log(response); return response.text() ? response.json() : {} })
+            .map(response => {return response.text() ? response.json() : {} })
             .catch((error) => { return this._handleError(error); })
     }
 
