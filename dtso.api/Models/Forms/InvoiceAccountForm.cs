@@ -25,7 +25,8 @@ namespace dtso.api.Models.Forms
             invoiceAcount.CityExpenses = new List<CityExpense>();
             foreach(var account in CityAccounts)
             {
-                invoiceAcount.CityExpenses.Add(account.MapToCore(InvoiceAccountId));
+                if(account.CityAccountId > 0)
+                    invoiceAcount.CityExpenses.Add(account.MapToCore(InvoiceAccountId));
             }
 
             return invoiceAcount;

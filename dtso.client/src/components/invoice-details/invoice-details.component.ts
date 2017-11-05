@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServerRequest } from '../../services/index';
-import { InvoiceForm } from '../../models/index';
+import { InvoiceForm, InvoiceAccount } from '../../models/index';
 
 @Component({
     selector: 'invoice-details',
@@ -14,10 +14,14 @@ export class InvoiceDetailsComponent implements OnInit {
     editTable: boolean;
     tempInvoice: any;
     invoice: any;
+    pendingTickets: any[]
 
+    cityExpenseToRemove: number[] = [];
+    invoiceAccountsToRemove: number[] = [];
     //Edit Data
     invoiceTypes: any[];
     vendors: any[];
+    vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
     constructor(private _route: ActivatedRoute, private _server: ServerRequest) {
@@ -62,6 +66,11 @@ export class InvoiceDetailsComponent implements OnInit {
         this.editTable = editing;
         if (editing) {
             this.getEditData();
+            //If we are editing tickets, always get pending just incase the user altered the vendor id in a previous edit
+            if (this.displayedBreakdown == "Tickets") {
+                this.getPendingTickets();
+            }
+
             this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
         }
         else {
@@ -73,6 +82,40 @@ export class InvoiceDetailsComponent implements OnInit {
         return this.editBasics || this.editTable;
     }
 
+    addAccount() {
+        this.invoice.expenses.push({ account: {}, expense: 0, cityExpense: [] });
+    }
+
+    removeAccount(index: number) {
+        if (this.invoice.expenses[index].invoiceAccountId) {
+            this.invoiceAccountsToRemove.push(this.invoice.expenses[index].invoiceAccountId)
+        }
+
+        this.invoice.expenses.splice(index, 1);
+    }
+
+    addTicket(index: number) {
+        this.invoice.tickets.push(this.pendingTickets[index]);
+        this.pendingTickets.splice(index, 1);
+    }
+
+    removeTicket(index: number) {
+        this.pendingTickets.push(this.invoice.tickets[index])
+        this.invoice.tickets.splice(index, 1);
+    }
+
+    addCityAccount(accountIndex: number) {
+        this.invoice.expenses[accountIndex].cityExpense.push({ cityAccountId: undefined, expense: 0});
+    }
+
+    removeCityAccount(accountIndex: number, cityAccountIndex: number) {
+        if (this.invoice.expenses[accountIndex].cityExpense[cityAccountIndex].cityExpenseId) {
+            this.cityExpenseToRemove.push(this.invoice.expenses[accountIndex].cityExpense[cityAccountIndex].cityExpenseId)
+        }
+
+        this.invoice.expenses[accountIndex].cityExpense.splice(cityAccountIndex, 1);
+    }
+
     getInvoice(id: string) {
         this._server.get('api/invoice/' + id).subscribe(
             response => {
@@ -81,6 +124,7 @@ export class InvoiceDetailsComponent implements OnInit {
             error => { }
         )
     }
+    
 
     getEditData() {
         if (!this.invoiceTypes) {
@@ -128,6 +172,13 @@ export class InvoiceDetailsComponent implements OnInit {
         )
     }
 
+    getPendingTickets() {
+        this._server.get('api/ticket/vendor/' + this.invoice.vendor.vendorId +"?onlyPending=true").subscribe(
+            response => { this.pendingTickets = response },
+            error => { }
+        )
+    }
+
     parseDate(dateString: string): Date {
         if (dateString) {
             return new Date(dateString);
@@ -137,16 +188,49 @@ export class InvoiceDetailsComponent implements OnInit {
     }
 
     submitAdjustment() {
-        var invoiceForm = InvoiceForm.MapFromDetials(this.invoice);
+        //This means we are edinting tickets, se we have to send a diffrent call
+        console.log(this.invoice)
+        if (this.editTable && this.displayedBreakdown == "Tickets") {
+            this.submitTicketAdjustments();
+        }
+        else {
+            var invoiceForm = InvoiceForm.MapFromDetials(this.invoice);
 
-        this._server.post('api/invoice/edit', invoiceForm).subscribe(
+            invoiceForm.cityExpensesToRemove = this.cityExpenseToRemove;
+            invoiceForm.invoiceAccountsToRemove = this.invoiceAccountsToRemove;
+
+            this._server.post('api/invoice/edit', invoiceForm).subscribe(
+                response => {
+                    this.invoice = response;
+                    this.editTable = false;
+                    this.editBasics = false;
+                },
+                error => { }
+            )
+        }
+    }
+
+    submitTicketAdjustments() {
+        //We only need the tickets ids so exctract theses
+        var ticketIds = [];
+        for (var i = 0; i < this.invoice.tickets.length; i++) {
+            ticketIds.push(this.invoice.tickets[i].ticketId);
+        }
+
+        //Create a form to send to the server
+        var invoiceForm = {
+            invoiceId: this.invoice.invoiceId,
+            ticketIds: ticketIds
+        }
+
+        this._server.post('api/invoice/tickets', invoiceForm).subscribe(
             response => {
-                console.log(response);
                 this.invoice = response;
                 this.editTable = false;
                 this.editBasics = false;
             },
             error => { }
         )
+
     }
 }

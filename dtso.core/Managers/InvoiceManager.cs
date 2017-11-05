@@ -10,15 +10,20 @@ namespace dtso.core.Managers
     public class InvoiceManager : IInvoiceManager
     {
         private IInvoiceRepository _invoiceRepository;
+        private TicketManager _ticketManager;
 
-        public InvoiceManager(IInvoiceRepository invoiceRepo)
+        public InvoiceManager(IInvoiceRepository invoiceRepo, TicketManager ticketMan)
         {
             _invoiceRepository = invoiceRepo;
+            _ticketManager = ticketMan;
         }
 
         public Invoice GetInvoice(int invoiceId)
         {
-            return Invoice.MapFromEntity(_invoiceRepository.Get(invoiceId));
+            var invoice = Invoice.MapFromEntity(_invoiceRepository.Get(invoiceId));
+            invoice.Tickets = _ticketManager.GetTicketsForInvoice(invoice.InvoiceId);
+
+            return invoice;
         }
 
         /// <summary>
@@ -54,18 +59,13 @@ namespace dtso.core.Managers
             return invoices;
         }
 
-        public string CreateInvoice(Invoice invoice)
+        public int CreateInvoice(Invoice invoice)
         {
             //Add Validation Here
             //Add Serverside Validation Here
-            if (_invoiceRepository.Add(invoice.MapToEntity()))
-            {
-                return "SUCCESS";
-            }
-            else
-            {
-                return "There was an error adding the invoice.";
-            }
+            var invoiceId = _invoiceRepository.Add(invoice.MapToEntity());
+
+            return invoiceId;
 
         }
 
@@ -132,6 +132,24 @@ namespace dtso.core.Managers
                 return account.AccountNumber == accountNumber.AccountNumber;
 
             return false;
+        }
+
+        public Invoice AddTicketsToInvoice(InvoiceTickets invoiceTickets)
+        {
+            _invoiceRepository.AddTicketsToInvoice(invoiceTickets.InvoiceId, invoiceTickets.TicketIds);
+
+            return GetInvoice(invoiceTickets.InvoiceId);
+        }
+
+        public void RemoveCityExpensesFromInvoice(List<int> CityExpensesToRemove)
+        {
+            _invoiceRepository.RemoveCityExpense(CityExpensesToRemove);
+            
+        }
+
+        public void RemoveInvoiceAccounts(List<int> invoiceAccountsToRemove)
+        {
+            _invoiceRepository.RemoveInvoiceAccounts(invoiceAccountsToRemove);
         }
     }
 }

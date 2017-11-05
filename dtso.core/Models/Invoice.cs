@@ -16,6 +16,7 @@ namespace dtso.core.Models
         public DateTime InvoiceDate { get; set; }
         public DateTime DatePaid { get; set; }
         public string Description { get; set; }
+        public List<Ticket> Tickets { get; set; }
 
         public static Invoice MapFromEntity(data.Entities.Invoice entity)
         {
@@ -33,12 +34,17 @@ namespace dtso.core.Models
                 Description = entity.Description
 
             };
-
+            
             invoice.AccountTotals = new List<InvoiceAccountTotal>();
-            foreach(var invoiceAccount in entity.InvoiceAccounts)
+            if(entity.InvoiceAccounts != null)
             {
-                invoice.AccountTotals.Add(InvoiceAccountTotal.MapFromEntity(invoiceAccount));
+                foreach (var invoiceAccount in entity.InvoiceAccounts)
+                {
+                    invoice.AccountTotals.Add(InvoiceAccountTotal.MapFromEntity(invoiceAccount));
+                }
             }
+
+            //Tickets added from outside if the invoice entity due to the cpmplexit of the ticket entity
 
             return invoice;
         }

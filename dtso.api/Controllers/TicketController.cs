@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using dtso.api.Models.Forms;
 using dtso.core.Managers;
+using dtso.api.Models.Responses;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,20 @@ namespace dtso.api.Controllers
 
             return Ok();
         }
-        
+
+        [HttpGet("vendor/{vendorId}")]
+        public IActionResult GetTicketsForVendor(int vendorId, bool onlyPending = false)
+        {
+            var tickets = _ticketManager.GetTicketsForVendor(vendorId, onlyPending);
+
+            var response = new List<TicketBasic>();
+            foreach(var ticket in tickets)
+            {
+                response.Add(TicketBasic.MapFromObject(ticket));
+            }
+
+            return Ok(response);
+        }
+
     }
 }

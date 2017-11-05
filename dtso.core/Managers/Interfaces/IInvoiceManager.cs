@@ -10,7 +10,10 @@ namespace dtso.core.Managers.Interfaces
         List<Invoice> GetInvoicesForVendor(int vendorId);
         Invoice GetInvoice(int invoiceId);
         List<InvoiceType> GetInvoiceTypes();
-        string CreateInvoice(Invoice invoice);
+        int CreateInvoice(Invoice invoice);
         Invoice EditInvoice(Invoice invoice);
+        Invoice AddTicketsToInvoice(InvoiceTickets invoiceTickets);
+        void RemoveCityExpensesFromInvoice(List<int> CityExpensesToRemove);
+        void RemoveInvoiceAccounts(List<int> invoiceAccountsToRemove);
     }
 }

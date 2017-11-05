@@ -5,7 +5,7 @@ namespace dtso.data.Repositories.Interfaces
 {
     public interface IInvoiceRepository
     {
-        bool Add(Invoice invoice);
+        int Add(Invoice invoice);
         int Add(InvoiceAccount invoiceAccount);
         int Add(CityExpense cityExpense);
         Invoice Get(int id);
@@ -16,5 +16,8 @@ namespace dtso.data.Repositories.Interfaces
         int Update(InvoiceAccount invoiceAccount);
         int Update(CityExpense cityExpense);
         List<InvoiceType> GetTypes();
+        int AddTicketsToInvoice(int invoiceId, int[] ticketIds);
+        void RemoveCityExpense(List<int> cityExpensesToRemove);
+        void RemoveInvoiceAccounts(List<int> invoiceAccountsToRemove);
     }
 }

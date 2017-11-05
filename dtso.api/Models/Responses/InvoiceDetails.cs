@@ -20,6 +20,8 @@ namespace dtso.api.Models.Responses
         public string Description { get; set; }
         public decimal TotalExpense { get; set; }
 
+        public List<TicketBasic> Tickets { get; set; }
+
 
         /// <summary>
         /// 
@@ -38,6 +40,13 @@ namespace dtso.api.Models.Responses
                 Description = invoice.Description,
                 Vendor = VendorListing.MapFromObject(invoice.Vendor)
             };
+
+            details.Tickets = new List<TicketBasic>();
+            foreach(var ticket in invoice.Tickets)
+            {
+                details.Tickets.Add(TicketBasic.MapFromObject(ticket));
+            }
+
 
             decimal totalExpense = 0;
             details.Expenses = new List<InvoiceExpense>();

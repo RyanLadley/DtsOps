@@ -26,17 +26,34 @@ namespace dtso.api.Controllers
         [HttpPost]
         public IActionResult CreateInvoice([FromBody] InvoiceForm form)
         {
-            var status = _invoiceManager.CreateInvoice(form.MapToCore());
-            if (status == "SUCCESS")
-                return Ok();
+            var invoiceId = _invoiceManager.CreateInvoice(form.MapToCore());
+            if (invoiceId > 0)
+                return Ok(new { InvoiceId = invoiceId });
             else
-                return BadRequest(status);
+                return BadRequest();
         }
 
         [HttpPost("edit")]
         public IActionResult EditInvoice([FromBody] InvoiceForm form)
         {
+            _invoiceManager.RemoveCityExpensesFromInvoice(form.CityExpensesToRemove);
+            _invoiceManager.RemoveInvoiceAccounts(form.InvoiceAccountsToRemove);
+
             var invoice = _invoiceManager.EditInvoice(form.MapToCore());
+            if (invoice == null)
+                return BadRequest("There Was An Error");
+            else
+            {
+                var response = InvoiceDetails.MapFromObject(invoice);
+                return Ok(response);
+            }
+        }
+
+        [HttpPost("tickets")]
+        public IActionResult AddTicketsToInvoice([FromBody] InvoiceTicketForm form)
+        {
+            var invoice = _invoiceManager.AddTicketsToInvoice(form.MapToCore());
+
             if (invoice == null)
                 return BadRequest("There Was An Error");
             else

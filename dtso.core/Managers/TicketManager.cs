@@ -21,10 +21,10 @@ namespace dtso.core.Managers
             return ticketId;
         }
 
-        public List<Ticket> GetTicketsForVendor(int vendorId)
+        public List<Ticket> GetTicketsForVendor(int vendorId, bool onlyPending = false)
         {
             var tickets = new List<Ticket>();
-            foreach(var ticket in _ticketRepository.GetForVendor(vendorId))
+            foreach(var ticket in _ticketRepository.GetForVendor(vendorId, onlyPending))
             {
                 tickets.Add(Ticket.MapFromEntity(ticket));
             }
@@ -36,6 +36,17 @@ namespace dtso.core.Managers
         {
             var tickets = new List<Ticket>();
             foreach (var ticket in _ticketRepository.GetTicketsForAccount(accountNumber.AccountNumber.Value, accountNumber.SubNo, accountNumber.ShredNo, onlyPending))
+            {
+                tickets.Add(Ticket.MapFromEntity(ticket));
+            }
+
+            return tickets;
+        }
+
+        public List<Ticket> GetTicketsForInvoice(int invoiceId)
+        {
+            var tickets = new List<Ticket>();
+            foreach (var ticket in _ticketRepository.GetTicketsForInvoice(invoiceId))
             {
                 tickets.Add(Ticket.MapFromEntity(ticket));
             }

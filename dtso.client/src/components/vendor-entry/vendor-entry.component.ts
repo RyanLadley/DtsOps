@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ServerRequest } from '../../services/index';
 import { VendorForm, MaterialKnown, MaterialNew } from '../../models/index';

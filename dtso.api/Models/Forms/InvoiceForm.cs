@@ -17,6 +17,10 @@ namespace dtso.api.Models.Forms
         public int VendorId { get; set; }
         public List<InvoiceAccountForm> InvoiceAccounts { get; set; }
 
+        //These Fields are only cent in the adjustments and are not mapped to a core object
+        public List<int> CityExpensesToRemove { get; set; }
+        public List<int> InvoiceAccountsToRemove { get; set; }
+        
         public Invoice MapToCore()
         {
             var invoice = new Invoice()

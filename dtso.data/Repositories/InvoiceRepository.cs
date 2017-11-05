@@ -6,6 +6,7 @@ using dtso.data.Context;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using dtso.data.Repositories.Interfaces;
+using System.Data.SqlClient;
 
 namespace dtso.data.Repositories
 {
@@ -13,23 +14,27 @@ namespace dtso.data.Repositories
     {
         private MainContext _context;
 
+        string sqlRemoveTicketsFromInvoice =
+            "UPDATE Tickets " +
+            "   SET InvoiceId = NULL " +
+            "   WHERE InvoiceId = @invoiceId ";
+
+        string sqlAddTicketToInvoice =
+            "UPDATE Tickets " +
+            "   SET InvoiceId = @invoiceId " +
+            "   WHERE TicketId = @ticketId ";
+
         public InvoiceRepository(MainContext context)
         {
             _context = context;
 
         }
-        public bool Add(Invoice invoice)
+        public int Add(Invoice invoice)
         {
-            try
-            {
-                _context.Invoices.Add(invoice);
-                _context.SaveChanges();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
+            _context.Invoices.Add(invoice);
+            _context.SaveChanges();
+
+            return invoice.InvoiceId;
         }
 
         public Invoice Get(int id)
@@ -44,7 +49,9 @@ namespace dtso.data.Repositories
                 .Include(invoice => invoice.InvoiceAccounts)
                     .ThenInclude(ia => ia.CityExpenses)
                         .ThenInclude(cityExpense => cityExpense.CityAccount);
-            
+
+            //Tickets are added seperatly due to the complexity of the entity
+
             return singleInvoice.FirstOrDefault();
         }
 
@@ -178,6 +185,39 @@ namespace dtso.data.Repositories
             _context.SaveChanges();
 
             return cityExpense.CityExpenseId;
+        }
+
+        public int AddTicketsToInvoice(int invoiceId, int[] ticketIds)
+        {
+            var paramInvoiceId = new SqlParameter("@invoiceId", invoiceId);
+            _context.Database.ExecuteSqlCommand(sqlRemoveTicketsFromInvoice, paramInvoiceId);
+
+            foreach(var ticketId in ticketIds)
+            {
+                var paramTicketId = new SqlParameter("@ticketId", ticketId);
+                _context.Database.ExecuteSqlCommand(sqlAddTicketToInvoice, paramInvoiceId, paramTicketId);
+            }
+
+            return invoiceId;
+        }
+
+        public void RemoveCityExpense(List<int> CityExpensesToRemove)
+        {
+            foreach(var cityExpenseId in CityExpensesToRemove)
+            {
+                var paramCityExpenseId = new SqlParameter("@cityExpenseId", cityExpenseId);
+                _context.Database.ExecuteSqlCommand("DELETE CityExpenses WHERE CityExpenseId = @cityExpenseId", paramCityExpenseId);
+            }
+        }
+
+        public void RemoveInvoiceAccounts(List<int> invoiceAccountsToRemove)
+        {
+            foreach (var invoiceAccountId in invoiceAccountsToRemove)
+            {
+                var paramInvoiceAccountId = new SqlParameter("@invoiceAccountId", invoiceAccountId);
+                _context.Database.ExecuteSqlCommand("DELETE CityExpenses WHERE InvoiceAccountId = @invoiceAccountId", paramInvoiceAccountId);
+                _context.Database.ExecuteSqlCommand("DELETE InvoiceAccounts WHERE InvoiceAccountId = @invoiceAccountId", paramInvoiceAccountId);
+            }
         }
     }
 }

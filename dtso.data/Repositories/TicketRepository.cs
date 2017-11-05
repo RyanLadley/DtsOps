@@ -24,17 +24,31 @@ namespace dtso.data.Repositories
             return ticket.TicketId;
         }
 
-        public List<Ticket> GetForVendor(int vendorId)
+        public List<Ticket> GetForVendor(int vendorId, bool onlyPending)
         {
             return _context.Tickets
-                .Where(ticket => ticket.VendorId == vendorId)
+                .Where(ticket => ticket.VendorId == vendorId && (!onlyPending || (onlyPending && ticket.InvoiceId == null)))
+
                 .Include(ticket => ticket.vAccount)
                 .Include(ticket => ticket.Invoice)
                 .Include(ticket => ticket.Vendor)
                 .Include(ticket => ticket.MaterialVendor)
                     .ThenInclude(materialVendor => materialVendor.Material)
-
                 .ToList();
+        }
+
+        public List<Ticket> GetTicketsForInvoice(int invoiceId)
+        {
+            var tickets =_context.Tickets
+                        .Where(ticket => ticket.InvoiceId == invoiceId)
+
+                    .Include(ticket => ticket.vAccount)
+                    .Include(ticket => ticket.Invoice)
+                    .Include(ticket => ticket.Vendor)
+                    .Include(ticket => ticket.MaterialVendor)
+                        .ThenInclude(materialVendor => materialVendor.Material);
+
+            return tickets.ToList();
         }
 
         public List<Ticket> GetTicketsForAccount(int AccountNumber, int? SubNo, int? ShredNo, bool onlyPending)

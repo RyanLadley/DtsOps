@@ -87,15 +87,17 @@
 
         <table *ngIf="displayedBreakdown == 'Expenses'" class="invoice-details-table table">
             <tr class="table-head">
+                <th *ngIf="editTable"></th>
                 <th class="default-size">Account</th>
                 <th class="number">Expense</th>
             </tr>
-            <ng-container *ngFor="let accountExpense of invoice.expenses">
+            <ng-container *ngFor="let accountExpense of invoice.expenses; let i = index">
                 <tr *ngIf="!editTable">
                     <td class="default-size">{{accountExpense.account | accountName}}</td>
                     <td class="number">{{accountExpense.expense  | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
                 <tr *ngIf="editTable">
+                    <td *ngIf="editTable"><a class=" remove-button button" (click)="removeAccount(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
                     <td class="default-size"><account-select [accounts]="accounts" [(selectedAccountId)]="accountExpense.account.accountId"></account-select></td>
                     <td class="number  div-td">
                         <div class="dollar-input icon-input">
@@ -105,64 +107,82 @@
                     </td>
                 </tr>
             </ng-container>
+            <tr *ngIf="editTable">
+                <td colspan="3"><a class=" add-button button row" (click)="addAccount()"><i class="fa fa-plus-square" aria-hidden="true"></i></a></td>
+            </tr>
         </table>
 
         <table *ngIf="displayedBreakdown == 'Tickets'" class="invoice-details-table table">
             <tr class="table-head">
+                <th *ngIf="editTable"></th>
                 <th class="default-size">Account</th>
                 <th class="default-size">Ticket Number</th>
                 <th class="default-size">Vendor</th>
                 <th class="default-size">Material</th>
                 <th class="number">Cost</th>
             </tr>
-            <ng-container *ngFor="let ticket of invoice.tickets">
-                <tr *ngIf="!editTable">
+            <ng-container *ngFor="let ticket of invoice.tickets; let i = index">
+                <tr>
+                    <td *ngIf="editTable"><a class=" remove-button button" (click)="removeTicket(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>
                     <td class="default-size">{{ticket.vendor.name}}</td>
                     <td class="default-size">{{ticket.material.name}}</td>
                     <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
-                <tr *ngIf="editTable">
-                    <td class="default-size"><account-select [accounts]="accounts" (selectedAccountId)="ticket.account.accountId = $event"></account-select></td>
-                    <td class="default-size"><input type="text" [(ngModel)]="ticket.ticketNumber" placeholder="Ticket Number" required></td>
-                    <td class="default-size">
-                        <select [(ngModel)]="invoice.vendorId" ng-options="vendor.vendor_id as vendor.name for vendor in vendors" required>
-                            <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
-                        </select>
-                    </td>
-                    <td class="default-size">
-                        <select [(ngModel)]="ticket.material.materialId" required>
-                            <option value="" disabled selected hidden>Select a Material</option>
-                        </select>
-                    </td>
-                    <td class="number div-td">
-                        <div class="dollar-input icon-input">
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="ticket.cost" required>
-                        </div>
-                    </td>
-                </tr>
             </ng-container>
+                <ng-container *ngIf="displayedBreakdown == 'Tickets'&& editTable">
+                    <tr>
+                        <th class="default-size" colspan="6"></th>
+                    </tr>
+                    <tr class="table-head">
+                        <th class="default-size" colspan="6">Pending tickets for {{invoice.vendor.name}}</th>
+                    </tr>
+                    <ng-container *ngFor="let ticket of pendingTickets; let j = index">
+                        <tr>
+                            <td *ngIf="editTable"><a class=" add-button button row" (click)="addTicket(j)"><i class="fa fa-plus-square" aria-hidden="true"></i></a></td>
+                            <td class="default-size">{{ticket.account | accountName}}</td>
+                            <td class="default-size">{{ticket.ticketNumber}}</td>
+                            <td class="default-size">{{ticket.vendor.name}}</td>
+                            <td class="default-size">{{ticket.material.name}}</td>
+                            <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+
         </table>
 
 
-
         <table *ngIf="displayedBreakdown == 'cityAccount'" class="invoice-details-table table">
-            <tr class="table-head">
-                <th class="default-size">Citty Account</th>
-                <th class="number">Expense</th>
-            </tr>
-            <ng-container *ngFor="let cityAccount of invoice.cityAccounts">
-                <tr *ngIf="!editTable">
-                    <td class="default-size">{{cityAccount.name}}</td>
-                    <td class="number">{{cityAccount.expense  | currency:'USD':true:'1.2-2'}}</td>
+            <ng-container *ngFor="let account of invoice.expenses; let i = index;">
+                <tr class="table-head">
+                    <th colspan="3">{{account.account | accountName}}</th>
                 </tr>
-                <tr *ngIf="editTable">
-                    <td class="default-size">{{cityAccount.name}}</td>
-                    <td class="number">{{cityAccount.expense  | currency:'USD':true:'1.2-2'}}</td>
+                <ng-container *ngFor="let cityAccount of account.cityExpense; let j = index">
+                    <tr *ngIf="!editTable">
+                        <td></td>
+                        <td class="default-size">{{cityAccount.name}}</td>
+                        <td class="number">{{cityAccount.expense  | currency:'USD':true:'1.2-2'}}</td>
+                    </tr>
+                    <tr *ngIf="editTable">
+                        <td><a class=" remove-button button" (click)="removeCityAccount(i, j)"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
+                        <td class="default-size">
+                            <select [(ngModel)]="cityAccount.cityAccountId" required>
+                                <option [ngValue]="undefined" disabled selected hidden>Select a City Account</option>
+                                <option [ngValue]="newCityAccount.cityAccountId" *ngFor="let newCityAccount of cityAccounts">{{newCityAccount.name}}</option>
+                            </select>
+                        </td>
+                        <td class="number">
+                            <div class="dollar-input icon-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="cityAccount.expense" required>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr  *ngIf="editTable">
+                    <td colspan="3"><a class=" add-button button row" (click)="addCityAccount(i)"><i class="fa fa-plus-square" aria-hidden="true"></i></a></td>
                 </tr>
-
             </ng-container>
         </table>
     </div>

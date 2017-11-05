@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServerRequest } from '../../services/index';
 import { InvoiceForm, InvoiceAccount, CityAccount } from '../../models/index';
 
@@ -15,7 +16,7 @@ export class InvoiceEntryComponent implements OnInit {
 
     invoice: InvoiceForm;
     errorMessage: string;
-    constructor(private _server: ServerRequest) {
+    constructor(private _router: Router, private _server: ServerRequest) {
 
     }
     ngOnInit(){
@@ -46,7 +47,7 @@ export class InvoiceEntryComponent implements OnInit {
         //Add validation and stuff. Have fun future me
         console.log(this.invoice);
         this._server.post("api/invoice", this.invoice).subscribe(
-            response => {/*add navigation to the new invoice details */ },
+            response => { this._router.navigate(['/invoice', response.invoiceId]); },
             error => { this.errorMessage = error }
         )
     }

@@ -26,6 +26,9 @@ namespace dtso.core.Models
 
         public static MaterialVendor MapFromEntity(data.Entities.MaterialVendor entity)
         {
+            if (entity == null)
+                return null;
+
             return new MaterialVendor()
             {
                 MaterialVendorId = entity.MaterialVendorId,

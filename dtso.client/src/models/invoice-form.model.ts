@@ -10,6 +10,9 @@ export class InvoiceForm {
     datePaid: Date;
     description: string;
 
+    cityExpensesToRemove: number[]
+    invoiceAccountsToRemove: number[]
+
     invoiceAccounts: InvoiceAccount[];
 
 
