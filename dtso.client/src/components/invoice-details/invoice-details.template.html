@@ -26,7 +26,7 @@
                     <td class="default-size bold">Vendor</td>
                     <td class="number" *ngIf="!editBasics">{{invoice.vendor.name}}</td>
                     <td class="number" *ngIf="editBasics">
-                        <select [(ngModel)]="invoice.vendor.vendorId" ng-options="vendor.vendor_id as vendor.name for vendor in vendors" required>
+                        <select [(ngModel)]="invoice.vendor.vendorId" required>
                             <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
                             <option [ngValue]="vendor.vendorId" *ngFor="let vendor of vendors">{{vendor.name}}</option>
                         </select>
@@ -122,7 +122,7 @@
                 <th class="number">Cost</th>
             </tr>
             <ng-container *ngFor="let ticket of invoice.tickets; let i = index">
-                <tr>
+                <tr (click)="gotoTicket(ticket.ticketId, editTable)" class="clickable">
                     <td *ngIf="editTable"><a class=" remove-button button" (click)="removeTicket(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>

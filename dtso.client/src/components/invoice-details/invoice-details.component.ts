@@ -24,7 +24,7 @@ export class InvoiceDetailsComponent implements OnInit {
     vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
-    constructor(private _route: ActivatedRoute, private _server: ServerRequest) {
+    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
 
     }
 
@@ -184,6 +184,13 @@ export class InvoiceDetailsComponent implements OnInit {
             return new Date(dateString);
         } else {
             return null;
+        }
+    }
+
+    //This is a function rather than a router link so that we can preform a check if we are editing: we dont want to leave if we are editing
+    gotoTicket(ticketId, editTable) {
+        if (!editTable) {
+            this._router.navigate(['ticket/' + ticketId]);
         }
     }
 

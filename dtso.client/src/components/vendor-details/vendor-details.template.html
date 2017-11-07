@@ -125,7 +125,7 @@
                 <th class="number">Cost</th>
             </tr>
             <ng-container *ngFor="let material of vendor.materials">
-                <tr class="clickable">
+                <tr class="clickable" (click)="gotoMaterial(material.materialId)">
                     <td class="default-size">{{material.name}}</td>
                     <td class="default-size">{{material.unit}}</td>
                     <td class="number">{{material.cost | currency:'USD':true:'1.2-2'}}</td>

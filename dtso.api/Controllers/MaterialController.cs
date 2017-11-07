@@ -31,6 +31,16 @@ namespace dtso.api.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{materialId}")]
+        public IActionResult GetMaterial(int materialId)
+        {
+            var material = _materialManager.GetMaterial(materialId);
+
+            var response = MaterialDetails.MapFromObject(material);
+
+            return Ok(response);
+        }
+
         [HttpGet("vendor/{vendorId}")]
         public IActionResult GetMaterialForVendor(int vendorId)
         {

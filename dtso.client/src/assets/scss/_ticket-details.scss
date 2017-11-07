@@ -1,6 +1,15 @@
-﻿.ticket-details-header-bar{
+﻿
+.ticket-details-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/Cheyenne-Mountain-Zoo.jpg', top, right);
+    background-size: cover;
+}
+.ticket-details-header-bar{
     background: $purple;
     color: white;
+}
+
+.ticket-details-section{
+    min-width: 350px;
 }
 
 .ticket-basics-table {

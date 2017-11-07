@@ -1,5 +1,16 @@
 ﻿import { Routes } from '@angular/router'
-import { HomeComponent, OverviewComponent, AccountDetailsComponent, InvoiceDetailsComponent, DataEntryComponent, VendorOverviewComponent, VendorDetailsComponent, SearchComponent, TicketDetailsComponent } from '../components/index'
+import {
+    HomeComponent,
+    OverviewComponent,
+    AccountDetailsComponent,
+    InvoiceDetailsComponent,
+    DataEntryComponent,
+    VendorOverviewComponent,
+    VendorDetailsComponent,
+    SearchComponent,
+    TicketDetailsComponent,
+    MaterialDetailsComponent
+} from '../components/index'
 
 export const appRoutes = [
     { path: '', component: HomeComponent },
@@ -10,5 +21,6 @@ export const appRoutes = [
     { path: 'vendor', component: VendorOverviewComponent },
     { path: 'vendor/:id', component: VendorDetailsComponent },
     { path: 'search', component: SearchComponent },
-    { path: 'ticket/:id', component: TicketDetailsComponent }
+    { path: 'ticket/:id', component: TicketDetailsComponent },
+    { path: 'material/:id', component: MaterialDetailsComponent }
 ];

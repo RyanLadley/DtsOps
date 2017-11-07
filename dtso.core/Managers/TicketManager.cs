@@ -43,6 +43,13 @@ namespace dtso.core.Managers
             return tickets;
         }
 
+        public Ticket EditTicket(Ticket ticket)
+        {
+            var ticketId = _ticketRepository.Update(ticket.MapToEntity());
+
+            return GetTicket(ticketId);
+        }
+
         public List<Ticket> GetTicketsForInvoice(int invoiceId)
         {
             var tickets = new List<Ticket>();
@@ -52,6 +59,13 @@ namespace dtso.core.Managers
             }
 
             return tickets;
+        }
+
+        public Ticket GetTicket(int ticketId)
+        {
+            var ticket = Ticket.MapFromEntity(_ticketRepository.GetTicket(ticketId));
+
+            return ticket;
         }
     }
 }

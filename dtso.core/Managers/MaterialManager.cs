@@ -39,6 +39,13 @@ namespace dtso.core.Managers
             return materials;
         }
 
+        public Material GetMaterial(int materialId)
+        {
+            var material = Material.MapFromEntity(_materialRepository.GetMaterial(materialId), true);
+
+            return material;
+        }
+
         public List<MaterialVendor> GetMaterialsForVendor(int vendorId)
         {
             var materials = new List<MaterialVendor>();

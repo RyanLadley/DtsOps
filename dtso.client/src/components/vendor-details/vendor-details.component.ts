@@ -45,6 +45,11 @@ export class VendorDetailsComponent implements OnInit {
         )
     }
 
+    //This is a function rather than a router link so that we can preform a check if we are editing: we dont want to leave if we are editing
+    gotoMaterial(materialId) {
+        this._router.navigate(['material/' + materialId]);
+    }
+
     /*vendor: any =
         {
             "name": "Flynn",

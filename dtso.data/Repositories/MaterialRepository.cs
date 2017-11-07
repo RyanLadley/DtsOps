@@ -37,6 +37,15 @@ namespace dtso.data.Repositories
             return _context.Materials.ToList();
         }
 
+        public Material GetMaterial(int materialId)
+        {
+            return _context.Materials
+                .Where(material => material.MaterialId == materialId)
+                .Include(material => material.MaterialVendors)
+                    .ThenInclude(materialVendor => materialVendor.Vendor)
+                .FirstOrDefault();
+        }
+
         public List<MaterialVendor> GetMaterialForVendor(int vendorId)
         {
             return _context.MaterialVendors

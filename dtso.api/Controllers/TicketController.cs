@@ -33,6 +33,15 @@ namespace dtso.api.Controllers
             return Ok();
         }
 
+        [HttpPost("edit")]
+        public IActionResult EditTicket([FromBody] TicketForm form)
+        {
+            var ticket = _ticketManager.EditTicket(form.MapToCore());
+
+            var response = TicketBasic.MapFromObject(ticket);
+            return Ok(response);
+        }
+
         [HttpGet("vendor/{vendorId}")]
         public IActionResult GetTicketsForVendor(int vendorId, bool onlyPending = false)
         {
@@ -43,6 +52,16 @@ namespace dtso.api.Controllers
             {
                 response.Add(TicketBasic.MapFromObject(ticket));
             }
+
+            return Ok(response);
+        }
+
+        [HttpGet("{ticketId}")]
+        public IActionResult GetTicket(int ticketId)
+        {
+            var ticket = _ticketManager.GetTicket(ticketId);
+            
+            var response = TicketBasic.MapFromObject(ticket);
 
             return Ok(response);
         }

@@ -20,7 +20,8 @@ import {
     VendorDetailsComponent,
     AccountSelectComponent,
     TicketDetailsComponent,
-    SearchComponent
+    SearchComponent,
+    MaterialDetailsComponent
 } from '../components/index';
 
 import {
@@ -56,6 +57,7 @@ import { AppSettings } from '../settings/appsettings'
       VendorOverviewComponent,
       VendorDetailsComponent,
       SearchComponent,
+      MaterialDetailsComponent,
       TicketDetailsComponent,
       //Pipes
       AccountNamePipe

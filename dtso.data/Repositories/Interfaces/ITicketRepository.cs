@@ -11,5 +11,7 @@ namespace dtso.data.Repositories.Interfaces
         List<Ticket> GetForVendor(int vendorId, bool onlyPending);
         List<Ticket> GetTicketsForAccount(int AccountNumber, int? SubNo, int? ShredNo, bool onlyPending);
         List<Ticket> GetTicketsForInvoice(int invoiceId);
+        Ticket GetTicket(int ticketId);
+        int Update(Ticket ticket);
     }
 }

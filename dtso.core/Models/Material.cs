@@ -22,13 +22,23 @@ namespace dtso.core.Models
             };
         }
 
-        public static Material MapFromEntity(data.Entities.Material entity)
+        public static Material MapFromEntity(data.Entities.Material entity, bool includeVendor = false)
         {
+            var materialVendors = new List<MaterialVendor>();
+            if (includeVendor)
+            {
+                foreach(var material in entity.MaterialVendors)
+                {
+                    materialVendors.Add(MaterialVendor.MapFromEntity(material, false));
+                }
+            }
+
             return new Material()
             {
                 MaterialId = entity.MaterialId,
                 Name = entity.Name,
-                Unit = entity.Unit
+                Unit = entity.Unit,
+                MaterialVendors = (includeVendor) ? materialVendors : null
             };
         }
     }

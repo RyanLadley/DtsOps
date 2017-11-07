@@ -12,7 +12,7 @@ namespace dtso.core.Models
         public Material Material { get; set; }
 
         public int VendorId { get; set; }
-
+        public Vendor Vendor { get; set; }
         public data.Entities.MaterialVendor MapToEntity()
         {
             return new data.Entities.MaterialVendor()
@@ -24,7 +24,7 @@ namespace dtso.core.Models
             };
         }
 
-        public static MaterialVendor MapFromEntity(data.Entities.MaterialVendor entity)
+        public static MaterialVendor MapFromEntity(data.Entities.MaterialVendor entity, bool includeMaterial = true)
         {
             if (entity == null)
                 return null;
@@ -34,7 +34,8 @@ namespace dtso.core.Models
                 MaterialVendorId = entity.MaterialVendorId,
                 Cost = entity.Cost,
                 VendorId = entity.VendorId,
-                Material = Material.MapFromEntity(entity.Material)
+                Material = (includeMaterial) ? Material.MapFromEntity(entity.Material) : null,
+                Vendor = Vendor.MapFromEntity(entity.Vendor)
             };
         }
     }

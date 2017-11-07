@@ -14,3 +14,4 @@ export * from './vendor-overview/vendor-overview.component';
 export * from './vendor-details/vendor-details.component';
 export * from './ticket-details/ticket-details.component';
 export * from './search/search.component';
+export * from './material-details/material-details.component';

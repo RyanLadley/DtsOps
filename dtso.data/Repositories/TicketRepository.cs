@@ -123,5 +123,26 @@ namespace dtso.data.Repositories
 
             return tickets.ToList();
         }
+
+        public Ticket GetTicket(int ticketId)
+        {
+            return _context.Tickets
+                .Where(ticket => ticket.TicketId == ticketId)
+
+                .Include(ticket => ticket.vAccount)
+                .Include(ticket => ticket.Invoice)
+                .Include(ticket => ticket.Vendor)
+                .Include(ticket => ticket.MaterialVendor)
+                    .ThenInclude(materialVendor => materialVendor.Material)
+                .FirstOrDefault();
+        }
+
+        public int Update(Ticket ticket)
+        {
+            _context.Tickets.Update(ticket);
+            _context.SaveChanges();
+
+            return ticket.TicketId;
+        }
     }
 }

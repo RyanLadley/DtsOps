@@ -1,0 +1,58 @@
+<div class="background material-details-background "></div>
+
+<ng-container *ngIf="material">
+    <h1 class="title multi-title">{{material.name}}</h1>
+    <h2 class="sub-title">Material Details</h2>
+    
+    <div class="account-details-column material-details-section section">
+        <div class="material-details">
+            <div class="material-details-header-bar header-bar">
+                <h3>Material Details</h3>
+
+                <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
+
+                <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
+                <button class="submit-button clickable" *ngIf="editBasics" (click)="submitAdjustment()">Submit Changes</button>
+
+            </div>
+            <table class="table material-basics-table">
+                <tr>
+                    <td class="default-size bold">Material Name</td>
+                    <td class="number" *ngIf="!editBasics">{{material.name}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="material.name" /></td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Units</td>
+                    <td class="number" *ngIf="!editBasics">{{material.unit}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="material.unit" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="material-details-table-container section">
+        <div class="material-details-header-bar header-bar">
+            <h3>Vendor Information</h3>
+
+            <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
+
+            <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
+            <button class="submit-button clickable" *ngIf="editBasics" (click)="submitAdjustment()">Submit Changes</button>
+
+        </div>
+
+        <table class="material-details-table table">
+            <tr class="table-head">
+                <th class="default-size">Vendor</th>
+                <th class="number">Cost</th>
+            </tr>
+            <ng-container *ngFor="let materialVendor of material.materialVendors">
+                <tr>
+                    <td class="default-size">{{materialVendor.vendor.name}}</td>
+                    <td class="number">{{materialVendor.cost  | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+
+    </div>
+</ng-container>

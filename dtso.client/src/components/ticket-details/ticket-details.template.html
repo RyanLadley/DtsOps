@@ -1,38 +1,79 @@
-<div class="background vendor-overview-background "></div>
+<div class="background ticket-details-background "></div>
 
-<h1 class="title multi-title">{{ticket.ticketNumber}}</h1>
-<h2 class="sub-title">{{ticket.vendor.name}} Ticket</h2>
+<ng-container *ngIf="ticket">
+    <h1 class="title multi-title">{{ticket.ticketNumber}}</h1>
+    <h2 class="sub-title">{{ticket.vendor.name}} Ticket</h2>
 
-<div class="account-details-column ticket-details-section section">
-    <div class="ticket-details">
-        <div class="ticket-details-header-bar header-bar">
-            <h3>Ticket Details</h3>
+    <div class="ticket-details-section section">
+        <div class="ticket-details">
+            <div class="ticket-details-header-bar header-bar">
+                <h3>Ticket Details</h3>
+
+                <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
+
+                <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
+                <button class="submit-button clickable" *ngIf="editBasics" (click)="submitTicketAdjustment()">Submit Changes</button>
+
+            </div>
+            <table class="table ticket-basics-table">
+                <tr>
+                    <td class="default-size bold">Ticket Number</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.ticketNumber}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="ticket.ticketNumber"/></td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Account</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.account | accountName}}</td>
+                    <td *ngIf="editBasics"><account-select [accounts]="accounts" [(selectedAccountId)]="ticket.account.accountId"></account-select></td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Vendor</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.vendor.name}}</td>
+                    <td class="number" *ngIf="editBasics">
+                        <select [(ngModel)]="ticket.vendor.vendorId" (change)="getMaterials(ticket.vendor.vendorId)" required>
+                            <option [ngValue]="undefined" disabled selected hidden>Select a Vendor</option>
+                            <option [ngValue]="vendor.vendorId" *ngFor="let vendor of vendors">{{vendor.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Ticket Date</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.date | date:'shortDate'}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="date" [value]="ticket.date | date:'yyyy-MM-dd'" (input)="ticket.date=parseDate($event.target.value)" /></td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Material</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.material.name}}</td>
+                    <td class="number" *ngIf="editBasics">
+                        <select [(ngModel)]="ticket.material.materialVendorId">
+                            <option [ngValue]="" disabled selected hidden>Select a Material</option>
+                            <option [ngValue]="material.materialVendorId" *ngFor="let material of materials">{{material.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Material Amount</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.quantity}} {{ticket.material.unit}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="ticket.quantity" /></td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Cost</td>
+                    <td class="number" *ngIf="!editBasics">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number" *ngIf="editBasics">
+                        <div class="dollar-input icon-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="ticket.cost" required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="default-size bold">Invoice</td>
+                    <td class="number withIcon">
+                        <span class="right"><span *ngIf="ticket.invoice">{{ticket.invoice.invoiceNumber}}</span><span *ngIf="!ticket.invoice">{{"Pending"}}</span> </span>
+                        <a class="remove-button button right" (click)="removeInvoice()" *ngIf="editBasics && ticket.invoice"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <table class="table ticket-basics-table">
-            <tr>
-                <td class="default-size bold">Ticket Number</td>
-                <td class="number">{{ticket.ticketNumber}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Vendor</td>
-                <td class="number">{{ticket.vendor.name}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Material</td>
-                <td class="number">{{ticket.material.name}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Material Amount</td>
-                <td class="number">{{ticket.material.amount}} {{ticket.material.unit}}<span *ngIf="ticket.material.amount != 1">s</span></td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Cost</td>
-                <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-            <tr>
-                <td class="default-size bold">Invoice</td>
-                <td class="number">{{ticket.invoice.invoiceNumber || "Pending"}}</td>
-            </tr>
-        </table>
     </div>
-</div>
+</ng-container>
