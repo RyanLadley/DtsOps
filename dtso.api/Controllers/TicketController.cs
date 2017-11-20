@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using dtso.api.Models.Forms;
 using dtso.core.Managers;
 using dtso.api.Models.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace dtso.api.Controllers
 {
     [Route("api/ticket")]
+    [Authorize]
     public class TicketController : Controller
     {
         private TicketManager _ticketManager;
@@ -22,6 +24,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddTicket([FromBody] List<TicketForm> form)
         {
             foreach(var ticket in form)
@@ -34,6 +37,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpPost("edit")]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditTicket([FromBody] TicketForm form)
         {
             var ticket = _ticketManager.EditTicket(form.MapToCore());

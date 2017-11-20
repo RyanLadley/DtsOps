@@ -1,13 +1,13 @@
 ﻿import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestMethod, RequestOptions, Request, Response } from '@angular/http';
 import { Subject, Observable } from 'rxjs/Rx';
-import { TokenManager } from '../services/token-manager.service';
+import { AuthService } from '../services/auth.service';
 import { AppSettings } from '../settings/appsettings';
 
 @Injectable()
 export class ServerRequest {
 
-    constructor(private _http: Http, private _tokenManager: TokenManager, private _appSettings: AppSettings) {
+    constructor(private _http: Http, private _authService: AuthService, private _appSettings: AppSettings) {
 
     }
 
@@ -28,8 +28,9 @@ export class ServerRequest {
             'Pragma': 'no-cache'
         });
 
-        if (this._tokenManager.getToken()) {
-            headers.append('Authorization', 'Bearer ' + this._tokenManager.getToken())
+        let token = this._authService.getToken()
+        if (token) {
+            headers.append('Authorization', 'Bearer ' + token)
         }
 
         return headers
@@ -47,10 +48,13 @@ export class ServerRequest {
 
         return this._http.request(new Request(requestOptions))
             .map(response => {return response.text() ? response.json() : {} })
-            .catch((error) => { return this._handleError(error); })
+            .catch((error) => { console.log(error); return this._handleError(error); })
     }
 
     private _handleError(error: Response) {
+        if (error.status == 403) {
+        
+        }
         return Observable.throw(error.text() ? error.json() : {})
     }
 

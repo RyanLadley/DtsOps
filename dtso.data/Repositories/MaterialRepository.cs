@@ -6,6 +6,7 @@ using dtso.data.Entities;
 using dtso.data.Context;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace dtso.data.Repositories
 {
@@ -53,6 +54,23 @@ namespace dtso.data.Repositories
                     
                     .Include(materialVendor => materialVendor.Material)
                     .ToList();
+        }
+        
+
+        public int Update(Material material)
+        {
+            _context.Materials.Update(material);
+            _context.SaveChanges();
+
+            return material.MaterialId;
+        }
+
+        public int Update(MaterialVendor materialVendor)
+        {
+            _context.MaterialVendors.Update(materialVendor);
+            _context.SaveChanges();
+
+            return materialVendor.MaterialVendorId;
         }
     }
 }

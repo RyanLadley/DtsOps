@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServerRequest } from '../../services/index';
+import { ServerRequest, AuthService } from '../../services/index';
 import { TicketForm } from '../../models/index';
 @Component({
     selector: 'ticket-details',
@@ -15,8 +15,9 @@ export class TicketDetailsComponent implements OnInit {
     vendors: any[];
     accounts: any[];
     materials: any[];
+    permissions: string;
 
-    constructor(private _route: ActivatedRoute, private _server: ServerRequest) {
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _server: ServerRequest) {
 
     }
 
@@ -27,6 +28,7 @@ export class TicketDetailsComponent implements OnInit {
         });
 
         this.getTicket(urlId);
+        this.permissions = this._authService.getPermissions();
     }
 
     getTicket(urlId) {

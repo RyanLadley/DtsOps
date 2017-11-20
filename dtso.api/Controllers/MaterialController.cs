@@ -1,5 +1,7 @@
-﻿using dtso.api.Models.Responses;
+﻿using dtso.api.Models.Forms;
+using dtso.api.Models.Responses;
 using dtso.core.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 namespace dtso.api.Controllers
 {
     [Route("api/material")]
+    [Authorize]
     public class MaterialController : Controller
     {
         MaterialManager _materialManager;
@@ -41,6 +44,21 @@ namespace dtso.api.Controllers
             return Ok(response);
         }
 
+        [HttpPost("vendor/edit")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditMaterialVendors([FromBody] MaterialVendorsEditForm form)
+        {
+            foreach(var materialVendor in form.MaterialVendors)
+            {
+                _materialManager.UpdateMaterialVendor(materialVendor.MapToCore());
+            }
+
+            var material = _materialManager.GetMaterial(form.MaterialVendors[0].MaterialId);
+            var response = MaterialDetails.MapFromObject(material);
+
+            return Ok(response);
+        }
+
         [HttpGet("vendor/{vendorId}")]
         public IActionResult GetMaterialForVendor(int vendorId)
         {
@@ -51,6 +69,17 @@ namespace dtso.api.Controllers
             {
                 response.Add(MaterialVendorListing.MapFromObject(material));
             }
+            return Ok(response);
+        }
+
+        [HttpPost("edit")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditMaterial([FromBody] MaterialEditForm form)
+        {
+            var material = _materialManager.UpdateMaterial(form.MapToCore());
+
+            var response = MaterialDetails.MapFromObject(material);
+
             return Ok(response);
         }
     }

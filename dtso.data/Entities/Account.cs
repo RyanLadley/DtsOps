@@ -18,5 +18,8 @@ namespace dtso.data.Entities
 
         public List<InvoiceAccount> InvoiceAccounts { get; set; }
         public List<Ticket> Tickets { get; set; }
+
+        public List<Transfer> TransfersFrom { get; set; }
+        public List<Transfer> TransfersTo { get; set; }
     }
 }

@@ -72,11 +72,11 @@
 .ticket-result {
 
     &:hover {
-        border-left: 5px solid $purple;
+        border-left: 5px solid #6800e5;
     }
 
     h3 {
-        color: $purple;
+        color: #6800e5;
     }
 }
 
@@ -87,5 +87,15 @@
 
     h3 {
         color: $orange;
+    }
+}
+
+.material-result {
+    &:hover {
+        border-left: 5px solid #617a83;
+    }
+
+    h3 {
+        color: #617a83;
     }
 }

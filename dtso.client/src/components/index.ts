@@ -1,4 +1,5 @@
 ﻿export * from './app-root/app-root.component';
+export * from './login/login.component';
 export * from './sidebar/sidebar.component';
 export * from './home/home.component';
 export * from './overview/overview.component';
@@ -15,3 +16,4 @@ export * from './vendor-details/vendor-details.component';
 export * from './ticket-details/ticket-details.component';
 export * from './search/search.component';
 export * from './material-details/material-details.component';
+export * from './profile/profile.component';

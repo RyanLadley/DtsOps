@@ -1,5 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { SiteLocation } from '../../models/index';
+import { AuthService } from '../../services/index';
 import { Router } from "@angular/router";
 
 @Component({
@@ -12,7 +13,7 @@ export class SidebarComponent implements OnInit {
     expand: boolean;
     positionStyle: any;
 
-    constructor(private _router: Router) {
+    constructor(private _authService: AuthService, private _router: Router) {
 
     }
 
@@ -20,4 +21,16 @@ export class SidebarComponent implements OnInit {
         this.expand = false;
         this.icons = new SiteLocation(this._router);
     }
+
+    canDisplay(): boolean{
+        return !(this._router.url == "/login")
+    }
+    signOut() {
+        this._authService.logout();
+    }
+
+    getPermissions() {
+        return this._authService.getPermissions();
+    }
+
 }

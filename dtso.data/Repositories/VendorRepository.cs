@@ -51,5 +51,13 @@ namespace dtso.data.Repositories
 
             return vendors;
         }
+
+        public int Update(Vendor vendor)
+        {
+            _context.Vendors.Update(vendor);
+            _context.SaveChanges();
+
+            return vendor.VendorId;
+        }
     }
 }

@@ -25,7 +25,7 @@
     background: -webkit-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
     background: -o-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
     background: -moz-linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
-    background: linear-gradient(left, $color-outer, $color-inner, $color-inner, $color-outer);
+    background: linear-gradient(to left, $color-outer, $color-inner, $color-inner, $color-outer);
 }
 
 @mixin box-shadow($top, $left, $blur, $color, $inset: false) {

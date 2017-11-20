@@ -4,8 +4,11 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { CookieModule } from 'ngx-cookie';
+
 import {
     AppRoot,
+    LoginComponent,
     SidebarComponent,
     HomeComponent,
     OverviewComponent,
@@ -21,13 +24,14 @@ import {
     AccountSelectComponent,
     TicketDetailsComponent,
     SearchComponent,
-    MaterialDetailsComponent
+    MaterialDetailsComponent,
+    ProfileComponent
 } from '../components/index';
 
 import {
     AuthService,
     ServerRequest,
-    TokenManager,
+    CookieManager,
     ObjectSort,
     MonthProvider
 } from '../services/index';
@@ -43,6 +47,7 @@ import { AppSettings } from '../settings/appsettings'
 @NgModule({
   declarations: [
       AppRoot,
+      LoginComponent,
       SidebarComponent,
       HomeComponent,
       OverviewComponent,
@@ -59,6 +64,7 @@ import { AppSettings } from '../settings/appsettings'
       SearchComponent,
       MaterialDetailsComponent,
       TicketDetailsComponent,
+      ProfileComponent,
       //Pipes
       AccountNamePipe
   ],
@@ -67,12 +73,13 @@ import { AppSettings } from '../settings/appsettings'
       HttpModule,
       FormsModule,
       ReactiveFormsModule,
+      CookieModule.forRoot(),
       RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [
       AppSettings,
       ServerRequest,
-      TokenManager,
+      CookieManager,
       AuthService,
       ObjectSort,
       MonthProvider

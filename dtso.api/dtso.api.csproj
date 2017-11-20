@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\dtso.auth\dtso.auth.csproj" />
     <ProjectReference Include="..\dtso.core\dtso.core.csproj" />
     <ProjectReference Include="..\dtso.data\dtso.data.csproj" />
   </ItemGroup>

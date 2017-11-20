@@ -122,5 +122,24 @@
                 </tr>
             </ng-container>
         </table>
+        <table *ngIf="displayedBreakdown == 'Transfer'" class="table account-details-table">
+            <tr class="table-head">
+                <th class="default-size">From Account</th>
+                <th class="default-size">To Account</th>
+                <th class="description">Description</th>
+                <th class="default-size number">Date Created</th>
+                <th class="number">Amount</th>
+            </tr>
+            <ng-container *ngFor="let transfer of displayedTransfers">
+                <tr class="clickable">
+                    <td class="default-size">{{transfer.fromAccount | accountName}}</td>
+                    <td class="default-size">{{transfer.toAccount | accountName}}</td>
+                    <td class="description">{{transfer.description}}</td>
+                    <td class="default-size number">{{transfer.dateCreated  | date:'shortDate'}}</td>
+                    <td class="number">{{transfer.amount | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+
     </div>
 </ng-container>

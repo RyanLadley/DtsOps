@@ -1,25 +1,21 @@
 ﻿import { Injectable, EventEmitter} from '@angular/core';
 import { Router } from '@angular/router'
 import { Subject } from 'rxjs/Subject';
-import { TokenManager } from '../services/token-manager.service';
-import { ServerRequest } from '../services/server-request.service';
+import { CookieManager } from '../services/cookie-manager.service';
 
 @Injectable()
 export class AuthService{
     loginUpdated: Subject<boolean> = new Subject<boolean>();
     isLoggedIn: boolean;
-
-    constructor(private _tokenManager: TokenManager, private router: Router, private _serverRequest: ServerRequest) {
-        /*this._serverRequest.get('authenticate').subscribe(
-            response => { this.loginUpdated.next(true);},
-            error => this.router.navigate(["/login"])
-        );*/
+    user: any;
+    constructor(private _cookieManager: CookieManager, private router: Router) {
     }
 
 
-    loginUser(token: any) {
+    login(token: any) {
         this.isLoggedIn = true;
-        this._tokenManager.saveToken(token.accessToken);
+        this._cookieManager.setToken(token.accessToken, token.expires);
+        this._cookieManager.setUser(token.user, token.expires);
 
         if (this.router.url === "/login") {
             this.router.navigate(["/"]);
@@ -27,13 +23,45 @@ export class AuthService{
         this.loginUpdated.next(true);
     }
 
-    logoutUser() {
+    logout() {
         this.isLoggedIn = false;
-        this._tokenManager.removeToken();
-        
+        this._cookieManager.removeAll();
+        this.user = undefined;
         this.router.navigate(["/login"]);
 
         this.loginUpdated.next(false);
     }
-    
+
+    getToken() {
+        let token = this._cookieManager.getToken();
+
+        if (!token && this.router.url != "/login")
+            this.logout();
+        else
+            return token;
+    }
+
+    getPermissions() {
+        if(this.user == undefined){
+            this.user = this._cookieManager.getUser();
+        }
+
+        return this.user.permissions;
+    }
+
+    getFirstName() {
+        if (this.user == undefined) {
+            this.user = this._cookieManager.getUser();
+        }
+
+        return this.user.firstName;
+    }
+
+    getFullName() {
+        if (this.user == undefined) {
+            this.user = this._cookieManager.getUser();
+        }
+
+        return this.user.firstName + " " +this.user.lastName;
+    }
 }

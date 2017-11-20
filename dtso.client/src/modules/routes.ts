@@ -1,6 +1,7 @@
 ﻿import { Routes } from '@angular/router'
 import {
     HomeComponent,
+    LoginComponent,
     OverviewComponent,
     AccountDetailsComponent,
     InvoiceDetailsComponent,
@@ -9,11 +10,13 @@ import {
     VendorDetailsComponent,
     SearchComponent,
     TicketDetailsComponent,
-    MaterialDetailsComponent
+    MaterialDetailsComponent,
+    ProfileComponent
 } from '../components/index'
 
 export const appRoutes = [
     { path: '', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'overview', component: OverviewComponent },
     { path: 'account/:id', component: AccountDetailsComponent },
     { path: 'invoice/:id', component: InvoiceDetailsComponent },
@@ -22,5 +25,6 @@ export const appRoutes = [
     { path: 'vendor/:id', component: VendorDetailsComponent },
     { path: 'search', component: SearchComponent },
     { path: 'ticket/:id', component: TicketDetailsComponent },
-    { path: 'material/:id', component: MaterialDetailsComponent }
+    { path: 'material/:id', component: MaterialDetailsComponent },
+    { path: 'profile', component: ProfileComponent }
 ];

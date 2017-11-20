@@ -6,7 +6,7 @@ export class SiteLocation {
     entry: boolean;
     reports: boolean;
     vendors: boolean;
-    adjustments: boolean;
+    profile: boolean;
 
     constructor(private _router: Router) {
         this._router.events.subscribe((event) => { this.setLocation()});
@@ -19,7 +19,7 @@ export class SiteLocation {
         if (path === "/") {
             this.home = true;
         }
-        else if (/\/overview*/.test(path) || /\/account*/.test(path)) {
+        else if (/\/overview*/.test(path) || /\/account*/.test(path) || /\/invoice*/.test(path) || /\/ticket*/.test(path) || /\/material*/.test(path)) {
             this.overview = true;
         }
         else if (/\/entry*/.test(path)) {
@@ -31,8 +31,8 @@ export class SiteLocation {
         else if (/\/vendors*/.test(path)) {
             this.vendors = true;
         }
-        else if (/\/adjustments*/.test(path)) {
-            this.adjustments = true;
+        else if (/\/profile*/.test(path)) {
+            this.profile = true;
         };
     }
 
@@ -42,6 +42,6 @@ export class SiteLocation {
         this.entry = false;
         this.reports = false;
         this.vendors = false;
-        this.adjustments = false;
+        this.profile = false;
     }
 }

@@ -12,6 +12,7 @@ export class AccountDetailsComponent implements OnInit{
     displayedBreakdown: string
     displayedInvoices: any = [];
     displayedTickets: any = [];
+    displayedTransfers: any = [];
     months: string[]
     account: any;
 
@@ -56,12 +57,14 @@ export class AccountDetailsComponent implements OnInit{
             for (var i = 0; i < this.months.length; i++) {
                 this.displayedInvoices = this.displayedInvoices.concat(this.account.monthlyDetails[i+1].invoices);
                 this.displayedTickets = this.displayedTickets.concat(this.account.monthlyDetails[i + 1].tickets);
+                this.displayedTransfers = this.displayedTransfers.concat(this.account.monthlyDetails[i + 1].transfers);
             }
         }
         //An Individual Month was selected
         else {
             this.displayedInvoices = this.account.monthlyDetails[this.selectedMonth + 1].invoices
             this.displayedTickets = this.account.monthlyDetails[this.selectedMonth + 1].tickets
+            this.displayedTransfers = this.account.monthlyDetails[this.selectedMonth + 1].transfers
         }
     }
     

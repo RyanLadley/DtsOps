@@ -1,0 +1,127 @@
+<div class="background profile-background"></div>
+
+<h1 class="title">Profile Settings</h1>
+
+<div class="section profile-page-head">
+    <div class="profile-header-bar header-bar">
+        <div class="tab" [ngClass]="{'selected-tab': tab == 'User'}" (click)="selectTab('User')">
+            <h3>User</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-tab': tab == 'Admin'}" (click)="selectTab('Admin')" *ngIf="getPermissions() == 'Admin'">
+            <h3>Administrator</h3>
+        </div>
+        <div class="tab" [ngClass]="{'selected-tab': tab == 'Bug'}" (click)="selectTab('Bug')">
+            <h3>Bug Report</h3>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="tab == 'User'">
+    <div class="account-details-column section">
+        <h2 class="section-title">Profile Manager</h2>
+
+        <div class="profile-header-bar header-bar">
+            <h3>Edit Info</h3>
+        </div>
+        <p class="error red center">{{userError}}</p>
+        <div class="center">
+            <div class="label-input row">
+                <label class="bold">First Name</label>
+                <input class="row" type="text" [(ngModel)]="currentUser.firstName" required>
+            </div>
+            <div class="label-input row ">
+                <label class="bold">Last Name</label>
+                <input class="row" type="text" [(ngModel)]="currentUser.lastName" required>
+            </div>
+            <div class="label-input row ">
+                <label class="bold">Email</label>
+                <input class="row" type="email" [(ngModel)]="currentUser.email" required>
+            </div>
+            <div class="label-input row ">
+                <label class="bold">Password</label>
+                <input class="row" type="password" placeholder="Leave blank to keep current value" [(ngModel)]="currentUser.passphrase" required>
+            </div>
+            <div class="label-input row">
+                <label class="bold">Confirm Password</label>
+                <input class="row" type="password" placeholder="Leave blank to keep current value" [(ngModel)]="currentUser.confirmPassword" required>
+            </div>
+
+            <button class="button standard-button row" (click)="editUserInformation(currentUser)">Edit Information</button>
+        </div>
+    </div>
+</ng-container>
+
+
+<ng-container *ngIf="tab == 'Admin' && getPermissions() == 'Admin'">
+    <div class="account-details-column section">
+        <h2 class="section-title">User Manager</h2>
+
+        <div class="profile-header-bar header-bar">
+            <h3>User Creation</h3>
+        </div>
+        <p class="error red center">{{newUserError}}</p>
+        <div class="center">
+            <div class="label-input row center">
+                <label class="bold">First Name</label>
+                <input class="row" type="text" [(ngModel)]="newUser.firstName" required>
+            </div>
+            <div class="label-input row center">
+                <label class="bold">Last Name</label>
+                <input class="row" type="text" [(ngModel)]="newUser.lastName" required>
+            </div>
+            <div class="label-input row center">
+                <label class="bold">Email</label>
+                <input class="row" type="email" [(ngModel)]="newUser.email" required>
+            </div>
+            <div class="label-input row center">
+                <label class="bold">Password</label>
+                <input class="row" type="password" [(ngModel)]="newUser.passphrase" required>
+            </div>
+            <div class="label-input row center">
+                <label class="bold">Confirm Password</label>
+                <input class="row" type="password" [(ngModel)]="newUser.confirmPassword" required>
+            </div>
+            <div class="label-input row center">
+                <label class="bold">Permissions</label>
+                <select [(ngModel)]="newUser.permissions" class="row center">
+                    <option value="0">Administrator</option>
+                    <option value="1" selected>Standard User</option>
+                </select>
+            </div>
+
+            <button class="button standard-button row" (click)="registerNewUser()">Create User</button>
+        </div>
+
+        <br />
+        <div class="profile-header-bar header-bar">
+            <h3>Edit User</h3>
+        </div>
+    
+        <div class="center">
+            <div class="label-input row center">
+                <label class="bold">User</label>
+                <select [(ngModel)]="editUser" class="row center">
+                    <option [ngValue]="selectedUser" *ngFor="let selectedUser of users">{{selectedUser.firstName}} {{selectedUser.lastName}} - {{selectedUser.email}}</option>
+                </select>
+
+                <div class="label-input row center">
+                    <label class="bold">Change Password</label>
+                    <input class="row" type="password" [(ngModel)]="editUser.password" placeholder="Leave blank to keep current value" required>
+                </div>
+                <div class="label-input row center">
+                    <label class="bold">Confirm Password</label>
+                    <input class="row" type="password" [(ngModel)]="editUser.confirmPassword"  placeholder="Leave blank to keep current value" required>
+                </div>
+                <div class="label-input row center">
+                    <label class="bold">Change Permissions</label>
+                    <select [(ngModel)]="editUser.permissions" class="row center">
+                        <option value="0">Administrator</option>
+                        <option value="1" selected>Standard User</option>
+                    </select>
+                </div>
+
+                <button class="button standard-button row" (click)="editUserInformation(editUser)">Edit User</button>
+            </div>
+        </div>
+    </div>
+</ng-container>

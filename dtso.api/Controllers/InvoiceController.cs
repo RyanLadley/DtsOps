@@ -3,6 +3,7 @@ using dtso.api.Models.Responses;
 using dtso.api.Utilities;
 using dtso.core.Managers.Interfaces;
 using dtso.core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace dtso.api.Controllers
 {
     [Route("api/invoice")]
+    [Authorize]
     public class InvoiceController : Controller
     {
         private IInvoiceManager _invoiceManager;
@@ -24,6 +26,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateInvoice([FromBody] InvoiceForm form)
         {
             var invoiceId = _invoiceManager.CreateInvoice(form.MapToCore());
@@ -34,6 +37,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpPost("edit")]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditInvoice([FromBody] InvoiceForm form)
         {
             _invoiceManager.RemoveCityExpensesFromInvoice(form.CityExpensesToRemove);

@@ -97,3 +97,17 @@
         color: green;
     }
 }
+
+.inverse-button {
+    background: none;
+    color: $blue;
+    padding: 8px;
+    font-size: 15px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+
+    &:hover {
+        background: $blue;
+        color: white;
+    }
+}

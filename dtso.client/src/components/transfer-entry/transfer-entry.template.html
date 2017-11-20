@@ -2,11 +2,11 @@
     <h2 class="section-title">New Account Budget Transfer</h2>
     <h4 class="divide-title">From Account</h4>
     <div class="row">
-        <account-select [accounts]="accounts" (selectedAccountId)="transfer.fromAccountId = $event"></account-select>
+        <account-select [accounts]="accounts" [(selectedAccountId)]="transfer.fromAccountId"></account-select>
     </div>
     <h4 class="divide-title">To Account</h4>
     <div class="row">
-        <account-select [accounts]="accounts" (selectedAccountId)="transfer.toAccountId = $event"></account-select>
+        <account-select [accounts]="accounts" [(selectedAccountId)]="transfer.toAccountId"></account-select>
     </div>
     <div class="label-input">
         <label>Transfer Amount</label>
@@ -20,5 +20,5 @@
         <textarea placeholder="Enter Discription" [(ngModel)]="transfer.description"></textarea>
     </div>
 
-    <button class="submit-button button" (click)="submitNewInvoice()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Transfer</button>
+    <button class="submit-button button" (click)="submitNewTransfer()"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add Transfer</button>
 </div>

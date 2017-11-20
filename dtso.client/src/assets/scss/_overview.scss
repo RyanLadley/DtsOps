@@ -6,7 +6,6 @@
 #overview-table {
     width: 1400px;
     background: #F5F5F5;
-    margin-bottom: 50px;
 
     tr {
         position: relative;
@@ -23,6 +22,19 @@
 
         &:hover {
             background: #D7DCF5;
+        }
+    }
+
+    .add-row {
+        a {
+            float: left;
+            width: auto;
+            margin-right: 10px;
+            color: green;
+        }
+
+        td {
+            width: 100%;
         }
     }
 
@@ -86,4 +98,8 @@
             color: #2020DE;
         }
     }
+}
+
+.overview-button {
+    margin-bottom: 50px;
 }

@@ -35,7 +35,7 @@ namespace dtso.core.Models
                 ShredNo = (view.ShredNo >= 0) ? view.ShredNo : (int?)null,
                 Description = view.Description,
                 AnnualBudget = view.AnnualBudget,
-                Transfers = 0,
+                //Transfers Are populated outside of map,
                 AccountNumber = view.AccountNumber,
                 FundNumber = view.FundNumber,
                 ProjectNumber = view.ProjectNumber,

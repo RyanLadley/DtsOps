@@ -9,11 +9,13 @@
             <div class="ticket-details-header-bar header-bar">
                 <h3>Ticket Details</h3>
 
-                <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
 
-                <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
-                <button class="submit-button clickable" *ngIf="editBasics" (click)="submitTicketAdjustment()">Submit Changes</button>
+                <ng-container *ngIf="permissions=='Admin'">
+                    <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
 
+                    <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
+                    <button class="submit-button clickable" *ngIf="editBasics" (click)="submitTicketAdjustment()">Submit Changes</button>
+                </ng-container>
             </div>
             <table class="table ticket-basics-table">
                 <tr>
@@ -46,7 +48,7 @@
                     <td class="number" *ngIf="!editBasics">{{ticket.material.name}}</td>
                     <td class="number" *ngIf="editBasics">
                         <select [(ngModel)]="ticket.material.materialVendorId">
-                            <option [ngValue]="" disabled selected hidden>Select a Material</option>
+                            <option [ngValue]="undefined" disabled selected hidden>Select a Material</option>
                             <option [ngValue]="material.materialVendorId" *ngFor="let material of materials">{{material.name}}</option>
                         </select>
                     </td>

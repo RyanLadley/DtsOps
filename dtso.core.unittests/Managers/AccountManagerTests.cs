@@ -16,7 +16,7 @@ namespace dtso.core.unittests.Managers
         Mock<IAccountRepository> accountRepositoryMock;
         Mock<IInvoiceManager> invoiceManagerMock;
         AccountManager accountManager;
-        
+        /*
         [TestInitialize]
         public void TestInit()
         {
@@ -33,8 +33,8 @@ namespace dtso.core.unittests.Managers
                 .Returns((vAccount account) => testData.ChildAccounts(account))
                 .Verifiable();
 
-            accountManager = new AccountManager(accountRepositoryMock.Object, invoiceManagerMock.Object);
-        }
+            accountManager = new AccountManager(accountRepositoryMock.Object, invoiceManagerMock.Object, new TransferManager());
+        }*/
 
         [TestMethod]
         [Description("Verified AccountManager.GetOverview() calls the appropriate repository calls")]

@@ -46,6 +46,18 @@ namespace dtso.core.Managers
             return material;
         }
 
+        public void UpdateMaterialVendor(MaterialVendor materialVendor)
+        {
+            if(materialVendor.MaterialVendorId > 0)
+            {
+                _materialRepository.Update(materialVendor.MapToEntity());
+            }
+            else
+            {
+                AddMaterial(materialVendor);
+            }
+        }
+
         public List<MaterialVendor> GetMaterialsForVendor(int vendorId)
         {
             var materials = new List<MaterialVendor>();
@@ -56,6 +68,13 @@ namespace dtso.core.Managers
             }
 
             return materials;
+        }
+
+        public Material UpdateMaterial(Material material)
+        {
+            var materialId = _materialRepository.Update(material.MapToEntity());
+
+            return GetMaterial(materialId);
         }
     }
 }

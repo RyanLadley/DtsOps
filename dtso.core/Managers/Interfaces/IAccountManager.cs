@@ -10,8 +10,9 @@ namespace dtso.core.Managers.Interfaces
         List<Account> GetHierarchy();
         decimal GetExpedituresToDate(AccountNumberTemplate accountNumber);
         Account GetAccountDetails(AccountNumberTemplate accountNumber);
-        List<Account> PopulateExpeditures(List<Account> accounts);
+        List<Account> PopulateHierarchyExpeditures(List<Account> accounts);
 
         List<CityAccount> GetCityAccounts();
+        List<Account> PopulateHierarchyTransfers(List<Account> accounts);
     }
 }

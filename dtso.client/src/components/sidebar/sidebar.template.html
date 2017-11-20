@@ -1,5 +1,5 @@
 
-<div class="sidebar">
+<div class="sidebar" *ngIf="canDisplay()">
     <a [routerLink]="['/']" class="sidebar-image-container">
         <img class="sidebar-image" id="logo-bottom" src="../../assets/images/colorado-springs-logo.png" />
         <img class="sidebar-image" id="logo-top" src="../../assets/images/springs-icon-small.png"/>
@@ -15,7 +15,7 @@
         <h4 class="sidebar-text">Overview</h4>
     </a>
 
-    <a [routerLink]="['/entry']" class="sidebar-item" [ngClass]="{selected : icons.entry}">
+    <a [routerLink]="['/entry']" class="sidebar-item" [ngClass]="{selected : icons.entry}" *ngIf="getPermissions() == 'Admin'">
         <i class="fa fa-keyboard-o fa-lg sidebar-icon" aria-hidden="true"></i>
         <h4 class="sidebar-text">Data Entry</h4>
     </a>
@@ -26,5 +26,14 @@
     <a [routerLink]="['/reports']" class="sidebar-item" [ngClass]="{selected : icons.reports}">
         <i class="fa fa-pie-chart fa-lg sidebar-icon" aria-hidden="true"></i>
         <h4 class="sidebar-text">Reports</h4>
+    </a>
+    <a [routerLink]="['/profile']" class="sidebar-item" [ngClass]="{selected : icons.profile}">
+        <i class="fa fa-user fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Profile</h4>
+    </a>
+
+    <a class="clickable sidebar-item" (click)="signOut()">
+        <i class="fa fa-sign-out fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Sign Out</h4>
     </a>
 </div>

@@ -9,6 +9,8 @@ namespace dtso.data.Repositories.Interfaces
     {
         Material Add(Material material);
         MaterialVendor Add(MaterialVendor materialVendor);
+        int Update(Material material);
+        int Update(MaterialVendor materialVendor);
         List<Material> GetAll();
         List<MaterialVendor> GetMaterialForVendor(int vendorId);
         Material GetMaterial(int materialId);

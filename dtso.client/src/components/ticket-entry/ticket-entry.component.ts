@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ServerRequest } from '../../services/index';
 import { TicketForm } from '../../models/index';
@@ -62,8 +62,7 @@ export class TicketEntryComponent implements OnInit {
 
     submitNewTickets() {
         //Add validation and stuff. Have fun future me
-
-        console.log(this.tickets)
+        
         if (!this.vendorId)
             return;
 

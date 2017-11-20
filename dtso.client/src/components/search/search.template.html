@@ -5,7 +5,7 @@
         <a [routerLink]="['/search']" [queryParams]="{search: searchString || ''}" class="fa fa-search"></a>
         <input type="text" placeholder="Search for an existing invoice, ticket, or vendor" [(ngModel)]="searchString" />
     </div>
-
+    
     <div class="search-header-bar header-bar">
         <div class="tab" [ngClass]="{'selected-filter': filter == 'All'}" (click)="selectFilter('All')">
             <h3>All</h3>

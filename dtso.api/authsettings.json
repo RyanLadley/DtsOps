@@ -1,0 +1,8 @@
+﻿{
+  "TokenSettings": {
+    "Issuer": "Agile-Authentication-Server",
+    "Audience": "Agile-Application-Server",
+    "Expiration": "7.00:00:00", //1 Week
+    "SecurityKey": "098723c0-f90f-4b85-83ad-12babec8c405" //Random GUID
+  }
+}

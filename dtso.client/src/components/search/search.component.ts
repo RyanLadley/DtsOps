@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit {
     results: SearchResult[];
     filter: string;
 
-    constructor(private _route: ActivatedRoute, private _router: Router) {
+    constructor(private _server: ServerRequest, private _route: ActivatedRoute, private _router: Router) {
         
     }
 
@@ -24,20 +24,17 @@ export class SearchComponent implements OnInit {
         
         this.routeSubscription = this._route.queryParams.subscribe(queryParams => {
             this.searchString = queryParams['search'];
+            this.getSearchResults(this.searchString);
         });
         this.filter = "All";
-        this.results = this.getSearchResults(this.searchString);
     }
 
     getSearchResults(search) {
-        let tempResults: SearchResult[] = new Array();
 
-        tempResults.push({id: 1, name: "1234523534", subName: "Grainger", type: "Ticket", expense: 12.25 } as SearchResult);
-        tempResults.push({id: 4, name: "ASGDEGS", subName: "Kewit", type: "Invoice", expense: 12.25, description: "This is a description of a search result" } as SearchResult);
-        tempResults.push({id: 5, name: "Blue Moon", subName: "1221f", type: "Vendor" } as SearchResult);
-
-
-        return tempResults;
+        this._server.get('api/search', null, { searchString: search }).subscribe(
+            response => { this.results = response },
+            error => { }
+        )
     }
 
     selectFilter(newFilter: string) {
@@ -54,6 +51,9 @@ export class SearchComponent implements OnInit {
 
             case "Vendor":
                 return "Vendor Contract " + subName;
+
+            case "Material":
+                return "Material in units of " + subName;
         }
     }
 
@@ -67,6 +67,9 @@ export class SearchComponent implements OnInit {
 
             case "Vendor":
                 return "vendor-result";
+
+            case "Material":
+                return "material-result";
         }
     }
 
@@ -82,6 +85,10 @@ export class SearchComponent implements OnInit {
 
             case "Vendor":
                 this._router.navigate(['/vendor', id]);
+                break;
+
+            case "Material":
+                this._router.navigate(['/material', id]);
                 break;
         }
     }

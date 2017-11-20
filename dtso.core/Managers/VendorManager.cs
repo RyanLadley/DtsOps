@@ -50,5 +50,12 @@ namespace dtso.core.Managers
 
             return vendor;
         }
+
+        public Vendor UpdateVendor(Vendor vendor)
+        {
+            var vendorId = _vendorRepository.Update(vendor.MapToEntity());
+
+            return GetVendorDetails(vendorId);
+        }
     }
 }

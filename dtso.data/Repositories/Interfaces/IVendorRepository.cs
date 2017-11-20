@@ -10,5 +10,6 @@ namespace dtso.data.Repositories.Interfaces
         int Add(Vendor vendor);
         Vendor Get(int vendorId);
         List<Vendor> GetAll(bool withMaterials, bool onlyActive);
+        int Update(Vendor vendor);
     }
 }

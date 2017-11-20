@@ -1,0 +1,30 @@
+<div class="login-background" src="../../assets/images/garden2.jpg"></div>
+
+<div class="login-container">
+    
+</div>
+
+<div class="login-page">
+
+    <div class="login-page-content">
+
+
+        <div class="login">
+            <h1 class="title"> Sign In</h1>
+            <p class="login-error">{{errorMessage}}</p>
+            <div class="login-section">
+                <h3>Email</h3>
+                <input type="email" name="loginEmail" [(ngModel)]="loginForm.email" placeholder="Email" (keyup.enter)="login()" autofocus>
+            </div>
+            <div class="login-section">
+                <h3>Password</h3>
+                <input type="password" [(ngModel)]="loginForm.passphrase" placeholder="Password" (keyup.enter)="login()">
+            </div>
+
+            <div class="login-section">
+                <button class=" standard-button button login-button" type="submit" (click)="login()"> Log In </button>
+            </div>
+        </div>
+    </div>
+
+</div>

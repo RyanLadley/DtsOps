@@ -33,6 +33,17 @@ namespace dtso.api.Utilities
             return basicInvoices;
         }
 
+        public List<TransferBasics> GenerateBasicTransferList(List<Transfer> transfers)
+        {
+            var basicTransfers = new List<TransferBasics>();
+            foreach(var transfer in transfers)
+            {
+                basicTransfers.Add(TransferBasics.MapFromObject(transfer));
+            }
+
+            return basicTransfers;
+        }
+
         public List<TicketBasic> GenerateBasicTicketList(List<Ticket> tickets)
         {
             var basicTickets = new List<TicketBasic>();

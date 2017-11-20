@@ -1,4 +1,5 @@
 ﻿using dtso.data.Entities;
+using dtso.data.StoredProcedures;
 using dtso.data.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,6 +34,8 @@ namespace dtso.data.Context
             modelBuilder = _buildMaterials(modelBuilder);
             modelBuilder = _buildMaterialVendors(modelBuilder);
             modelBuilder = _buildTickets(modelBuilder);
+            modelBuilder = _buildTransfers(modelBuilder);
+            modelBuilder = _buildUser(modelBuilder);
         }
 
 
@@ -47,7 +50,10 @@ namespace dtso.data.Context
         public DbSet<Material> Materials { get; set; }
         public DbSet<MaterialVendor> MaterialVendors { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
+        public DbSet<User> Users { get; set; }
 
+        public virtual DbSet<SearchResult> SearchResults { get; set; }
         public virtual DbSet<vAccount> vAccounts { get; set; }
 
         /// <summary>
@@ -56,6 +62,7 @@ namespace dtso.data.Context
         private ModelBuilder _ignoreViews(ModelBuilder modelBuilder)
         {
             modelBuilder.Ignore<vAccount>();
+            modelBuilder.Ignore<SearchResult>();
 
             return modelBuilder;
         }
@@ -110,7 +117,7 @@ namespace dtso.data.Context
 
             return modelBuilder;
         }
-        
+
         private ModelBuilder _buildRegionalAccountCodes(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RegionalAccountCode>()
@@ -147,7 +154,7 @@ namespace dtso.data.Context
                         .HasDefaultValue(true);
                 }
             );
-            
+
 
             return modelBuilder;
         }
@@ -195,13 +202,14 @@ namespace dtso.data.Context
                 .WithMany(account => account.InvoiceAccounts)
                 .HasForeignKey(ia => ia.AccountId);
 
-            if (!IsMigration){
+            if (!IsMigration)
+            {
                 modelBuilder.Entity<InvoiceAccount>()
                     .HasOne(ia => ia.vAccount)
                     .WithMany(vAccount => vAccount.InvoiceAccounts)
                     .HasForeignKey(ia => ia.AccountId);
             }
-            
+
             modelBuilder.Entity<InvoiceAccount>()
                 .Property(invoiceAccount => invoiceAccount.Expense)
                     .HasDefaultValue(0)
@@ -215,7 +223,7 @@ namespace dtso.data.Context
             modelBuilder.Entity<CityAccount>(entity =>
                 {
                     entity.HasKey(cityAccount => cityAccount.CityAccountId);
-                
+
                 }
             );
 
@@ -313,6 +321,79 @@ namespace dtso.data.Context
                     .HasColumnType("Money");
             }
             );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildTransfers(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Transfer>(entity =>
+            {
+                entity.HasKey(transfer => transfer.TransferId);
+
+                entity.HasOne(transfer => transfer.FromAccount)
+                    .WithMany(account => account.TransfersFrom)
+                    .HasForeignKey(transfer => transfer.FromAccountId);
+
+                entity.HasOne(transfer => transfer.FromvAccount)
+                    .WithMany(account => account.TransfersFrom)
+                    .HasForeignKey(transfer => transfer.FromAccountId);
+
+                entity.HasOne(transfer => transfer.ToAccount)
+                    .WithMany(account => account.TransfersTo)
+                    .HasForeignKey(transfer => transfer.ToAccountId);
+
+                entity.HasOne(transfer => transfer.TovAccount)
+                    .WithMany(account => account.TransfersTo)
+                    .HasForeignKey(transfer => transfer.ToAccountId);
+
+                entity.Property(transfer => transfer.DateCreated)
+                    .HasDefaultValueSql("getdate()");
+                
+                entity.Property(transfer => transfer.Amount)
+                    .HasDefaultValue(0)
+                    .HasColumnType("Money");
+            }
+            );
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildUser(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(user => user.Email)
+                    .IsRequired();
+
+                entity.Property(user => user.Password)
+                    .IsRequired();
+
+                entity.Property(user => user.Salt)
+                    .IsRequired();
+
+                entity.Property(user => user.FirstName)
+                    .IsRequired();
+
+                entity.Property(user => user.LastName)
+                    .IsRequired();
+            });
+
+
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildSearchResult(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SearchResult>(entity =>
+            {
+                entity.HasKey(search => search.Id);
+
+                entity.Property(search => search.Id)
+                    .IsRequired();
+            
+            });
+
 
             return modelBuilder;
         }

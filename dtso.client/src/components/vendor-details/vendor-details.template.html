@@ -8,27 +8,46 @@
             <h2 class="section-title">Summary</h2>
             <div class="vendor-details-header-bar header-bar">
                 <h3>Basics</h3>
+
+                <ng-container *ngIf="permissions=='Admin'">
+                    <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
+
+                    <button class="cancel-button clickable" *ngIf="editBasics" (click)="toggleEditBasics(false)">Cancel</button>
+                    <button class="submit-button clickable" *ngIf="editBasics" (click)="submitAdjustment()">Submit Changes</button>
+                </ng-container>
             </div>
             <table class="table vendor-basics-table">
                 <tr>
                     <td class="default-size bold">Name</td>
-                    <td class="number">{{vendor.name}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.name}}</td>
+                    <td class="number"  *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.name"/></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Contract Number</td>
-                    <td class="number">{{vendor.contractNumber}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.contractNumber}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.contractNumber" /></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Contract Start</td>
-                    <td class="number">{{vendor.contractStart | date:'shortDate'}}</td>
+                    <td class="number" *ngIf="!editBasics">{{vendor.contractStart | date:'shortDate'}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="date"  [value]="vendor.contractStart | date:'yyyy-MM-dd'" (input)="vendor.contractStart=parseDate($event.target.value)" required></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Contract End</td>
-                    <td class="number">{{vendor.contractEnd | date:'shortDate'}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.contractEnd | date:'shortDate'}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="date" [value]="vendor.contractEnd | date:'yyyy-MM-dd'" (input)="vendor.contractEnd=parseDate($event.target.value)" required></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Status</td>
-                    <td class="number">{{vendor.status}}</td>
+                    <td class="number">
+                        {{vendor.status}}
+                        <span class="toggle">
+                            <label class="switch" *ngIf="editBasics">
+                                <input type="checkbox" [(ngModel)] ="vendor.active" (change)="alterStatus(vendor.active)">
+                                <span class="slider round"></span>
+                            </label>
+                        </span>
+                    </td>
                 </tr>
             </table>
             <div class="vendor-details-header-bar header-bar">
@@ -37,19 +56,23 @@
             <table class="table vendor-basics-table">
                 <tr>
                     <td class="default-size bold">Point of Contact</td>
-                    <td class="number">{{vendor.pointOfContact}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.pointOfContact}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.pointOfContact" /></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Phone Number</td>
-                    <td class="number">{{vendor.phoneNumber}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.phoneNumber}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.phoneNumber" /></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Website</td>
-                    <td class="number">{{vendor.website}}</td>
+                    <td class="number"  *ngIf="!editBasics">{{vendor.website}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.website" /></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Email</td>
-                    <td class="number">{{vendor.email}}</td>
+                    <td class="number" *ngIf="!editBasics">{{vendor.email}}</td>
+                    <td class="number" *ngIf="editBasics"><input type="text" [(ngModel)]="vendor.email" /></td>
                 </tr>
             </table>
         </div>
@@ -106,7 +129,7 @@
                 <th class="number">Cost</th>
             </tr>
             <ng-container *ngFor="let ticket of vendor.tickets">
-                <tr class="clickable">
+                <tr [routerLink]="['/ticket', ticket.ticketId]" class="clickable">
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>
                     <td class="default-size">{{ticket.vendor.name}}</td>

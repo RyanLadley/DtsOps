@@ -5,10 +5,12 @@ using dtso.api.Models.Responses;
 using System.Collections.Generic;
 using dtso.core.Models;
 using dtso.api.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dtso.api.Controllers
 {
     [Route("api/account")]
+    [Authorize]
     public class AccountController : Controller
     {
         private IAccountManager _accountManager;
@@ -39,7 +41,8 @@ namespace dtso.api.Controllers
         public IActionResult Overview()
         {
             var accounts = _accountManager.GetHierarchy();
-            accounts = _accountManager.PopulateExpeditures(accounts);
+            accounts = _accountManager.PopulateHierarchyExpeditures(accounts);
+            accounts = _accountManager.PopulateHierarchyTransfers(accounts);
 
             var response = new List<AccountOverview>();
             foreach (var account in accounts)

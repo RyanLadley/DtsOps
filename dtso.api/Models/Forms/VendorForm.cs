@@ -8,6 +8,7 @@ namespace dtso.api.Models.Forms
 {
     public class VendorForm
     {
+        public int VendorId { get; set; }
         public string VendorName { get; set; }
         public string ContractNumber { get; set; }
         public DateTime? ContractStart { get; set; }
@@ -16,7 +17,7 @@ namespace dtso.api.Models.Forms
         public string Email { get; set; }
         public string Website { get; set; }
         public string PhoneNumber { get; set; }
-
+        public bool? Active { get; set; }
         public List<MaterialForm> NewMaterial { get; set; }
         public List<MaterialForm> KnownMaterial { get; set; }
 
@@ -24,6 +25,7 @@ namespace dtso.api.Models.Forms
         {
             return new Vendor()
             {
+                VendorId = this.VendorId,
                 Name = this.VendorName,
                 ContractNumber = this.ContractNumber,
                 ContractStart = this.ContractStart,
@@ -31,7 +33,8 @@ namespace dtso.api.Models.Forms
                 PointOfContact = this.PointOfContact,
                 PhoneNumber = this.PhoneNumber,
                 Email = this.Email,
-                Website = this.Website
+                Website = this.Website,
+                Active = (this.Active.HasValue) ? this.Active.Value : true
             };
         }
     }

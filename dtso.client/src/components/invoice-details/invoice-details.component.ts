@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServerRequest } from '../../services/index';
+import { ServerRequest, AuthService } from '../../services/index';
 import { InvoiceForm, InvoiceAccount } from '../../models/index';
 
 @Component({
@@ -15,6 +15,7 @@ export class InvoiceDetailsComponent implements OnInit {
     tempInvoice: any;
     invoice: any;
     pendingTickets: any[]
+    permissions: string;
 
     cityExpenseToRemove: number[] = [];
     invoiceAccountsToRemove: number[] = [];
@@ -24,7 +25,7 @@ export class InvoiceDetailsComponent implements OnInit {
     vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
-    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
 
     }
 
@@ -38,7 +39,7 @@ export class InvoiceDetailsComponent implements OnInit {
         this.displayedBreakdown = "Expenses";
         this.editBasics = false;
         this.editTable = false;
-        
+        this.permissions = this._authService.getPermissions();
     }
 
     setDisplayedBreakdown(displayed) {
@@ -50,6 +51,10 @@ export class InvoiceDetailsComponent implements OnInit {
         
         this.editBasics = editing;
         if (editing) {
+            if (this.editTable) {
+                this.toggleEditTable(false);
+            }
+
             this.getEditData();
             this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
         }
@@ -65,6 +70,10 @@ export class InvoiceDetailsComponent implements OnInit {
         
         this.editTable = editing;
         if (editing) {
+            if (this.editBasics) {
+                this.toggleEditBasics(false);
+            }
+
             this.getEditData();
             //If we are editing tickets, always get pending just incase the user altered the vendor id in a previous edit
             if (this.displayedBreakdown == "Tickets") {
@@ -196,7 +205,6 @@ export class InvoiceDetailsComponent implements OnInit {
 
     submitAdjustment() {
         //This means we are edinting tickets, se we have to send a diffrent call
-        console.log(this.invoice)
         if (this.editTable && this.displayedBreakdown == "Tickets") {
             this.submitTicketAdjustments();
         }

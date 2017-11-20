@@ -10,6 +10,11 @@ using dtso.data.Repositories.Interfaces;
 using dtso.core.Managers;
 using dtso.core.Managers.Interfaces;
 using dtso.api.Utilities;
+using dtso.auth.Logic.Interfaces;
+using dtso.auth.Logic;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using dtso.auth.Settings;
 
 namespace dtso.api
 {
@@ -23,6 +28,8 @@ namespace dtso.api
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("authsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"authsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
 
@@ -31,8 +38,21 @@ namespace dtso.api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            services.Configure<AuthSettings>(Configuration);
+
             services.AddCors();
             services.AddMvc();
+
+            //Add Support for JWT Tokens
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = _getTokenValidationParams(Configuration);
+            });
 
             //Data
             services.AddScoped<IAccountRepository, AccountRepository>();
@@ -40,13 +60,22 @@ namespace dtso.api
             services.AddScoped<IVendorRepository, VendorRepository>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
-
+            services.AddScoped<ITransferRepository, TransferRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
+            
             //Core
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<IInvoiceManager, InvoiceManager>();
             services.AddScoped<VendorManager>();
             services.AddScoped<MaterialManager>();
             services.AddScoped<TicketManager>();
+            services.AddScoped<TransferManager>();
+
+            //Auth
+            services.AddScoped<IPasswordManager, PasswordManager>();
+            services.AddScoped<TokenManager>();
+            services.AddScoped<IUserRegistrar, UserRegistrar>();
 
             //Api
             services.AddTransient<ResponseGenerator>();
@@ -66,10 +95,44 @@ namespace dtso.api
                 .AllowAnyHeader()
                 .AllowCredentials());
 
+
+            app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseMvc();
+        }
+
+        /// <summary>
+        /// Uses the configuration to get the token settings to congifure the jwt validation 
+        /// </summary>
+        /// <param name="config"></param>
+        private TokenValidationParameters _getTokenValidationParams(IConfigurationRoot config)
+        {
+            var tokenSettings = TokenSettings.parseFromConfig(config);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = tokenSettings.SigningKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = tokenSettings.Issuer,
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = tokenSettings.Audience,
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                //Authentication Roles
+                RoleClaimType = "Permissions"
+            };
+
+            return tokenValidationParameters;
         }
     }
 }

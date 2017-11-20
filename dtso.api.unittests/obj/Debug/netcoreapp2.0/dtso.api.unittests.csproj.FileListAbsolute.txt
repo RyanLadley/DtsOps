@@ -18,3 +18,5 @@ E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.pdb

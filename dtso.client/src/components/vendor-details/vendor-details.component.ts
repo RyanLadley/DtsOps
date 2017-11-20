@@ -2,6 +2,8 @@
 
 import { ActivatedRoute, Router } from '@angular/router'
 import { ServerRequest } from '../../services/index';
+import { VendorForm } from "../../models/index";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'vendor-details',
@@ -11,7 +13,10 @@ export class VendorDetailsComponent implements OnInit {
 
     displayedBreakdown: string;
     vendor: any;
-    constructor(private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
+    tempVendor: any;
+    editBasics: boolean
+    permissions: any;
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
         
     }
 
@@ -22,6 +27,19 @@ export class VendorDetailsComponent implements OnInit {
         });
 
         this.getVendor(urlId);
+        this.permissions = this._authService.getPermissions();
+    }
+
+    toggleEditBasics(editing: boolean) {
+
+        this.editBasics = editing;
+        if (editing) {
+            
+            this.tempVendor = JSON.parse(JSON.stringify(this.vendor));
+        }
+        else {
+            this.vendor = JSON.parse(JSON.stringify(this.tempVendor));
+        }
     }
 
     setDisplayedBreakdown(displayed) {
@@ -45,132 +63,29 @@ export class VendorDetailsComponent implements OnInit {
         )
     }
 
+    alterStatus(active: boolean) {
+        if (active) {
+            this.vendor.status="Active"
+        }
+        else {
+            this.vendor.status = "Inactive";
+        }
+    }
     //This is a function rather than a router link so that we can preform a check if we are editing: we dont want to leave if we are editing
     gotoMaterial(materialId) {
         this._router.navigate(['material/' + materialId]);
     }
 
-    /*vendor: any =
-        {
-            "name": "Flynn",
-            "contractNumber": 9912298,
-            "contractStart": "2016-08-23T12:30:00",
-            "contractEnd": "2017-08-23T12:30:00",
-            "pointOfContact": "Ramsey Abbott",
-            "phoneNumber" : "719-555-2636",
-            "email": "Gould@email.com",
-            "website": "www.Gamble.com",
-            "status": "Inactive",
-            "invoices": [
-                {
-                    "invoiceId": 2,
-                    "invoiceNumber": "17POS/092790A",
-                    "accountNumber": "5221000",
-                    "expense": 20,
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "invoiceType": "Equipment",
-                    "invoiceDate": "2017-08-23T12:30:00",
-                    "description": "Donec vestibulum convallis tortor"
-                },
-                {
-                    "invoiceId": 2,
-                    "invoiceNumber": "17POS/092790A",
-                    "accountNumber": "5221000-3-4",
-                    "expense": 45.23,
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "invoiceType": "Equipment",
-                    "invoiceDate": "2017-08-23T12:30:00",
-                    "description": "unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, "
-                },
-                {
-                    "invoiceId": 3,
-                    "invoiceNumber": "10007558012",
-                    "accountNumber": "5221000",
-                    "expense": 578,
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "invoiceType": "Equipment",
-                    "invoiceDate": "2017-08-23T12:30:00",
-                    "description": "Etiam tincidunt cursus ipsum, vitae consequa"
-                },
-                {
-                    "invoiceId": 3,
-                    "invoiceNumber": "10007558012",
-                    "accountNumber": "5221000-3-4",
-                    "expense": 545.23,
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "invoiceType": "Equipment",
-                    "invoiceDate": "2017-08-23T12:30:00",
-                    "description": "First"
-                }
-            ],
-            "tickets": [
-                {
-                    "ticketId": 1,
-                    "ticketNumber": "657894231ASF",
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "account": {
-                        "accountId": 4,
-                        "accountNumber": 523000,
-                        "subNo": 2,
-                        "shredNo": 5
-                    },
-                    "material": {
-                        "materialId": 2,
-                        "name": "Big ole 2x4 Extra Woody",
-                        "amount": 1,
-                        "unit": "Gallon"
-                    },
-                    "cost": 12.00
-                },
-                {
-                    "ticketId": 3,
-                    "ticketNumber": "6EGHS4231ASF",
-                    "vendor": {
-                        "vendorId": 1,
-                        "name": "Grainger"
-                    },
-                    "account": {
-                        "accountId": 4,
-                        "accountNumber": 523000,
-                        "subNo": 2,
-                        "shredNo": 5
-                    },
-                    "material": {
-                        "materialId": 2,
-                        "name": "Big ole 2x4 Extra Woody",
-                        "amount": 2.6,
-                        "unit": "Ton"
-                    },
-                    "cost": 12.00
-                }
-            ],
-            "materials": [
-                {
-                    "name": "Cold mix for winter patching",
-                    "unit": "Ton",
-                    "cost": 20.23
-                },
-                {
-                    "name": "Plant mixed asphaltic surfacing material grading 3/8 minus plant mix seal (PMS) PG 64-22",
-                    "unit": "Pints",
-                    "cost": 3.50
-                }
-            ]
-        }*/
-      
+    submitAdjustment() {
+        //This means we are edinting tickets, se we have to send a diffrent call
+        var vendorForm = VendorForm.MapFromDetails(this.vendor);
+
+        this._server.post('api/vendor/edit', vendorForm).subscribe(
+            response => {
+                this.vendor = response;
+                this.editBasics = false;
+            },
+            error => { }
+        )
+    }
 }

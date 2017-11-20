@@ -1,0 +1,33 @@
+﻿.profile-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/city-hall.jpg', center, center);
+    background-size: cover;
+}
+
+.profile-page-head {
+    box-sizing: border-box;
+    width: 95%;
+    min-width: 560px;
+}
+
+.profile-header-bar {
+    background: #7f0357;
+    color: white;
+
+    .tab {
+        border-bottom: 5px solid #7f0357;
+
+        &:hover {
+            border-bottom: 5px solid #2a8a7a;
+        }
+    }
+
+    .selected-tab {
+        border-bottom: 5px solid #00ffd4;
+        color: white;
+        text-shadow: 1px 1px 1px #c8c8c8;
+
+        &:hover {
+            border-bottom: 5px solid #00ffd4;
+        }
+    }
+}

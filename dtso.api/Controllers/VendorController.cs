@@ -2,6 +2,7 @@
 using dtso.api.Models.Responses;
 using dtso.api.Utilities;
 using dtso.core.Managers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace dtso.api.Controllers
 {
     [Route("api/vendor")]
+    [Authorize]
     public class VendorController : Controller
     {
         ResponseGenerator _responseGenerator;
@@ -39,6 +41,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateVendor([FromBody] VendorForm form)
         {
             var vendorId = _vendorManager.CreateVendor(form.MapToCore());
@@ -60,10 +63,19 @@ namespace dtso.api.Controllers
                 return BadRequest("There was an error processing your request");
         }
 
+        [HttpPost("edit")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EdirVendor([FromBody] VendorForm form)
+        {
+            var vendor = _vendorManager.UpdateVendor(form.MapToCore());
+            
+            return Ok(VendorDetails.MapFromObject(vendor, _responseGenerator));
+        }
+
         [HttpGet("overview")]
         public IActionResult GetVendorOverview()
         {
-            var vendors = _vendorManager.GetVendors(false);
+            var vendors = _vendorManager.GetVendors(false, false);
 
             var response = new List<VendorOverview>();
             foreach (var vendor in vendors)

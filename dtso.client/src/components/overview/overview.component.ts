@@ -8,7 +8,7 @@ import { ServerRequest } from '../../services/index';
 export class OverviewComponent implements OnInit {
     collapse: boolean;
     accounts: any;
-
+    edit: boolean;
     constructor(private _server: ServerRequest) {
 
     }
@@ -16,7 +16,7 @@ export class OverviewComponent implements OnInit {
     ngOnInit() {
         this.collapse = false;
         this.accounts = this.getAccounts();
-
+        this.edit = false;
         this.toggleCollapse();
     }
 
@@ -42,5 +42,8 @@ export class OverviewComponent implements OnInit {
         )
     }
 
+    toggleAccountEdit() {
+        this.edit = !this.edit
+    }
     
 }
