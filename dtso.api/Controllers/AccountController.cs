@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using dtso.core.Models;
 using dtso.api.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using dtso.api.Models.Forms;
 
 namespace dtso.api.Controllers
 {
@@ -22,6 +23,21 @@ namespace dtso.api.Controllers
             _responseGenerator = responseGenerator;
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult UpdateAccounts([FromBody] List<AccountForm> forms)
+        {
+            var accounts = _accountManager.GetHierarchy();
+
+            var response = new List<AccountListing>();
+            foreach (var account in accounts)
+            {
+                response.Add(AccountListing.MapFromObject(account));
+            }
+
+            return Ok(response);
+        }
 
         [HttpGet]
         public IActionResult GetAccountListing()

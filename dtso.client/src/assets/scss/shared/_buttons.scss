@@ -111,3 +111,31 @@
         color: white;
     }
 }
+
+.inverse-submit-button {
+    background: none;
+    color: $green;
+    padding: 8px;
+    font-size: 15px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+
+    &:hover {
+        background: $green;
+        color: white;
+    }
+}
+
+.inverse-remove-button {
+    background: none;
+    color: $red;
+    padding: 8px;
+    font-size: 15px;
+    margin-top: 20px;
+    @include transition-time(0.3s);
+
+    &:hover {
+        background: $red;
+        color: white;
+    }
+}
