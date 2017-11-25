@@ -1,10 +1,7 @@
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.deps.json
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.runtimeconfig.json
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.runtimeconfig.dev.json
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.dll
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.pdb
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.core.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.data.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.auth.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.core.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.auth.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.core.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.data.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\obj\Debug\netcoreapp2.0\dtso.api.csprojResolveAssemblyReference.cache
@@ -13,5 +10,8 @@ E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\obj\Debug\netcoreapp2.0\dtso.a
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\obj\Debug\netcoreapp2.0\dtso.api.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\obj\Debug\netcoreapp2.0\dtso.api.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\obj\Debug\netcoreapp2.0\dtso.api.pdb
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.auth.dll
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.auth.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.deps.json
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.runtimeconfig.json
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.runtimeconfig.dev.json
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api\bin\Debug\netcoreapp2.0\dtso.api.pdb

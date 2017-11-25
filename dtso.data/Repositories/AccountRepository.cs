@@ -19,9 +19,12 @@ namespace dtso.data.Repositories
             _context = context;
         }
 
-        public vAccount Add(Account account)
+        public int Add(Account account)
         {
-            throw new NotImplementedException();
+            _context.Add(account);
+            _context.SaveChanges();
+
+            return account.AccountId;
         }
 
         public vAccount Get(int accountNumber, int? subNumber, int? shredNumber)
@@ -86,14 +89,22 @@ namespace dtso.data.Repositories
             throw new NotImplementedException();
         }
 
-        public vAccount Update(int id)
+        public int Update(Account account)
         {
-            throw new NotImplementedException();
+            _context.Accounts.Update(account);
+            _context.SaveChanges();
+
+            return account.AccountId;
         }
 
         public List<CityAccount> GetCityAccounts()
         {
             return _context.CityAccounts.ToList();
+        }
+
+        public Account GetEntity(int accountId)
+        {
+            return _context.Accounts.Where(account => account.AccountId == accountId).FirstOrDefault();
         }
     }
 }

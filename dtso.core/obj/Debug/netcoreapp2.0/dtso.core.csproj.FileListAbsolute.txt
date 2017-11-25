@@ -1,11 +1,11 @@
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.core.deps.json
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.core.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.core.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.data.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.data.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.csprojResolveAssemblyReference.cache
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.csproj.CoreCompileInputs.cache
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.AssemblyInfoInputs.cache
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.pdb
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\obj\Debug\netcoreapp2.0\dtso.core.csprojResolveAssemblyReference.cache
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.data.dll
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.core\bin\Debug\netcoreapp2.0\dtso.data.pdb

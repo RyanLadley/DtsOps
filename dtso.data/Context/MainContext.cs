@@ -97,12 +97,10 @@ namespace dtso.data.Context
                 }).IsUnique();
 
             modelBuilder.Entity<Account>()
-                .Property(account => account.SubNo)
-                    .HasDefaultValue(-1);
+                .Property(account => account.SubNo);
 
             modelBuilder.Entity<Account>()
-                .Property(account => account.ShredNo)
-                .HasDefaultValue(-1);
+                .Property(account => account.ShredNo);
 
             modelBuilder.Entity<Account>()
                 .Property(account => account.AnnualBudget)

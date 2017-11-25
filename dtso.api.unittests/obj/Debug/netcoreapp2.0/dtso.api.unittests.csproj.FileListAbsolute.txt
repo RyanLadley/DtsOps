@@ -1,3 +1,7 @@
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.csprojResolveAssemblyReference.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.csproj.CoreCompileInputs.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.AssemblyInfoInputs.cache
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
@@ -7,16 +11,12 @@ E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.api.unittests.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.api.unittests.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.api.dll
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.core.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.data.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.api.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.core.pdb
+E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.pdb
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.data.pdb
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.csprojResolveAssemblyReference.cache
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.csproj.CoreCompileInputs.cache
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.AssemblyInfoInputs.cache
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\obj\Debug\netcoreapp2.0\dtso.api.unittests.pdb
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.dll
-E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.api.unittests\bin\Debug\netcoreapp2.0\dtso.auth.pdb

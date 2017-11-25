@@ -45,5 +45,19 @@ namespace dtso.core.Models
 
             return account;
         }
+
+        public data.Entities.Account MapToEntity(int regionalAccountCodeId)
+        {
+            var account = new data.Entities.Account()
+            {
+                RegionalAccountCodeId = regionalAccountCodeId,
+                SubNo = this.SubNo,
+                ShredNo = this.ShredNo,
+                Description = this.Description,
+                AnnualBudget = this.AnnualBudget
+            };
+
+            return account;
+        }
     }
 }

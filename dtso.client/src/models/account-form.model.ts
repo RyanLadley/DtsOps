@@ -3,22 +3,18 @@
 export class AccountForm {
 
     accountId : number
-    accountNumber :string
-    subNo :string
-    shredNo :string
+    accountNumber :number
+    subNo: number
+    shredNo: number
     description:string
-    annualBudget:string
-
-    childAccounts: AccountForm[]
-    newChildAccounts: AccountForm[]
-
-
+    annualBudget: string
+    parentId: number;
+    
+    
     constructor() {
-        this.childAccounts = [];
-        this.newChildAccounts = []
     }
 
-    static MapFromAccount(account: any) {
+    static MapFromAccount(account: any, parentId: number) {
         var form = new AccountForm();
 
         form.accountId = account.accountId;
@@ -27,7 +23,8 @@ export class AccountForm {
         form.shredNo = account.shredNo;
         form.description = account.description;
         form.annualBudget = account.annualBudget;
-
+        form.parentId = parentId;
+        console.log(parentId)
         return form;
     }
 

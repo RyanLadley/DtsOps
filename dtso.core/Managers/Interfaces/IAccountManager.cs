@@ -14,5 +14,7 @@ namespace dtso.core.Managers.Interfaces
 
         List<CityAccount> GetCityAccounts();
         List<Account> PopulateHierarchyTransfers(List<Account> accounts);
+        void UpdateAccount(Account account);
+        void AddAccount(Account account, int parentId);
     }
 }

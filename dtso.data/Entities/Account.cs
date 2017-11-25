@@ -4,7 +4,7 @@ using System.Text;
 
 namespace dtso.data.Entities
 {
-    //This Class is the see for the "Accounts" view. It should rarely get called  
+    //This Class is the seed for the "Accounts" view. It should rarely get called  
     public class Account
     {
         public int AccountId { get; set; }

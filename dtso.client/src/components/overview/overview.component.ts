@@ -99,37 +99,37 @@ export class OverviewComponent implements OnInit {
     }
 
     submitAccountUpdates() {
-        
+        console.log(this.accounts);
         var accountForms : AccountForm[] = []
         for (var i = 0; i < this.accounts.length; i++) {
-            accountForms.push(AccountForm.MapFromAccount(this.accounts[i]));
+            accountForms.push(AccountForm.MapFromAccount(this.accounts[i], null));
 
             for (var j = 0; j < this.accounts[i].childAccounts.length; j++) {
-                accountForms[i].childAccounts.push(AccountForm.MapFromAccount(this.accounts[i].childAccounts[j]));
+                accountForms.push(AccountForm.MapFromAccount(this.accounts[i].childAccounts[j], this.accounts[i].accountId));
 
-                for (var k = 0; k < this.accounts[i].childAccounts[j].length; k++) {
-                    accountForms[i].childAccounts[j].childAccounts.push(AccountForm.MapFromAccount(this.accounts[i].childAccounts[j].childAccounts[k]));
+                for (var k = 0; k < this.accounts[i].childAccounts[j].childAccounts.length; k++) {
+                    accountForms.push(AccountForm.MapFromAccount(this.accounts[i].childAccounts[j].childAccounts[k], this.accounts[i].childAccounts[j].accountId));
+                }
+
+                if (this.accounts[i].childAccounts[j].newChildAccounts) {
+                    for (var k = 0; k < this.accounts[i].childAccounts[j].newChildAccounts.length; k++) {
+                        accountForms.push(AccountForm.MapFromAccount(this.accounts[i].childAccounts[j].newChildAccounts[k], this.accounts[i].childAccounts[j].accountId));
+                    }
                 }
             }
 
             if (this.accounts[i].newChildAccounts) {
                 for (var j = 0; j < this.accounts[i].newChildAccounts.length; j++) {
-                    accountForms[i].newChildAccounts.push(AccountForm.MapFromAccount(this.accounts[i].newChildAccounts[j]));
-
-                    if (this.accounts[i].newChildAccounts[j].newChildAccounts) {
-                        for (var k = 0; k < this.accounts[i].newChildAccounts[j].newChildAccounts.length; k++) {
-                            accountForms[i].newChildAccounts[j].newChildAccounts.push(AccountForm.MapFromAccount(this.accounts[i].newChildAccounts[j].newChildAccounts[k]));
-                        }
-                    }
-                        
+                    accountForms.push(AccountForm.MapFromAccount(this.accounts[i].newChildAccounts[j], this.accounts[i].accountId));
                 }
             }
         }
 
-        console.log(accountForms);
-
         this._server.post('api/account', accountForms).subscribe(
-            response => {  },
+            response => {
+                this.accounts = response;
+                this.edit = false;
+            },
             error => { }
         )
     }

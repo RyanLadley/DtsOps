@@ -235,5 +235,22 @@ namespace dtso.core.Managers
             
             return total;
         }
+
+        public void UpdateAccount(Account account)
+        {
+            var storedAccount = _accountRepository.GetEntity(account.AccountId);
+
+            storedAccount.Description = account.Description;
+            storedAccount.AnnualBudget = account.AnnualBudget;
+
+            _accountRepository.Update(storedAccount);
+        }
+
+        public void AddAccount(Account account, int parentId)
+        {
+            var parrentAccount = _accountRepository.GetEntity(parentId);
+            
+            _accountRepository.Add(account.MapToEntity(parrentAccount.RegionalAccountCodeId));
+        }
     }
 }

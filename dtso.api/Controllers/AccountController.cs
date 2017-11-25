@@ -28,15 +28,19 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult UpdateAccounts([FromBody] List<AccountForm> forms)
         {
-            var accounts = _accountManager.GetHierarchy();
-
-            var response = new List<AccountListing>();
-            foreach (var account in accounts)
+            foreach(var form in forms)
             {
-                response.Add(AccountListing.MapFromObject(account));
+                if(form.AccountId.HasValue)
+                {
+                    _accountManager.UpdateAccount(form.MapToCore());
+                }
+                else
+                {
+                    _accountManager.AddAccount(form.MapToCore(), form.ParentId.Value);
+                }
             }
 
-            return Ok(response);
+            return Overview();
         }
 
         [HttpGet]

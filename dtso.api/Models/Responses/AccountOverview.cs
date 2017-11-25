@@ -8,6 +8,7 @@ namespace dtso.api.Models.Responses
 {
     public class AccountOverview
     {
+        public int AccountId { get; set; }
         public int AccountNumber { get; set; }
         public int? SubNo { get; set; }
         public int? ShredNo { get; set; }
@@ -38,6 +39,7 @@ namespace dtso.api.Models.Responses
         {
             var overview = new AccountOverview()
             {
+                AccountId = account.AccountId,
                 AccountNumber = account.AccountNumber,
                 SubNo = account.SubNo,
                 ShredNo = account.ShredNo,
