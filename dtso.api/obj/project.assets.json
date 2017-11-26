@@ -3643,7 +3643,7 @@
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/2.0.0": {
-      "sha512": "HBJeUGrDIg+Gt6mIcXnf2nKGSgtJy0fyd0Iz0dcU1/8nCA5Ea3cxVQ7bvMtWKJXdcEMW4R4rEXQ8xp939wN2Ew==",
+      "sha512": "67ae/cGmfB5q61HfkwHD+gZvdpcsWA743wEZo2hAcgX/TQwo3U7nhtpnyLaSR8FfzOgPMpHUAp3O0sCFgkS90g==",
       "type": "package",
       "path": "microsoft.aspnetcore.authentication.jwtbearer/2.0.0",
       "files": [
@@ -3698,7 +3698,7 @@
       ]
     },
     "Microsoft.AspNetCore.Cryptography.KeyDerivation/2.0.0": {
-      "sha512": "Jq1cxdmolE0VJF6K2NiWLKLFrFCMH2tYT1hhrUh8PDqAO4M+JxJP9LB6KJKrg7uBNIryXa1NsDznfWOp20k13Q==",
+      "sha512": "kXszvwovn6Xot8JvRVf5KL9HXHzVVirs9diPkzMDNoPWMvubXRisw1d3T2ETFCgx2MOOhfUu5+LXlybC1ITkOQ==",
       "type": "package",
       "path": "microsoft.aspnetcore.cryptography.keyderivation/2.0.0",
       "files": [
@@ -9772,7 +9772,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leulad\\.nuget\\packages\\": {},
+    "C:\\Users\\leu-lap\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -9781,17 +9781,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\dtso.api.csproj",
+      "projectUniqueName": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.api\\dtso.api.csproj",
       "projectName": "dtso.api",
-      "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\dtso.api.csproj",
-      "packagesPath": "C:\\Users\\leulad\\.nuget\\packages\\",
-      "outputPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\obj\\",
+      "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.api\\dtso.api.csproj",
+      "packagesPath": "C:\\Users\\leu-lap\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\leulad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leu-lap\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9804,14 +9804,14 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj"
+            "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.core\\dtso.core.csproj": {
+              "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.core\\dtso.core.csproj"
             },
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.auth\\dtso.auth.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.auth\\dtso.auth.csproj"
+            "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.auth\\dtso.auth.csproj": {
+              "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.auth\\dtso.auth.csproj"
             },
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj"
+            "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj": {
+              "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj"
             }
           }
         }

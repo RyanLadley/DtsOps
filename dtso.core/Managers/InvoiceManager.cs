@@ -1,5 +1,7 @@
-﻿using dtso.core.Managers.Interfaces;
+﻿using dtso.core.Enums;
+using dtso.core.Managers.Interfaces;
 using dtso.core.Models;
+using dtso.core.Utilties;
 using dtso.data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -59,20 +61,25 @@ namespace dtso.core.Managers
             return invoices;
         }
 
-        public int CreateInvoice(Invoice invoice)
+        public int CreateInvoice(Invoice invoice, ref Error error)
         {
-            //Add Validation Here
-            //Add Serverside Validation Here
+            _validateInvoiceForm(invoice, ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return -1;
+
             var invoiceId = _invoiceRepository.Add(invoice.MapToEntity());
 
             return invoiceId;
 
         }
 
-        public Invoice EditInvoice(Invoice invoice)
+        public Invoice EditInvoice(Invoice invoice, ref Error error)
         {
-            //Add Validation Here
-            //Add Serverside Validation Here
+            _validateInvoiceForm(invoice, ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return null;
 
             //Update Exisint invoice  accounts and city epenses
             var newInvoiceAccounts = new List<InvoiceAccountTotal>();
@@ -107,6 +114,34 @@ namespace dtso.core.Managers
 
         }
 
+        private void _validateInvoiceForm(Invoice invoice, ref Error error)
+        {
+            if (string.IsNullOrEmpty(invoice.InvoiceNumber))
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Invoice Number Must Be Provided";
+            }
+            else if(invoice.InvoiceDate.Year < 2000)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Invoice Date Must Be Provided";
+            }
+            else if (invoice.DatePaid.Year < 2000)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "The Date Paid Must Be Provided";
+            }
+            else if (invoice.InvoiceType.InvoiceTypeId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Invoice Type Must Be Provided";
+            }
+            else if (invoice.Vendor.VendorId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Vendor Must Be Provided";
+            }
+        }
 
         public List<InvoiceType> GetInvoiceTypes()
         {

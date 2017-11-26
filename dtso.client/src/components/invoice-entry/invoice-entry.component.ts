@@ -13,7 +13,7 @@ export class InvoiceEntryComponent implements OnInit {
     @Input() vendors: any[];
     @Input() invoiceTypes: any[];
     @Input() cityAccounts: any[];
-
+    
     invoice: InvoiceForm;
     errorMessage: string;
     constructor(private _router: Router, private _server: ServerRequest) {
@@ -48,7 +48,7 @@ export class InvoiceEntryComponent implements OnInit {
         console.log(this.invoice);
         this._server.post("api/invoice", this.invoice).subscribe(
             response => { this._router.navigate(['/invoice', response.invoiceId]); },
-            error => { this.errorMessage = error }
+            error => { this.errorMessage = error; console.log(error) }
         )
     }
 

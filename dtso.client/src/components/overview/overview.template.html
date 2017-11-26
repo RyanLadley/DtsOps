@@ -127,8 +127,8 @@
                     <td class="number"> - </td>
                 </tr>
             </ng-container>
-            <tr class="shred-row add-row" >
-                <td><span class=" add-button button row" (click)="addShredAccount(i,j)"><i class="fa fa-plus-square" aria-hidden="true"></i></span>Add Shred-Account to {{subAccount.accountNumber}}-{{subAccount.subNo}}</td>    
+            <tr class="shred-row add-row" (click)="addShredAccount(i,j)" >
+                <td><span class=" add-button button row" ><i class="fa fa-plus-square" aria-hidden="true"></i></span>Add Shred-Account to {{subAccount.accountNumber}}-{{subAccount.subNo}}</td>    
             </tr>
         </ng-container>
 
@@ -151,8 +151,8 @@
                 <td class="number"> - </td>
             </tr>
         </ng-container>
-        <tr  class="subaccount-row add-row">
-            <td colspan="7"><span class=" add-button button" (click)="addSubAccount(i)"><i class="fa fa-plus-square" aria-hidden="true"></i></span>  Add Sub-Account to {{account.accountNumber}}</td>
+        <tr  class="subaccount-row add-row" (click)="addSubAccount(i)">
+            <td colspan="7"><span class=" add-button button" ><i class="fa fa-plus-square" aria-hidden="true"></i></span>  Add Sub-Account to {{account.accountNumber}}</td>
         </tr>
     </ng-container>
 </table>

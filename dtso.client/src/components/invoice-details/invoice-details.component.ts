@@ -16,7 +16,7 @@ export class InvoiceDetailsComponent implements OnInit {
     invoice: any;
     pendingTickets: any[]
     permissions: string;
-
+    errorMessage: string;
     cityExpenseToRemove: number[] = [];
     invoiceAccountsToRemove: number[] = [];
     //Edit Data
@@ -220,7 +220,7 @@ export class InvoiceDetailsComponent implements OnInit {
                     this.editTable = false;
                     this.editBasics = false;
                 },
-                error => { }
+                error => { this.errorMessage = error;  console.log(error)}
             )
         }
     }
@@ -244,7 +244,7 @@ export class InvoiceDetailsComponent implements OnInit {
                 this.editTable = false;
                 this.editBasics = false;
             },
-            error => { }
+            error => { this.errorMessage = error; }
         )
 
     }

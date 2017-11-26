@@ -1,8 +1,10 @@
 ﻿using dtso.api.Models.Forms;
 using dtso.api.Models.Responses;
 using dtso.api.Utilities;
+using dtso.core.Enums;
 using dtso.core.Managers.Interfaces;
 using dtso.core.Models;
+using dtso.core.Utilties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,28 +31,32 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CreateInvoice([FromBody] InvoiceForm form)
         {
-            var invoiceId = _invoiceManager.CreateInvoice(form.MapToCore());
-            if (invoiceId > 0)
-                return Ok(new { InvoiceId = invoiceId });
-            else
-                return BadRequest();
+            Error error = new Error();
+            var invoiceId = _invoiceManager.CreateInvoice(form.MapToCore(), ref error);
+            
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
+
+            return Ok(new { InvoiceId = invoiceId });
         }
 
         [HttpPost("edit")]
         [Authorize(Roles = "Admin")]
         public IActionResult EditInvoice([FromBody] InvoiceForm form)
         {
+
+            Error error = new Error();
+
             _invoiceManager.RemoveCityExpensesFromInvoice(form.CityExpensesToRemove);
             _invoiceManager.RemoveInvoiceAccounts(form.InvoiceAccountsToRemove);
 
-            var invoice = _invoiceManager.EditInvoice(form.MapToCore());
-            if (invoice == null)
-                return BadRequest("There Was An Error");
-            else
-            {
-                var response = InvoiceDetails.MapFromObject(invoice);
-                return Ok(response);
-            }
+            var invoice = _invoiceManager.EditInvoice(form.MapToCore(), ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
+            
+            var response = InvoiceDetails.MapFromObject(invoice);
+            return Ok(response);
         }
 
         [HttpPost("tickets")]

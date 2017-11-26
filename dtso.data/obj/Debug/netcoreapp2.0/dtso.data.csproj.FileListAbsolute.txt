@@ -7,3 +7,12 @@ E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.AssemblyInfo.cs
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.dll
 E:\Programing\Projects\NET\DtsOps\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.pdb
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.deps.json
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.dll
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\bin\Debug\netcoreapp2.0\dtso.data.pdb
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.csprojResolveAssemblyReference.cache
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.csproj.CoreCompileInputs.cache
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.AssemblyInfoInputs.cache
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.AssemblyInfo.cs
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.dll
+C:\Users\leu-lap\Desktop\Development\projects\NET\DtsOps\dtso.data\obj\Debug\netcoreapp2.0\dtso.data.pdb
