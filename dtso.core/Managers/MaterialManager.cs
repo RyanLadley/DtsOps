@@ -1,4 +1,6 @@
-﻿using dtso.core.Models;
+﻿using dtso.core.Enums;
+using dtso.core.Models;
+using dtso.core.Utilties;
 using dtso.data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -70,11 +72,30 @@ namespace dtso.core.Managers
             return materials;
         }
 
-        public Material UpdateMaterial(Material material)
+        public Material UpdateMaterial(Material material, ref Error error)
         {
+            _validateMaterial(material, ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return null;
+
             var materialId = _materialRepository.Update(material.MapToEntity());
 
             return GetMaterial(materialId);
+        }
+
+        private void _validateMaterial(Material material, ref Error error)
+        {
+            if (string.IsNullOrEmpty(material.Name))
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Material Name Must Be Provided";
+            }
+            else if (string.IsNullOrEmpty(material.Unit))
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "The Material Unit Must Be Provided";
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using dtso.core.Models;
+﻿using dtso.core.Enums;
+using dtso.core.Models;
+using dtso.core.Utilties;
 using dtso.data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,8 +17,14 @@ namespace dtso.core.Managers
             _transferRepository = transferRepo;
         }
 
-        public int AddTransfer(Transfer transfer)
+        public int AddTransfer(Transfer transfer, ref Error error)
         {
+            _validateTransfer(transfer, ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return -1;
+
+            transfer.Amount = Math.Abs(transfer.Amount); //If a negative nuber is provided, make it positive
             var transferId = _transferRepository.Add(transfer.MapToEntity());
 
             return transferId;
@@ -49,6 +57,23 @@ namespace dtso.core.Managers
             return transfers;
         }
         
-
+        private void _validateTransfer(Transfer transfer, ref Error error)
+        {
+            if(transfer.FromAccount.AccountId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Account To Transfer From Mus Be Selected";
+            }
+            else if (transfer.ToAccount.AccountId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Account To Transfer To Mus Be Selected";
+            }
+            else if (transfer.Amount == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "The Transfer Amount Must Be Greater Than Zero";
+            }
+        }
     }
 }

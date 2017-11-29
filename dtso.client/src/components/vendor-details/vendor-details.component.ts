@@ -16,6 +16,8 @@ export class VendorDetailsComponent implements OnInit {
     tempVendor: any;
     editBasics: boolean
     permissions: any;
+    errorMessage: string;
+
     constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
         
     }
@@ -59,7 +61,7 @@ export class VendorDetailsComponent implements OnInit {
                 this.vendor = response; console.log(response);
                 this.displayedBreakdown = "Invoice";
             },
-            error => { }
+            error => {}
         )
     }
 
@@ -85,7 +87,7 @@ export class VendorDetailsComponent implements OnInit {
                 this.vendor = response;
                 this.editBasics = false;
             },
-            error => { }
+            error => { this.errorMessage = error  }
         )
     }
 }

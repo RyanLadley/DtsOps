@@ -1,7 +1,9 @@
 ﻿using dtso.api.Models.Forms;
 using dtso.api.Models.Responses;
 using dtso.api.Utilities;
+using dtso.core.Enums;
 using dtso.core.Managers;
+using dtso.core.Utilties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -44,8 +46,12 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CreateVendor([FromBody] VendorForm form)
         {
-            var vendorId = _vendorManager.CreateVendor(form.MapToCore());
-           
+            var error = new Error();
+            var vendorId = _vendorManager.CreateVendor(form.MapToCore(), ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
+
             foreach(var material in form.NewMaterial)
             {
                 material.VendorId = vendorId;
@@ -67,8 +73,12 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EdirVendor([FromBody] VendorForm form)
         {
-            var vendor = _vendorManager.UpdateVendor(form.MapToCore());
-            
+            var error = new Error();
+            var vendor = _vendorManager.UpdateVendor(form.MapToCore(), ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
+
             return Ok(VendorDetails.MapFromObject(vendor, _responseGenerator));
         }
 

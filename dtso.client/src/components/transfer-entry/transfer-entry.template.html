@@ -1,5 +1,6 @@
 <div class="section data-entry-section">
     <h2 class="section-title">New Account Budget Transfer</h2>
+    <p class="error">{{errorMessage}}</p>
     <h4 class="divide-title">From Account</h4>
     <div class="row">
         <account-select [accounts]="accounts" [(selectedAccountId)]="transfer.fromAccountId"></account-select>

@@ -1,6 +1,8 @@
 ﻿using dtso.api.Models.Forms;
 using dtso.api.Models.Responses;
+using dtso.core.Enums;
 using dtso.core.Managers;
+using dtso.core.Utilties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -76,7 +78,11 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditMaterial([FromBody] MaterialEditForm form)
         {
-            var material = _materialManager.UpdateMaterial(form.MapToCore());
+            var error = new Error();
+            var material = _materialManager.UpdateMaterial(form.MapToCore(), ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
 
             var response = MaterialDetails.MapFromObject(material);
 

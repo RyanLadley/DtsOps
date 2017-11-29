@@ -16,6 +16,7 @@ export class TicketDetailsComponent implements OnInit {
     accounts: any[];
     materials: any[];
     permissions: string;
+    errorMessage: string;
 
     constructor(private _authService: AuthService, private _route: ActivatedRoute, private _server: ServerRequest) {
 
@@ -33,7 +34,7 @@ export class TicketDetailsComponent implements OnInit {
 
     getTicket(urlId) {
         this._server.get('api/ticket/' + urlId).subscribe(
-            response => { this.ticket = response },
+            response => { this.ticket = response; },
             error => { }
         )
     }
@@ -84,7 +85,7 @@ export class TicketDetailsComponent implements OnInit {
 
     getMaterials(vendorId: number) {
         this._server.get('api/material/vendor/' + vendorId).subscribe(
-            response => { this.materials = response; },
+            response => { this.materials = response;},
             error => { }
         )
     }
@@ -104,8 +105,9 @@ export class TicketDetailsComponent implements OnInit {
             response => {
                 this.ticket = response;
                 this.editBasics = false;
+                this.errorMessage = null;
             },
-            error => { }
+            error => { this.errorMessage = error }
         )
     }
 }

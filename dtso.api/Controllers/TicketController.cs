@@ -7,6 +7,10 @@ using dtso.api.Models.Forms;
 using dtso.core.Managers;
 using dtso.api.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
+using dtso.core.Utilties;
+using dtso.core.Models;
+using System.Collections;
+using dtso.core.Enums;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,11 +31,16 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AddTicket([FromBody] List<TicketForm> form)
         {
+            var error = new Error();
+            List <Ticket> tickets = new List<Ticket>();
             foreach(var ticket in form)
             {
-                if(ticket.IsValid())
-                    _ticketManager.AddTicket(ticket.MapToCore());
+                tickets.Add(ticket.MapToCore());
             }
+
+            _ticketManager.AddTickets(tickets, ref error);
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
 
             return Ok();
         }
@@ -40,7 +49,11 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditTicket([FromBody] TicketForm form)
         {
-            var ticket = _ticketManager.EditTicket(form.MapToCore());
+            var error = new Error();
+            var ticket = _ticketManager.EditTicket(form.MapToCore(), ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return BadRequest(error.Message);
 
             var response = TicketBasic.MapFromObject(ticket);
             return Ok(response);

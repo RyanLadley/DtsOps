@@ -17,14 +17,7 @@ namespace dtso.api.Models.Forms
         public double Quantity { get; set; }
         public decimal Cost { get; set; }
         public int? InvoiceId { get; set; }
-
-        public bool IsValid()
-        {
-            return VendorId > 0
-                && AccountId > 0
-                && Material.MaterialVendorId > 0
-                && Quantity > 0;
-        }
+        
         public Ticket MapToCore()
         {
             return new Ticket()

@@ -48,7 +48,8 @@ export class InvoiceDetailsComponent implements OnInit {
     }
 
     toggleEditBasics(editing: boolean) {
-        
+
+        this.errorMessage = null;
         this.editBasics = editing;
         if (editing) {
             if (this.editTable) {
@@ -64,6 +65,8 @@ export class InvoiceDetailsComponent implements OnInit {
     }
 
     toggleEditTable(editing: boolean) {
+
+        this.errorMessage = null;
         //This is so when we switch tabs, we can call the toggle without issue
         if (!this.editTable && !editing)
             return;
@@ -134,6 +137,14 @@ export class InvoiceDetailsComponent implements OnInit {
         )
     }
     
+    getCoversheet() {
+        this._server.get('api/document/coversheet/invoice/' + this.invoice.invoiceId).subscribe(
+            response => {
+                console.log(response);
+            },
+            error => { }
+        )
+    }
 
     getEditData() {
         if (!this.invoiceTypes) {
@@ -219,8 +230,9 @@ export class InvoiceDetailsComponent implements OnInit {
                     this.invoice = response;
                     this.editTable = false;
                     this.editBasics = false;
+                    this.errorMessage = null;
                 },
-                error => { this.errorMessage = error;  console.log(error)}
+                error => { this.errorMessage = error}
             )
         }
     }
@@ -243,6 +255,7 @@ export class InvoiceDetailsComponent implements OnInit {
                 this.invoice = response;
                 this.editTable = false;
                 this.editBasics = false;
+                this.errorMessage = null;
             },
             error => { this.errorMessage = error; }
         )

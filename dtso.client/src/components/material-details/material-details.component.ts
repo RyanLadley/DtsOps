@@ -14,6 +14,7 @@ export class MaterialDetailsComponent implements OnInit {
     tempMaterial: any;
     vendors: any[];
     permissions: any;
+    errorMessage: string;
     constructor(private _authService: AuthService, private _route: ActivatedRoute, private _server: ServerRequest) {
 
     }
@@ -118,7 +119,7 @@ export class MaterialDetailsComponent implements OnInit {
                 this.material = response;
                 this.editBasics = false;
             },
-            error => { }
+            error => { this.errorMessage = error; }
         )
     }
 

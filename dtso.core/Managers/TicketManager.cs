@@ -1,4 +1,6 @@
-﻿using dtso.core.Models;
+﻿using dtso.core.Enums;
+using dtso.core.Models;
+using dtso.core.Utilties;
 using dtso.data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,22 @@ namespace dtso.core.Managers
             _ticketRepository = ticketRepository;
         }
 
-        public int AddTicket(Ticket ticket)
+        public void AddTickets(List<Ticket> tickets, ref Error error)
         {
-            var ticketId = _ticketRepository.Add(ticket.MapToEntity());
+            //First Validate All tickets
+            foreach(var ticket in tickets)
+            {
+                _validateTicket(ticket, ref error);
 
-            return ticketId;
+                if (error.ErrorCode != ErrorCode.OKAY)
+                    return;
+            }
+
+            //If All Tiktes Are Valid, add them
+            foreach (var ticket in tickets)
+            {
+                var ticketId = _ticketRepository.Add(ticket.MapToEntity());
+            }
         }
 
         public List<Ticket> GetTicketsForVendor(int vendorId, bool onlyPending = false)
@@ -43,8 +56,13 @@ namespace dtso.core.Managers
             return tickets;
         }
 
-        public Ticket EditTicket(Ticket ticket)
+        public Ticket EditTicket(Ticket ticket, ref Error error)
         {
+            _validateTicket(ticket, ref error);
+
+            if (error.ErrorCode != ErrorCode.OKAY)
+                return null;
+
             var ticketId = _ticketRepository.Update(ticket.MapToEntity());
 
             return GetTicket(ticketId);
@@ -66,6 +84,45 @@ namespace dtso.core.Managers
             var ticket = Ticket.MapFromEntity(_ticketRepository.GetTicket(ticketId));
 
             return ticket;
+        }
+
+        private void _validateTicket(Ticket ticket, ref Error error)
+        {
+            if (ticket.VendorId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Vendor Must Be Selected";
+            }
+            else if (ticket.AccountId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Account Must Be Selected";
+            }
+            else if (ticket.Date.Year < 2000)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Valid Date Must Be Provided";
+            }
+            else if (string.IsNullOrEmpty(ticket.TicketNumber))
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Ticket Number Must Be Provided";
+            }
+            else if (string.IsNullOrEmpty(ticket.TicketNumber))
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "An Ticket Number Must Be Provided";
+            }
+            else if(ticket.Quantity <= 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Valid (Poisitve) quantity must be provided";
+            }
+            else if (ticket.MaterialVendorId <= 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "A Material Must Be Selected";
+            }
         }
     }
 }

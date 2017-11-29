@@ -58,6 +58,7 @@ export class TicketEntryComponent implements OnInit {
 
     caluculateCost(ticket: TicketForm) {
         ticket.cost = ticket.quantity * ticket.material.cost;
+        console.log(ticket.cost)
     }
 
     submitNewTickets() {

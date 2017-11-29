@@ -15,6 +15,7 @@ using dtso.auth.Logic;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using dtso.auth.Settings;
+using dtso.core.Utilities;
 
 namespace dtso.api
 {
@@ -71,6 +72,7 @@ namespace dtso.api
             services.AddScoped<MaterialManager>();
             services.AddScoped<TicketManager>();
             services.AddScoped<TransferManager>();
+            services.AddScoped<WordDocumentHandle>();
 
             //Auth
             services.AddScoped<IPasswordManager, PasswordManager>();

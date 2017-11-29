@@ -64,7 +64,7 @@
                 <p *ngIf="!editBasics">{{invoice.description}}</p>
                 <textarea *ngIf="editBasics" placeholder="Enter Description" class="invoice-textarea row" [(ngModel)]="invoice.description" required></textarea>
             </div>
-            <button class="button standard-button row">Print Coversheet</button>
+            <button class="button standard-button row" (click)="getCoversheet()">Print Coversheet</button>
         </div>
     </div>
     <div class="invoice-table-container section">

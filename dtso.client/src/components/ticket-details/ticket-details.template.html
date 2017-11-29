@@ -9,7 +9,6 @@
             <div class="ticket-details-header-bar header-bar">
                 <h3>Ticket Details</h3>
 
-
                 <ng-container *ngIf="permissions=='Admin'">
                     <i class="fa fa-pencil-square-o clickable edit-button" *ngIf="!editBasics" (click)="toggleEditBasics(true)"></i>
 
@@ -17,6 +16,7 @@
                     <button class="submit-button clickable" *ngIf="editBasics" (click)="submitTicketAdjustment()">Submit Changes</button>
                 </ng-container>
             </div>
+            <p class="error"  *ngIf="editBasics">{{errorMessage}}</p>
             <table class="table ticket-basics-table">
                 <tr>
                     <td class="default-size bold">Ticket Number</td>

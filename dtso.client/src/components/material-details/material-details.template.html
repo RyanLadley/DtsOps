@@ -16,6 +16,7 @@
                     <button class="submit-button clickable" *ngIf="editBasics" (click)="submitAdjustment()">Submit Changes</button>
                 </ng-container>
             </div>
+            <p class="error"  *ngIf="editBasics">{{errorMessage}}</p>
             <table class="table material-basics-table">
                 <tr>
                     <td class="default-size bold">Material Name</td>

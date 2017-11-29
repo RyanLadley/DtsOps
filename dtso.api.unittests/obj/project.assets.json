@@ -2,6 +2,26 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "DotNetCore.NPOI/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "1.0.0-alpha2",
+          "System.Text.Encoding.CodePages": "4.4.0",
+          "ZKWeb.System.Drawing": "4.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NPOI.OOXML.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXml4Net.dll": {},
+          "lib/netstandard2.0/NPOI.OpenXmlFormats.dll": {},
+          "lib/netstandard2.0/NPOI.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -2332,6 +2352,18 @@
           }
         }
       },
+      "SharpZipLib/1.0.0-alpha2": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll": {}
+        }
+      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3697,7 +3729,7 @@
           "Microsoft.NETCore.Platforms": "2.0.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
@@ -3992,6 +4024,23 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
+      "ZKWeb.System.Drawing/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0",
+          "System.Threading.Thread": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ZKWeb.System.Drawing.dll": {}
+        }
+      },
       "dtso.api/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -4032,6 +4081,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "DotNetCore.NPOI": "1.0.2",
           "Microsoft.AspNetCore": "2.0.0",
           "dtso.data": "1.0.0"
         },
@@ -4060,6 +4110,19 @@
     }
   },
   "libraries": {
+    "DotNetCore.NPOI/1.0.2": {
+      "sha512": "aG/PvJGcY4RkMsVSDuxgEohuZDE1RYoBMfvLDgwhUvJEMR8R9QYz1tBKaINV5Zzly9sT59QHLWmTTb0B32IfEQ==",
+      "type": "package",
+      "path": "dotnetcore.npoi/1.0.2",
+      "files": [
+        "dotnetcore.npoi.1.0.2.nupkg.sha512",
+        "dotnetcore.npoi.nuspec",
+        "lib/netstandard2.0/NPOI.OOXML.dll",
+        "lib/netstandard2.0/NPOI.OpenXml4Net.dll",
+        "lib/netstandard2.0/NPOI.OpenXmlFormats.dll",
+        "lib/netstandard2.0/NPOI.dll"
+      ]
+    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -6481,6 +6544,17 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "SharpZipLib/1.0.0-alpha2": {
+      "sha512": "ndshrRoIzWdvoHr5ncGvSp3p/At+H2l4nT4bfWgPB0VU39TOT5/6uS6XbkO9N95Y8quO5RgLMiEBO3M0nq4pXw==",
+      "type": "package",
+      "path": "sharpziplib/1.0.0-alpha2",
+      "files": [
+        "lib/netstandard1.3/ICSharpCode.SharpZipLib.dll",
+        "lib/netstandard1.3/ICSharpCode.SharpZipLib.xml",
+        "sharpziplib.1.0.0-alpha2.nupkg.sha512",
+        "sharpziplib.nuspec"
       ]
     },
     "System.AppContext/4.3.0": {
@@ -11054,6 +11128,17 @@
         "ref/xamarinwatchos10/_._",
         "system.xml.xpath.xmldocument.4.0.1.nupkg.sha512",
         "system.xml.xpath.xmldocument.nuspec"
+      ]
+    },
+    "ZKWeb.System.Drawing/4.0.0": {
+      "sha512": "lcw/HyN/nOstmAWFBnokLT/LXUbY3Dsu9VP4z/V7XIVHfM3V3/kORZ4DfYw2X9LdEYDO2xMX12kj/aZ5aIpLHw==",
+      "type": "package",
+      "path": "zkweb.system.drawing/4.0.0",
+      "files": [
+        "lib/net45/ZKWeb.System.Drawing.dll",
+        "lib/netstandard2.0/ZKWeb.System.Drawing.dll",
+        "zkweb.system.drawing.4.0.0.nupkg.sha512",
+        "zkweb.system.drawing.nuspec"
       ]
     },
     "dtso.api/1.0.0": {

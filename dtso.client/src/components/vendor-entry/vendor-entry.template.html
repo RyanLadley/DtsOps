@@ -1,10 +1,11 @@
 <div class="section data-entry-section">
     <h2 class="section-title">New Vendor</h2>
+
+    <p class="error">{{errorMessage}}</p>
     <div class="column-6">
         <div class="sub-header-bar header-bar">
             <h3>Basic Information</h3>
         </div>
-
         <div class="label-input">
             <label>Vendor Name</label>
             <input type="text" [(ngModel)]="vendor.vendorName" placeholder="Vendor Name" required>
