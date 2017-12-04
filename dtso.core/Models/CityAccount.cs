@@ -8,7 +8,7 @@ namespace dtso.core.Models
     {
         public int CityAccountId { get; set; }
         public string Name { get; set; }
-
+        public string CityAccountNumber { get; set; }
         public static CityAccount MapFromEntity(data.Entities.CityAccount entity)
         {
             if (entity == null)
@@ -17,7 +17,8 @@ namespace dtso.core.Models
             return new CityAccount()
             {
                 CityAccountId = entity.CityAccountId,
-                Name = entity.Name
+                Name = entity.Name,
+                CityAccountNumber = entity.CityAccountNumber
             };
         }
 

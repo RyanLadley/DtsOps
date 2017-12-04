@@ -39,6 +39,7 @@ namespace dtso.core.Models
                 AccountNumber = view.AccountNumber,
                 FundNumber = view.FundNumber,
                 ProjectNumber = view.ProjectNumber,
+                ProjectDescription = view.ProjectDescription,
                 AccountPrefix = view.AccountPrefix,
                 ChildAccounts = new List<Account>()
             };
