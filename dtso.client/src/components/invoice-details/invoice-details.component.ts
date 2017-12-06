@@ -2,6 +2,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServerRequest, AuthService } from '../../services/index';
 import { InvoiceForm, InvoiceAccount } from '../../models/index';
+import { AppSettings } from "../../settings/appsettings";
 
 @Component({
     selector: 'invoice-details',
@@ -25,7 +26,7 @@ export class InvoiceDetailsComponent implements OnInit {
     vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
-    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _appSettings : AppSettings) {
 
     }
 
@@ -140,7 +141,7 @@ export class InvoiceDetailsComponent implements OnInit {
     getCoversheet() {
         this._server.get('api/document/coversheet/invoice/' + this.invoice.invoiceId).subscribe(
             response => {
-                console.log(response);
+                window.open(this._appSettings.serverUrl + "Documents/" + response);
             },
             error => { }
         )

@@ -2,24 +2,24 @@
 
 <div class="section search-bar-section">
     <div class="icon-input">
-        <a [routerLink]="['/search']" [queryParams]="{search: searchString || ''}" class="fa fa-search"></a>
-        <input type="text" placeholder="Search for an existing invoice, ticket, or vendor" [(ngModel)]="searchString" />
+                <a (click)="gotoSearch(searchString)" class="fa fa-search clickable"></a>
+                <input type="text" placeholder="Search for an existing invoice, ticket, or vendor" [(ngModel)]="searchString" (keyup.enter)="gotoSearch(searchString)"/>
     </div>
     
     <div class="search-header-bar header-bar">
         <div class="tab" [ngClass]="{'selected-filter': filter == 'All'}" (click)="selectFilter('All')">
             <h3>All</h3>
         </div>
-        <div class="tab" [ngClass]="{'selected-filter': filter == 'Invoices'}" (click)="selectFilter('Invoices')">
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Invoice'}" (click)="selectFilter('Invoice')">
             <h3>Invoices</h3>
         </div>
-        <div class="tab" [ngClass]="{'selected-filter': filter == 'Vendors'}" (click)="selectFilter('Vendors')">
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Vendor'}" (click)="selectFilter('Vendor')">
             <h3>Vendors</h3>
         </div>
-        <div class="tab" [ngClass]="{'selected-filter': filter == 'Tickets'}" (click)="selectFilter('Tickets')">
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Ticket'}" (click)="selectFilter('Ticket')">
             <h3>Tickets</h3>
         </div>
-        <div class="tab" [ngClass]="{'selected-filter': filter == 'Materials'}" (click)="selectFilter('Materials')">
+        <div class="tab" [ngClass]="{'selected-filter': filter == 'Material'}" (click)="selectFilter('Material')">
             <h3>Materials</h3>
         </div>
     </div>
@@ -27,7 +27,7 @@
 
 <div class="section search-bar-section">
     <h2>Search Results</h2>
-    <div class="search-result-listing clickable" [ngClass]="getClassForType(result.type)" *ngFor="let result of results" (click)="gotoResultDetails(result.id, result.type)">
+    <div class="search-result-listing clickable" [ngClass]="getClassForType(result.type)" *ngFor="let result of displayedResults" (click)="gotoResultDetails(result.id, result.type)">
         <h3>{{result.name}}</h3>
         <p>{{getCompleteSubName(result.subName, result.type)}}<span *ngIf="result.expense"> - {{result.expense | currency:'USD':true:'1.2-2'}}</span> </p>
         <p *ngIf="result.description">{{result.description}}</p>

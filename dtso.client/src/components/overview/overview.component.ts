@@ -11,7 +11,7 @@ export class OverviewComponent implements OnInit {
     accounts: any;
     editAccounts: any;
     edit: boolean;
-
+    totalRemaining: number;
 
     constructor(private _server: ServerRequest) {
 
@@ -22,6 +22,7 @@ export class OverviewComponent implements OnInit {
         this.accounts = this.getAccounts();
         this.edit = false;
         this.toggleCollapse();
+
     }
 
     toggleCollapse() {
@@ -41,7 +42,9 @@ export class OverviewComponent implements OnInit {
 
     getAccounts() {
         this._server.get('api/account/overview').subscribe(
-            response => { this.accounts = response },
+            response => {
+                this.accounts = response;
+                this.getTotalRemaining(); },
             error => { }
         )
     }
@@ -132,5 +135,12 @@ export class OverviewComponent implements OnInit {
             },
             error => { }
         )
+    }
+
+    getTotalRemaining() {
+        this.totalRemaining = 0;
+        for (var i = 0; i <= this.accounts.length; i++) {
+            this.totalRemaining += this.accounts[i].remainingBalance
+        }
     }
 }

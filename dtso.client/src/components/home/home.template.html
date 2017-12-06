@@ -12,8 +12,8 @@
 
         <div class="grid-12-3">
             <div class="icon-input home-search">
-                <a [routerLink] = "['/search']" [queryParams]="{search: searchString || ''}" class="fa fa-search"></a>
-                <input type="text" placeholder="Search for an existing invoice, ticket, or vendor" [(ngModel)]="searchString" />
+                <a (click)="gotoSearch(searchString)" class="fa fa-search clickable"></a>
+                <input type="text" placeholder="Search for an existing invoice, ticket, or vendor" [(ngModel)]="searchString" (keyup.enter)="gotoSearch(searchString)"/>
             </div>
         </div>
         <a [routerLink] = "['/overview']" class="grid-6-12 home-selection overview-selection">

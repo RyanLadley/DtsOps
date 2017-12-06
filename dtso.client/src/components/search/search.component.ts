@@ -14,6 +14,7 @@ export class SearchComponent implements OnInit {
     routeSubscription: any;
     searchString: string;
     results: SearchResult[];
+    displayedResults: SearchResult[];
     filter: string;
 
     constructor(private _server: ServerRequest, private _route: ActivatedRoute, private _router: Router) {
@@ -32,14 +33,11 @@ export class SearchComponent implements OnInit {
     getSearchResults(search) {
 
         this._server.get('api/search', null, { searchString: search }).subscribe(
-            response => { this.results = response },
+            response => { this.results = response; this.selectFilter(this.filter) },
             error => { }
         )
     }
-
-    selectFilter(newFilter: string) {
-        this.filter = newFilter;
-    }
+    
 
     getCompleteSubName(subName: string, type: string) {
         switch (type) {
@@ -93,4 +91,23 @@ export class SearchComponent implements OnInit {
         }
     }
 
+    selectFilter(filter: string) {
+        this.filter = filter;
+
+        if (filter == "All") {
+            this.displayedResults = this.results;
+        }
+        else {
+            this.displayedResults = []
+            for (var i = 0; i < this.results.length; i++) {
+                if (this.results[i].type == filter) {
+                    this.displayedResults.push(this.results[i]);
+                }
+            }
+        }
+    }
+
+    gotoSearch(searchString: string) {
+        this._router.navigate(['/search'], { queryParams: { search: searchString || '' } })
+    }
 }

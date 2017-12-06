@@ -48,6 +48,10 @@
             </ng-container>
         </ng-container>
     </ng-container>
+    <tr class="account-row total-row">
+        <td class="total-label" colspan="6"> Total</td>
+        <td class="number"> {{totalRemaining | currency:'USD':true:'1.2-2'}}</td>
+    </tr>
 </table>
 
 <table id="overview-table" *ngIf="edit">

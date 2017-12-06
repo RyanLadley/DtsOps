@@ -16,6 +16,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using dtso.auth.Settings;
 using dtso.core.Utilities;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace dtso.api
 {
@@ -97,6 +100,13 @@ namespace dtso.api
                 .AllowAnyHeader()
                 .AllowCredentials());
 
+            app.UseFileServer(new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"StaticDocuments")),
+                RequestPath = new PathString("/Documents"),
+                EnableDirectoryBrowsing = true
+            });
 
             app.UseAuthentication();
             app.UseDefaultFiles();

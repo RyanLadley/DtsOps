@@ -13,10 +13,11 @@ namespace dtso.core.Utilities
     {
         private IInvoiceManager _invoiceManager;
         private string _basePath;
+        private readonly int _pageWidth = 4 * 1270; 
 
         public WordDocumentHandle(IInvoiceManager invoiceManager)
         {
-            _basePath = "wwwroot";
+            _basePath = "StaticDocuments";
             _invoiceManager = invoiceManager;
         }
 
@@ -24,15 +25,16 @@ namespace dtso.core.Utilities
         {
             var invoice = _invoiceManager.GetInvoice(invoiceId);
 
-
-            var coversheetPath = $"{_basePath}/test.docx";
-            using (var fs = new FileStream(coversheetPath, FileMode.Create, FileAccess.Write))
+            var coversheetPath = $"{invoice.Vendor.Name}-{invoice.InvoiceNumber}-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.docx";
+            using (var fs = new FileStream($"{_basePath}/{coversheetPath}", FileMode.Create, FileAccess.Write))
             {
                 XWPFDocument document = new XWPFDocument();
                 document = _addSingleInvoiceTitle(document);
                 document = _addSingleInvoiceInfo(document, invoice);
                 document.CreateParagraph();
                 document = _addSingleInvoiceAccountsTable(document, invoice);
+                document = _addSignitureBlock(document);
+                document = _addNotesBlock(document);
                 document.Write(fs);
             }
 
@@ -106,7 +108,7 @@ namespace dtso.core.Utilities
         private XWPFDocument _addSingleInvoiceAccountsTable(XWPFDocument document, Invoice invoice)
         {
             var table = document.CreateTable(1,4);
-            table.Width = 4 * 1260;
+            table.Width = _pageWidth;
 
             table.SetColumnWidth(0, 5);
             table.SetColumnWidth(1, 6);
@@ -146,6 +148,49 @@ namespace dtso.core.Utilities
 
             return document;
         }
+
+
+
+        private XWPFDocument _addSignitureBlock(XWPFDocument document)
+        {
+
+            var signitures = new String[] { "Procurements Svcs Approval", "Street Division Approval\t", "Finance Dept Approval\t\t" };
+
+            foreach(var signiture in signitures)
+            {
+                document.CreateParagraph();
+                var paragraph = document.CreateParagraph();
+
+                var runLabel = paragraph.CreateRun();
+                runLabel.SetText($"{signiture}\t");
+
+                var runLine = paragraph.CreateRun();
+                runLine.SetText("\t\t\t\t\t\t\t\t");
+                runLine.SetUnderline(UnderlinePatterns.Single);
+
+                var runDate = paragraph.CreateRun();
+                runDate.SetText("\tDate ");
+
+                var runDateLine = paragraph.CreateRun();
+                runDateLine.SetText("\t\t\t\t\t");
+                runDateLine.SetUnderline(UnderlinePatterns.Single);
+            }
+
+            document.CreateParagraph();
+
+            return document;
+        }
+
+        private XWPFDocument _addNotesBlock(XWPFDocument document)
+        {
+            var table = document.CreateTable(4, 1);
+            table.Width = _pageWidth;
+
+            _createTableCell(table.GetRow(0).GetCell(0), "Notes", ParagraphAlignment.CENTER, true);
+
+            return document;
+        }
+
 
         private XWPFTableCell _createTableCell(XWPFTableCell cell, string text, ParagraphAlignment alignment, bool isBold)
         {
