@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServerRequest, AuthService } from '../../services/index';
+import { ServerRequest, AuthService, ArraySort } from '../../services/index';
 import { InvoiceForm, InvoiceAccount } from '../../models/index';
 import { AppSettings } from "../../settings/appsettings";
 
@@ -26,7 +26,14 @@ export class InvoiceDetailsComponent implements OnInit {
     vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
-    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _appSettings : AppSettings) {
+    
+    sortExpensesAscending: boolean;
+    currentExpenseSort: string;
+
+    sortTicketAscending: boolean;
+    currentTicketSort: string;
+
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _appSettings : AppSettings, private _sorter: ArraySort) {
 
     }
 
@@ -35,6 +42,9 @@ export class InvoiceDetailsComponent implements OnInit {
         this._route.params.subscribe(params => {
             urlId = params['id']
         });
+        
+        this.currentTicketSort = "account";
+        this.currentExpenseSort = "account";
 
         this.getInvoice(urlId);
         this.displayedBreakdown = "Expenses";
@@ -132,7 +142,9 @@ export class InvoiceDetailsComponent implements OnInit {
     getInvoice(id: string) {
         this._server.get('api/invoice/' + id).subscribe(
             response => {
-                this.invoice = response; console.log(response);
+                this.invoice = response;
+                this.sortExpensesBy(this.currentExpenseSort);
+                this.sortTicketsBy(this.currentTicketSort);
             },
             error => { }
         )
@@ -262,4 +274,59 @@ export class InvoiceDetailsComponent implements OnInit {
         )
 
     }
+
+    getExpenseSortIcon(field) {
+        if (field == this.currentExpenseSort) {
+            if (this.sortExpensesAscending) {
+                return "fa-caret-up";
+            }
+            else {
+                return "fa-caret-down";
+            }
+        }
+    }
+
+    sortExpensesBy(field) {
+        //Set the asscention direction. If this is a new feild, it is defaulted to ascending, if the user clicked the same field, we toggle the direction
+        var direction: boolean;
+        if (field == this.currentExpenseSort) {
+            direction = !this.sortExpensesAscending;
+        }
+        else {
+            direction = true;
+        }
+
+        this.currentExpenseSort = field;
+        this.sortExpensesAscending = direction;
+
+        this._sorter.sort(this.invoice.expenses, field, direction);
+    }
+
+    getTicketSortIcon(field) {
+        if (field == this.currentTicketSort) {
+            if (this.sortTicketAscending) {
+                return "fa-caret-up";
+            }
+            else {
+                return "fa-caret-down";
+            }
+        }
+    }
+
+    sortTicketsBy(field) {
+        //Set the asscention direction. If this is a new feild, it is defaulted to ascending, if the user clicked the same field, we toggle the direction
+        var direction: boolean;
+        if (field == this.currentTicketSort) {
+            direction = !this.sortTicketAscending
+        }
+        else {
+            direction = true;
+        }
+
+        this.currentTicketSort = field;
+        this.sortTicketAscending = direction;
+
+        this._sorter.sort(this.invoice.tickets, field, direction);
+    }
+
 }

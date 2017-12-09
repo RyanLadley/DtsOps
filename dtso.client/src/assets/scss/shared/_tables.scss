@@ -13,6 +13,16 @@
             padding-bottom: 5px;
         }
 
+        .sortable {
+            cursor: pointer;
+
+            i {
+                margin-left: 5px;
+                height: 100%;
+            }
+        }
+
+
         &:hover {
             background: inherit;
         }

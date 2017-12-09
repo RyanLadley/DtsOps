@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit {
     results: SearchResult[];
     displayedResults: SearchResult[];
     filter: string;
-
+    searching: boolean;
     constructor(private _server: ServerRequest, private _route: ActivatedRoute, private _router: Router) {
         
     }
@@ -31,9 +31,9 @@ export class SearchComponent implements OnInit {
     }
 
     getSearchResults(search) {
-
+        this.searching = true;
         this._server.get('api/search', null, { searchString: search }).subscribe(
-            response => { this.results = response; this.selectFilter(this.filter) },
+            response => { this.results = response; this.selectFilter(this.filter); this.searching = false; },
             error => { }
         )
     }

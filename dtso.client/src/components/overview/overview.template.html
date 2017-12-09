@@ -2,166 +2,173 @@
 
 <h1 class="title">Accounts Overview</h1>
 
+<ng-container *ngIf="accounts">
+    <table id="overview-table" *ngIf="!edit">
 
-<table id="overview-table" *ngIf="!edit">
-
-    <tr class="table-head" (click)="toggleCollapse()">
-        <th>Account</th>
-        <th>Description</th>
-        <th class="number">2017 Budget</th>
-        <th class="number">Misc Transfer</th>
-        <th class="number">Total Budget</th>
-        <th class="number">Expedetures to Date</th>
-        <th class="number">Remaining Balance</th>
-    </tr>
-    <ng-container *ngFor="let account of accounts">
-
-        <tr class="account-row" (click) ="account.hideChildren = !account.hideChildren">
-            <td class="account"> <a class="account-link" [routerLink]="['/account', account | accountName]">{{account.accountNumber}}</a></td>
-            <td class="description"> {{account.description}}</td>
-            <td class="number"> {{account.annualBudget | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.transfers | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+        <tr class="table-head" (click)="toggleCollapse()">
+            <th>Account</th>
+            <th>Description</th>
+            <th class="number">2017 Budget</th>
+            <th class="number">Misc Transfer</th>
+            <th class="number">Total Budget</th>
+            <th class="number">Expedetures to Date</th>
+            <th class="number">Remaining Balance</th>
         </tr>
-        <ng-container *ngFor=" let subAccount of account.childAccounts">
-            <tr class="subaccount-row" *ngIf="!account.hideChildren" (click) ="subAccount.hideChildren = !subAccount.hideChildren">
-                <td class="account sub-account"> <a class="account-link" [routerLink]="['/account', subAccount | accountName]">{{subAccount.accountNumber}}-{{subAccount.subNo}}</a></td>
-                <td class="description"> {{subAccount.description}}</td>
-                <td class="number"> {{subAccount.annualBudget | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.transfers | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+        <ng-container *ngFor="let account of accounts">
+
+            <tr class="account-row" (click)="account.hideChildren = !account.hideChildren">
+                <td class="account"> <a class="account-link" [routerLink]="['/account', account | accountName]">{{account.accountNumber}}</a></td>
+                <td class="description"> {{account.description}}</td>
+                <td class="number"> {{account.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.transfers | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
             </tr>
-            <ng-container *ngFor="let shredOut of subAccount.childAccounts">
-                <tr class="shred-row" *ngIf="!subAccount.hideChildren && !account.hideChildren" >
-                    <td class="account shred-out"> <a class="account-link" [routerLink]="['/account', shredOut | accountName]">{{shredOut.accountNumber}}-{{shredOut.subNo}}-{{shredOut.shredNo}}</a></td>
-                    <td class="description"> {{shredOut.description}}</td>
-                    <td class="number"> {{shredOut.annualBudget | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.transfers | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+            <ng-container *ngFor=" let subAccount of account.childAccounts">
+                <tr class="subaccount-row" *ngIf="!account.hideChildren" (click)="subAccount.hideChildren = !subAccount.hideChildren">
+                    <td class="account sub-account"> <a class="account-link" [routerLink]="['/account', subAccount | accountName]">{{subAccount.accountNumber}}-{{subAccount.subNo}}</a></td>
+                    <td class="description"> {{subAccount.description}}</td>
+                    <td class="number"> {{subAccount.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.transfers | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
+                <ng-container *ngFor="let shredOut of subAccount.childAccounts">
+                    <tr class="shred-row" *ngIf="!subAccount.hideChildren && !account.hideChildren">
+                        <td class="account shred-out"> <a class="account-link" [routerLink]="['/account', shredOut | accountName]">{{shredOut.accountNumber}}-{{shredOut.subNo}}-{{shredOut.shredNo}}</a></td>
+                        <td class="description"> {{shredOut.description}}</td>
+                        <td class="number"> {{shredOut.annualBudget | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.transfers | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+                    </tr>
+                </ng-container>
             </ng-container>
         </ng-container>
-    </ng-container>
-    <tr class="account-row total-row">
-        <td class="total-label" colspan="6"> Total</td>
-        <td class="number"> {{totalRemaining | currency:'USD':true:'1.2-2'}}</td>
-    </tr>
-</table>
-
-<table id="overview-table" *ngIf="edit">
-
-    <tr class="table-head">
-        <th>Account</th>
-        <th>Description</th>
-        <th class="number">2017 Budget</th>
-        <th class="number">Misc Transfer</th>
-        <th class="number">Total Budget</th>
-        <th class="number">Expedetures to Date</th>
-        <th class="number">Remaining Balance</th>
-    </tr>
-    <ng-container *ngFor="let account of accounts let i = index;">
-
-        <tr class="account-row" >
-            <td class="account"> <a class="account-link" [routerLink]="['/account', account | accountName]">{{account.accountNumber}}</a></td>
-            <td class="description"> <input [(ngModel)]="account.description"/></td>
-            <td class="number">
-                <div class="dollar-input icon-input">
-                    <i class="fa fa-usd" aria-hidden="true"></i>
-                    <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="account.annualBudget" required>
-                </div>
-            </td>
-            <td class="number"> {{account.transfers | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-            <td class="number"> {{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+        <tr class="account-row total-row">
+            <td class="total-label" colspan="5"> Total</td>
+            <td class="number"> {{totalExpendatures | currency:'USD':true:'1.2-2'}}</td>
+            <td class="number"> {{totalRemaining | currency:'USD':true:'1.2-2'}}</td>
         </tr>
-        <ng-container *ngFor=" let subAccount of account.childAccounts; let j = index;">
-            <tr class="subaccount-row" >
-                <td class="account sub-account"> <a class="account-link" [routerLink]="['/account', subAccount | accountName]">{{subAccount.accountNumber}}-{{subAccount.subNo}}</a></td>
-                <td class="description"> <input [(ngModel)]="subAccount.description" /></td>
-                <td class="number"> 
-                    <div class="dollar-input icon-input">
-                        <i class="fa fa-usd" aria-hidden="true"></i>
-                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="subAccount.annualBudget" required>
-                    </div>
-                </td>
-                <td class="number"> {{subAccount.transfers | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-                <td class="number"> {{subAccount.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
-            </tr>
-            <ng-container *ngFor="let shredOut of subAccount.childAccounts; let k = index">
-                <tr class="shred-row">
-                    <td class="account shred-out"> <a class="account-link" [routerLink]="['/account', shredOut | accountName]">{{shredOut.accountNumber}}-{{shredOut.subNo}}-{{shredOut.shredNo}}</a></td>
-                    <td class="description"> <input [(ngModel)]="shredOut.description" /></td>
-                    <td class="number"> 
-                        <div class="dollar-input icon-input">
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="shredOut.annualBudget" required>
-                        </div>
-                    </td>
-                    <td class="number"> {{shredOut.transfers | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.totalBudget | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
-                    <td class="number"> {{shredOut.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
-                </tr>
-            </ng-container>
-            <ng-container *ngFor="let newShredOut of subAccount.newChildAccounts; let kNew = index">
-                <tr class="shred-row">
-                    <td class="account shred-out"> <a class="account-link">
-                        <span class=" remove-button button" (click)="removeNewShredAccount(i, j, kNew)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-                        {{newShredOut.accountNumber}}-{{newShredOut.subNo}}-{{newShredOut.shredNo}}</a>
-                    </td>
-                    <td class="description"> <input  placeholder="Enter Account Description" [(ngModel)]="newShredOut.description" /></td>
-                    <td class="number">
-                        <div class="dollar-input icon-input">
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="newShredOut.annualBudget" required>
-                        </div>
-                    </td>
-                    <td class="number"> - </td>
-                    <td class="number"> - </td>
-                    <td class="number"> - </td>
-                    <td class="number"> - </td>
-                </tr>
-            </ng-container>
-            <tr class="shred-row add-row" (click)="addShredAccount(i,j)" >
-                <td><span class=" add-button button row" ><i class="fa fa-plus-square" aria-hidden="true"></i></span>Add Shred-Account to {{subAccount.accountNumber}}-{{subAccount.subNo}}</td>    
-            </tr>
-        </ng-container>
+    </table>
 
-        <ng-container *ngFor="let newSubAccount of account.newChildAccounts; let jNew = index">
-            <tr class="subaccount-row">
-                <td class="account sub-account "> <a class="account-link">
-                    <span class=" remove-button button" (click)="removeNewSubAccount(i, jNew)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
-                    {{newSubAccount.accountNumber}}-{{newSubAccount.subNo}}</a>
-                </td>
-                <td class="description"> <input placeholder="Enter Account Description" [(ngModel)]="newSubAccount.description" /></td>
+    <table id="overview-table" *ngIf="edit">
+
+        <tr class="table-head">
+            <th>Account</th>
+            <th>Description</th>
+            <th class="number">2017 Budget</th>
+            <th class="number">Misc Transfer</th>
+            <th class="number">Total Budget</th>
+            <th class="number">Expedetures to Date</th>
+            <th class="number">Remaining Balance</th>
+        </tr>
+        <ng-container *ngFor="let account of accounts let i = index;">
+
+            <tr class="account-row">
+                <td class="account"> <a class="account-link" [routerLink]="['/account', account | accountName]">{{account.accountNumber}}</a></td>
+                <td class="description"> <input [(ngModel)]="account.description" /></td>
                 <td class="number">
                     <div class="dollar-input icon-input">
                         <i class="fa fa-usd" aria-hidden="true"></i>
-                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="newSubAccount.annualBudget" required>
+                        <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="account.annualBudget" required>
                     </div>
                 </td>
-                <td class="number"> - </td>
-                <td class="number"> - </td>
-                <td class="number"> - </td>
-                <td class="number"> - </td>
+                <td class="number"> {{account.transfers | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                <td class="number"> {{account.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+            <ng-container *ngFor=" let subAccount of account.childAccounts; let j = index;">
+                <tr class="subaccount-row">
+                    <td class="account sub-account"> <a class="account-link" [routerLink]="['/account', subAccount | accountName]">{{subAccount.accountNumber}}-{{subAccount.subNo}}</a></td>
+                    <td class="description"> <input [(ngModel)]="subAccount.description" /></td>
+                    <td class="number">
+                        <div class="dollar-input icon-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="subAccount.annualBudget" required>
+                        </div>
+                    </td>
+                    <td class="number"> {{subAccount.transfers | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                    <td class="number"> {{subAccount.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+                </tr>
+                <ng-container *ngFor="let shredOut of subAccount.childAccounts; let k = index">
+                    <tr class="shred-row">
+                        <td class="account shred-out"> <a class="account-link" [routerLink]="['/account', shredOut | accountName]">{{shredOut.accountNumber}}-{{shredOut.subNo}}-{{shredOut.shredNo}}</a></td>
+                        <td class="description"> <input [(ngModel)]="shredOut.description" /></td>
+                        <td class="number">
+                            <div class="dollar-input icon-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="shredOut.annualBudget" required>
+                            </div>
+                        </td>
+                        <td class="number"> {{shredOut.transfers | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.totalBudget | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.expedituresToDate | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="number"> {{shredOut.remainingBalance | currency:'USD':true:'1.2-2'}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngFor="let newShredOut of subAccount.newChildAccounts; let kNew = index">
+                    <tr class="shred-row">
+                        <td class="account shred-out">
+                            <a class="account-link">
+                                <span class=" remove-button button" (click)="removeNewShredAccount(i, j, kNew)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+                                {{newShredOut.accountNumber}}-{{newShredOut.subNo}}-{{newShredOut.shredNo}}
+                            </a>
+                        </td>
+                        <td class="description"> <input placeholder="Enter Account Description" [(ngModel)]="newShredOut.description" /></td>
+                        <td class="number">
+                            <div class="dollar-input icon-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="newShredOut.annualBudget" required>
+                            </div>
+                        </td>
+                        <td class="number"> - </td>
+                        <td class="number"> - </td>
+                        <td class="number"> - </td>
+                        <td class="number"> - </td>
+                    </tr>
+                </ng-container>
+                <tr class="shred-row add-row" (click)="addShredAccount(i,j)">
+                    <td><span class=" add-button button row"><i class="fa fa-plus-square" aria-hidden="true"></i></span>Add Shred-Account to {{subAccount.accountNumber}}-{{subAccount.subNo}}</td>
+                </tr>
+            </ng-container>
+
+            <ng-container *ngFor="let newSubAccount of account.newChildAccounts; let jNew = index">
+                <tr class="subaccount-row">
+                    <td class="account sub-account ">
+                        <a class="account-link">
+                            <span class=" remove-button button" (click)="removeNewSubAccount(i, jNew)"><i class="fa fa-minus-square" aria-hidden="true"></i></span>
+                            {{newSubAccount.accountNumber}}-{{newSubAccount.subNo}}
+                        </a>
+                    </td>
+                    <td class="description"> <input placeholder="Enter Account Description" [(ngModel)]="newSubAccount.description" /></td>
+                    <td class="number">
+                        <div class="dollar-input icon-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="newSubAccount.annualBudget" required>
+                        </div>
+                    </td>
+                    <td class="number"> - </td>
+                    <td class="number"> - </td>
+                    <td class="number"> - </td>
+                    <td class="number"> - </td>
+                </tr>
+            </ng-container>
+            <tr class="subaccount-row add-row" (click)="addSubAccount(i)">
+                <td colspan="7"><span class=" add-button button"><i class="fa fa-plus-square" aria-hidden="true"></i></span>  Add Sub-Account to {{account.accountNumber}}</td>
             </tr>
         </ng-container>
-        <tr  class="subaccount-row add-row" (click)="addSubAccount(i)">
-            <td colspan="7"><span class=" add-button button" ><i class="fa fa-plus-square" aria-hidden="true"></i></span>  Add Sub-Account to {{account.accountNumber}}</td>
-        </tr>
-    </ng-container>
-</table>
+    </table>
 
-<button  *ngIf="!edit" class="inverse-button button overview-button" type="submit" (click)="toggleAccountEdit()"> Edit Accounts </button>
+    <button *ngIf="!edit" class="inverse-button button overview-button" type="submit" (click)="toggleAccountEdit()"> Edit Accounts </button>
 
-<button *ngIf="edit" class=" inverse-submit-button  button overview-button bold border" type="submit" (click)="submitAccountUpdates()"> Submit Updates</button>
-<button *ngIf="edit" class="inverse-remove-button  button overview-button bold border" type="submit" (click)="toggleAccountEdit()"> Cancel </button>
+    <button *ngIf="edit" class=" inverse-submit-button  button overview-button bold border" type="submit" (click)="submitAccountUpdates()"> Submit Updates</button>
+    <button *ngIf="edit" class="inverse-remove-button  button overview-button bold border" type="submit" (click)="toggleAccountEdit()"> Cancel </button>
+</ng-container>
+<loading *ngIf="!accounts"></loading>

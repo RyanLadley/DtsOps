@@ -32,3 +32,12 @@ body {
     
     margin-left: $sidebar-extended-width + 20px;
 }
+
+.loading-section {
+    margin-top: 30px;
+    box-sizing: border-box;
+    width: 95%;
+    min-width: 560px;
+    padding: 40px;
+    text-align: center;
+}

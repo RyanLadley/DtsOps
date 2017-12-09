@@ -77,14 +77,14 @@
 
         <table *ngIf="displayedBreakdown == 'Invoice'" class="table account-details-table">
             <tr class="table-head">
-                <th class="default-size">Account</th>
-                <th class="default-size">Invoice</th>
-                <th class="default-size">Vendor</th>
-                <th class="default-size">Type</th>
-                <th class="description">Descrpition</th>
-                <th class="number">Invoice Date</th>
-                <th class="number">Date Paid</th>
-                <th class="number">Expense</th>
+                <th class="default-size sortable" (click)="sortInvoicesBy('accountNumber')">Account<i class="fa" [ngClass]="getInvoiceSortIcon('accountNumber')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortInvoicesBy('invoiceNumber')">Invoice<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceNumber')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortInvoicesBy('vendor')">Vendor<i class="fa" [ngClass]="getInvoiceSortIcon('vendor')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortInvoicesBy('invoiceType')">Type<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceType')" aria-hidden="true"></i></th>
+                <th class="description sortable" (click)="sortInvoicesBy('description')">Descrpition<i class="fa" [ngClass]="getInvoiceSortIcon('description')" aria-hidden="true"></i></th>
+                <th class="number sortable" (click)="sortInvoicesBy('invoiceDate')">Invoice Date<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceDate')" aria-hidden="true"></i></th>
+                <th class="number sortable" (click)="sortInvoicesBy('datePaid')">Date Paid<i class="fa" [ngClass]="getInvoiceSortIcon('datePaid')" aria-hidden="true"></i></th>
+                <th class="number sortable" (click)="sortInvoicesBy('expense')">Expense<i class="fa" [ngClass]="getInvoiceSortIcon('expense')" aria-hidden="true"></i></th>
             </tr>
             <ng-container *ngFor="let invoice of displayedInvoices">
                 <tr [routerLink]="['/invoice', invoice.invoiceId]">
@@ -102,13 +102,13 @@
 
         <table *ngIf="displayedBreakdown == 'Ticket'" class="table account-details-table">
             <tr class="table-head">
-                <th class="default-size">Account</th>
-                <th class="default-size">Ticket Number</th>
-                <th class="default-size">Vendor</th>
-                <th class="default-size">Invoice</th>
-                <th class="default-size">Material</th>
-                <th class="default-size">Quantity</th>
-                <th class="number">Cost</th>
+                <th class="default-size sortable" (click)="sortTicketsBy('account')">Account<i class="fa" [ngClass]="getTicketSortIcon('account')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('ticketNumber')">Ticket Number<i class="fa" [ngClass]="getTicketSortIcon('ticketNumber')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('vendor')">Vendor<i class="fa" [ngClass]="getTicketSortIcon('vendor')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('invoice')">Invoice<i class="fa" [ngClass]="getTicketSortIcon('invoice')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('material')">Material<i class="fa" [ngClass]="getTicketSortIcon('material')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('quantity')">Quantity<i class="fa" [ngClass]="getTicketSortIcon('quantity')" aria-hidden="true"></i></th>
+                <th class="number sortable" (click)="sortTicketsBy('cost')">Cost<i class="fa" [ngClass]="getTicketSortIcon('cost')" aria-hidden="true"></i></th>
             </tr>
             <ng-container *ngFor="let ticket of displayedTickets">
                 <tr class="clickable">
@@ -124,11 +124,11 @@
         </table>
         <table *ngIf="displayedBreakdown == 'Transfer'" class="table account-details-table">
             <tr class="table-head">
-                <th class="default-size">From Account</th>
-                <th class="default-size">To Account</th>
-                <th class="description">Description</th>
-                <th class="default-size number">Date Created</th>
-                <th class="number">Amount</th>
+                <th class="default-size sortable" (click)="sortTransferBy('fromAccount')">From Account<i class="fa" [ngClass]="getTransferSortIcon('fromAccount')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTransferBy('toAccount')">To Account<i class="fa" [ngClass]="getTransferSortIcon('toAccount')" aria-hidden="true"></i></th>
+                <th class="description sortable" (click)="sortTransferBy('description')">Description<i class="fa" [ngClass]="getTransferSortIcon('description')" aria-hidden="true"></i></th>
+                <th class="default-size number sortable" (click)="sortTransferBy('dateCreated')">Date Created<i class="fa" [ngClass]="getTransferSortIcon('dateCreated')" aria-hidden="true"></i></th>
+                <th class="number sortable" (click)="sortTransferBy('amount')">Amount<i class="fa" [ngClass]="getTransferSortIcon('amount')" aria-hidden="true"></i></th>
             </tr>
             <ng-container *ngFor="let transfer of displayedTransfers">
                 <tr class="clickable">

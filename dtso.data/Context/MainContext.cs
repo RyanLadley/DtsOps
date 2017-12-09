@@ -52,6 +52,7 @@ namespace dtso.data.Context
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Bug> Bugs { get; set; }
 
         public virtual DbSet<SearchResult> SearchResults { get; set; }
         public virtual DbSet<vAccount> vAccounts { get; set; }
@@ -393,6 +394,26 @@ namespace dtso.data.Context
             });
 
 
+            return modelBuilder;
+        }
+
+        private ModelBuilder _buildBugs(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Bug>(entity =>
+                {
+                    entity.HasKey(bug => bug.BugId);
+
+                    entity.Property(bug => bug.Severity)
+                            .HasMaxLength(25);
+
+                    entity.Property(bug => bug.Description)
+                         .HasMaxLength(500);
+
+                    entity.Property(bug => bug.DateCreated)
+                        .HasDefaultValue("getdate()");
+                }
+            );
+            
             return modelBuilder;
         }
     }

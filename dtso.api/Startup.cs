@@ -66,6 +66,7 @@ namespace dtso.api
             services.AddScoped<ITicketRepository, TicketRepository>();
             services.AddScoped<ITransferRepository, TransferRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IBugRepository, BugRepository>();
             services.AddScoped<IStoredProcedureRepository, StoredProcedureRepository>();
             
             //Core

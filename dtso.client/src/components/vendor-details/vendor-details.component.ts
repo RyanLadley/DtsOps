@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router'
-import { ServerRequest } from '../../services/index';
+import { ServerRequest, ArraySort } from '../../services/index';
 import { VendorForm } from "../../models/index";
 import { AuthService } from "../../services/auth.service";
 
@@ -17,8 +17,14 @@ export class VendorDetailsComponent implements OnInit {
     editBasics: boolean
     permissions: any;
     errorMessage: string;
+    
+    sortInvoiceAscending: boolean;
+    currentInvoiceSort: string;
 
-    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest) {
+    sortTicketAscending: boolean;
+    currentTicketSort: string;
+
+    constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _sorter: ArraySort) {
         
     }
 
@@ -30,6 +36,9 @@ export class VendorDetailsComponent implements OnInit {
 
         this.getVendor(urlId);
         this.permissions = this._authService.getPermissions();
+
+        this.currentInvoiceSort = "accountNumber";
+        this.currentTicketSort = "account";
     }
 
     toggleEditBasics(editing: boolean) {
@@ -60,6 +69,8 @@ export class VendorDetailsComponent implements OnInit {
             response => {
                 this.vendor = response; console.log(response);
                 this.displayedBreakdown = "Invoice";
+                this.sortInvoicesBy(this.currentInvoiceSort);
+                this.sortTicketsBy(this.currentTicketSort);
             },
             error => {}
         )
@@ -89,5 +100,59 @@ export class VendorDetailsComponent implements OnInit {
             },
             error => { this.errorMessage = error  }
         )
+    }
+
+    getInvoiceSortIcon(field) {
+        if (field == this.currentInvoiceSort) {
+            if (this.sortInvoiceAscending) {
+                return "fa-caret-up";
+            }
+            else {
+                return "fa-caret-down";
+            }
+        }
+    }
+
+    sortInvoicesBy(field) {
+        //Set the asscention direction. If this is a new feild, it is defaulted to ascending, if the user clicked the same field, we toggle the direction
+        var direction: boolean;
+        if (field == this.currentInvoiceSort) {
+            direction = !this.sortInvoiceAscending
+        }
+        else {
+            direction = true;
+        }
+
+        this.currentInvoiceSort = field;
+        this.sortInvoiceAscending = direction;
+
+        this._sorter.sort(this.vendor.invoices, field, direction);
+    }
+
+    getTicketSortIcon(field) {
+        if (field == this.currentTicketSort) {
+            if (this.sortTicketAscending) {
+                return "fa-caret-up";
+            }
+            else {
+                return "fa-caret-down";
+            }
+        }
+    }
+
+    sortTicketsBy(field) {
+        //Set the asscention direction. If this is a new feild, it is defaulted to ascending, if the user clicked the same field, we toggle the direction
+        var direction: boolean;
+        if (field == this.currentTicketSort) {
+            direction = !this.sortTicketAscending
+        }
+        else {
+            direction = true;
+        }
+
+        this.currentTicketSort = field;
+        this.sortTicketAscending = direction;
+
+        this._sorter.sort(this.vendor.tickets, field, direction);
     }
 }

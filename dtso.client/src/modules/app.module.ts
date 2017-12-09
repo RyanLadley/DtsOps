@@ -25,14 +25,15 @@ import {
     TicketDetailsComponent,
     SearchComponent,
     MaterialDetailsComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoadingComponent
 } from '../components/index';
 
 import {
     AuthService,
     ServerRequest,
     CookieManager,
-    ObjectSort,
+    ArraySort,
     MonthProvider
 } from '../services/index';
 
@@ -65,6 +66,7 @@ import { AppSettings } from '../settings/appsettings'
       MaterialDetailsComponent,
       TicketDetailsComponent,
       ProfileComponent,
+      LoadingComponent,
       //Pipes
       AccountNamePipe
   ],
@@ -81,7 +83,7 @@ import { AppSettings } from '../settings/appsettings'
       ServerRequest,
       CookieManager,
       AuthService,
-      ObjectSort,
+      ArraySort,
       MonthProvider
   ],
   bootstrap: [AppRoot]

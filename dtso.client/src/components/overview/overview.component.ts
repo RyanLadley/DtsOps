@@ -12,6 +12,7 @@ export class OverviewComponent implements OnInit {
     editAccounts: any;
     edit: boolean;
     totalRemaining: number;
+    totalExpendatures: number;
 
     constructor(private _server: ServerRequest) {
 
@@ -139,8 +140,10 @@ export class OverviewComponent implements OnInit {
 
     getTotalRemaining() {
         this.totalRemaining = 0;
+        this.totalExpendatures = 0
         for (var i = 0; i <= this.accounts.length; i++) {
             this.totalRemaining += this.accounts[i].remainingBalance
+            this.totalExpendatures += this.accounts[i].expedituresToDate
         }
     }
 }

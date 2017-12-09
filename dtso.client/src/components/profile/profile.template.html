@@ -125,3 +125,65 @@
         </div>
     </div>
 </ng-container>
+
+<ng-container *ngIf="tab == 'Bug'">
+    <div class="account-details-column section">
+        <h2 class="section-title">Bug Report</h2>
+
+        <div class="profile-header-bar header-bar">
+            <h3>Add Bug</h3>
+        </div>
+        <p class="error red center">{{newUserError}}</p>
+        <div class="center">
+
+            <div class="label-input row center">
+                <label class="bold">Severity</label>
+                <select [(ngModel)]="newBug.severity" class="row center">
+                    <option value="Major">Major</option>
+                    <option value="Minor" selected>Minor</option>
+                    <option value="Feature">Feature Request</option>
+                </select>
+            </div>
+
+            <div class="label-input row center">
+                <label class="bold">Description</label>
+                <textarea class="row" type="text" [(ngModel)]="newBug.description" required></textarea>
+            </div>
+
+            <button class="button standard-button row" (click)="addNewBug()">Add Bug</button>
+        </div>
+    </div>
+    <div class="invoice-table-container section">
+        <h2 class="section-title">Bugs</h2>
+        <div class="filter-container profile-header-bar header-bar">
+            <div class="filter" [ngClass]="{'selected-filter' : displayedFilter == 'All'}" (click)="setDisplayedFilter('All')">
+                <p>All</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedFilter == 'Major'}" (click)="setDisplayedFilter('Major')">
+                <p>Major</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedFilter == 'Minor'}" (click)="setDisplayedFilter('Minor')">
+                <p>Minor</p>
+            </div>
+            <div class="filter" [ngClass]="{'selected-filter': displayedFilter == 'cityAccount'}" (click)="setDisplayedFilter('Feature')">
+                <p>Feature Request</p>
+            </div>
+        </div>
+
+
+        <table class="invoice-details-table table">
+            <tr class="table-head">
+                <th class="default-size">Severity</th>
+                <th class="default-size">Description</th>
+                <th class="number">Date Created</th>
+            </tr>
+            <ng-container *ngFor="let bug of displayedBugs; let i = index">
+                <tr>
+                    <td class="default-size">{{bug.severity}}</td>
+                    <td class="default-size">{{bug.description}}</td>
+                    <td class="number">{{bug.dateCreated | date:'longDate'}}</td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+</ng-container>

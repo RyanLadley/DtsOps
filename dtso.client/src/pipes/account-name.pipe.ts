@@ -14,7 +14,7 @@ export class AccountNamePipe implements PipeTransform {
             return [account.accountNumber, account.subNo].join('-')
         }
         else {
-            return account.accountNumber
+            return account.accountNumber.toString();
         }
     }
 }

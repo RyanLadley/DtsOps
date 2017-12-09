@@ -14,8 +14,10 @@ export class ProfileComponent implements OnInit {
     newUser: any;
     editUser: any;
     currentUser: any;
-
-
+    newBug: any;
+    bugs: any;
+    displayedFilter: string;
+    displayedBugs: any[];
     userEditError: string;
     newUserError: string;
     tab: string;
@@ -37,9 +39,13 @@ export class ProfileComponent implements OnInit {
         this.newUserError = null
         this.userEditError = null;
         this.tab = tab;
-
+        this.newBug = {};
         if (tab == "Admin") {
             this.getUserListing();
+        }
+        if (tab == "Bug") {
+            this.displayedFilter = "All";
+            this.getBugs();
         }
     }
 
@@ -94,5 +100,43 @@ export class ProfileComponent implements OnInit {
 
     getPermissions() {
         return this._authService.getPermissions();
+    }
+
+    setDisplayedFilter(filter: string) {
+        this.displayedFilter = filter;
+        if (this.displayedFilter == 'All') {
+            this.displayedBugs = this.bugs;
+        }
+        else {
+            this.displayedBugs = []
+            for (var i = 0; i < this.bugs.length; i++) {
+                if (this.bugs[i].severity == filter) {
+                    this.displayedBugs.push(this.bugs[i]);
+                }
+            }
+            console.log(this.bugs)
+        }
+    }
+
+    getBugs() {
+        this._server.get('api/bug').subscribe(
+            response => {
+                this.bugs = response;
+                this.setDisplayedFilter(this.displayedFilter);
+            },
+            error => { }
+        )
+    }
+
+    addNewBug() {
+        console.log(this.newBug);
+        this._server.post('api/bug', this.newBug).subscribe(
+            response => {
+                this.bugs = response;
+                this.setDisplayedFilter(this.displayedFilter);
+                this.newBug = {}
+            },
+            error => { }
+        )
     }
 }

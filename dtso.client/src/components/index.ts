@@ -17,3 +17,4 @@ export * from './ticket-details/ticket-details.component';
 export * from './search/search.component';
 export * from './material-details/material-details.component';
 export * from './profile/profile.component';
+export * from './loading/loading.component';

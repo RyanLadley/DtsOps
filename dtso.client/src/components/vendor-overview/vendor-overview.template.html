@@ -18,15 +18,15 @@
 <div class="section vendor-section">
     <table class="table" id="vendor-overview-table">
         <tr class="table-head">
-            <th class="default-size">Name</th>
-            <th class="default-size">Contract Number</th>
-            <th class="default-size">Contract Start</th>
-            <th class="default-size">Contract End</th>
-            <th class="default-size">Point Of Contact</th>
-            <th class="default-size">Phone Number</th>
-            <th class="default-size">Email</th>
-            <th class="default-size">Website</th>
-            <th class="number">Status</th>
+            <th class="default-size sortable" (click)="sortBy('name')">Name<i class="fa" [ngClass]="getSortIcon('name')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('contractNumber')">Contract Number<i class="fa" [ngClass]="getSortIcon('contractNumber')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('contractStart')">Contract Start<i class="fa" [ngClass]="getSortIcon('contractStart')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('contractEnd')">Contract End<i class="fa" [ngClass]="getSortIcon('contractEnd')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('pointOfContact')">Point Of Contact<i class="fa" [ngClass]="getSortIcon('pointOfContact')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('phoneNumber')">Phone Number<i class="fa" [ngClass]="getSortIcon('phoneNumber')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('email')">Email<i class="fa" [ngClass]="getSortIcon('email')" aria-hidden="true"></i></th>
+            <th class="default-size sortable" (click)="sortBy('website')">Website<i class="fa" [ngClass]="getSortIcon('website')" aria-hidden="true"></i></th>
+            <th class="number sortable" (click)="sortBy('status')">Status<i class="fa" [ngClass]="getSortIcon('status')" aria-hidden="true"></i></th>
             <th></th>
 
         </tr>

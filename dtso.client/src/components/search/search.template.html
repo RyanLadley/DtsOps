@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div class="section search-bar-section">
+<div class="section search-bar-section" *ngIf="!searching">
     <h2>Search Results</h2>
     <div class="search-result-listing clickable" [ngClass]="getClassForType(result.type)" *ngFor="let result of displayedResults" (click)="gotoResultDetails(result.id, result.type)">
         <h3>{{result.name}}</h3>
@@ -33,3 +33,5 @@
         <p *ngIf="result.description">{{result.description}}</p>
     </div>
 </div>
+
+<loading *ngIf="searching"></loading>

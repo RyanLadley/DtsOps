@@ -6,7 +6,6 @@ using dtso.data.Entities;
 using dtso.data.Context;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using dtso.data.Repositories.Interfaces;
 using System.Data.SqlClient;
 
 namespace dtso.data.Repositories
