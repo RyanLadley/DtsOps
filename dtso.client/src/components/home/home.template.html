@@ -3,11 +3,7 @@
 <div class="home-page">
     <div class="grid-container home-grid">
         <div class="grid-12-2 home-greating">
-            <h1>Good Morning Ryan</h1>
-            <div class="settings-dropdown">
-                <i class="fa fa-caret-down caret-down" aria-hidden="true"></i>
-                <i class="fa fa-cog fa-2x" aria-hidden="true"></i>
-            </div>
+            <h1>Good {{getGreeting()}}, {{getName()}}</h1>
         </div>
 
         <div class="grid-12-3">
@@ -26,7 +22,7 @@
                 <p>View an overview of all accounts. This page is analogous to the "Summary" Excel spreadsheet</p>
             </div>
         </a>
-        <div class="grid-3-6 home-selection blue-selection entry-selection">
+        <a [routerLink]="['/entry']" class="grid-3-6 home-selection blue-selection entry-selection">
             <div class="home-selection-background blue-background"></div><div class="home-selection-gradiant blue-gradiant"></div>
             <div class="home-selection-text">
                 <i class="fa fa-keyboard-o fa-2x" aria-hidden="true"></i>
@@ -35,8 +31,8 @@
                 </div>
                 <p>Add a new invoice, ticket,  or vendor into the system.</p>
             </div>
-        </div>
-        <div class="grid-3-6 home-selection blue-selection vendors-selection">
+        </a>
+        <a [routerLink]="['/vendor']" class="grid-3-6 home-selection blue-selection vendors-selection">
             <div class="home-selection-background blue-background"></div><div class="home-selection-gradiant blue-gradiant"></div>
             <div class="home-selection-text">
                 <i class="fa fa-truck fa-2x" aria-hidden="true"></i>
@@ -45,8 +41,8 @@
                 </div>
                 <p>Get an indepth look at a vendor</p>
             </div>
-        </div>
-        <div class="grid-6-6 home-selection blue-selection reports-selection">
+        </a>
+        <div [routerLink]="['/reports']" class="grid-6-6 home-selection blue-selection reports-selection">
             <div class="home-selection-background blue-background"></div><div class="home-selection-gradiant blue-gradiant"></div>
             <div class="home-selection-text">
                 <i class="fa fa-pie-chart fa-2x" aria-hidden="true"></i>

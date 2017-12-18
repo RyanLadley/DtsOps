@@ -25,10 +25,10 @@ export class SiteLocation {
         else if (/\/entry*/.test(path)) {
             this.entry = true;
         }
-        else if (/\/reports*/.test(path)) {
+        else if (/\/report*/.test(path)) {
             this.reports = true;
         }
-        else if (/\/vendors*/.test(path)) {
+        else if (/\/vendor*/.test(path)) {
             this.vendors = true;
         }
         else if (/\/profile*/.test(path)) {

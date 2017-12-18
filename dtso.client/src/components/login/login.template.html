@@ -11,7 +11,7 @@
 
         <div class="login">
             <h1 class="title"> Sign In</h1>
-            <p class="login-error">{{errorMessage}}</p>
+            <p class="error red center">{{errorMessage}}</p>
             <div class="login-section">
                 <h3>Email</h3>
                 <input type="email" name="loginEmail" [(ngModel)]="loginForm.email" placeholder="Email" (keyup.enter)="login()" autofocus>

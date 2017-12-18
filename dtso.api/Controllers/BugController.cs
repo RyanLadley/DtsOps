@@ -45,7 +45,7 @@ namespace dtso.api.Controllers
             else if (string.IsNullOrEmpty(form.Description))
             {
                 error.ErrorCode = ErrorCode.INVALID;
-                error.Message = "Please provide the descriptio of the bug.";
+                error.Message = "Please provide the description of the bug.";
             }
 
             if (error.ErrorCode != ErrorCode.OKAY)

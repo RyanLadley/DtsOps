@@ -44,6 +44,10 @@ export class AuthService{
     getPermissions() {
         if(this.user == undefined){
             this.user = this._cookieManager.getUser();
+            
+            if (this.user == undefined) {
+                return;
+            }
         }
 
         return this.user.permissions;
@@ -52,6 +56,9 @@ export class AuthService{
     getFirstName() {
         if (this.user == undefined) {
             this.user = this._cookieManager.getUser();
+            if (this.user == undefined) {
+                return;
+            }
         }
 
         return this.user.firstName;
@@ -60,6 +67,9 @@ export class AuthService{
     getFullName() {
         if (this.user == undefined) {
             this.user = this._cookieManager.getUser();
+            if (this.user == undefined) {
+                return;
+            }
         }
 
         return this.user.firstName + " " +this.user.lastName;

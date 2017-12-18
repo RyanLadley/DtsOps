@@ -13,6 +13,7 @@ export * from './ticket-entry/ticket-entry.component';
 export * from './transfer-entry/transfer-entry.component';
 export * from './vendor-overview/vendor-overview.component';
 export * from './vendor-details/vendor-details.component';
+export * from './report-overview/report-overview.component';
 export * from './ticket-details/ticket-details.component';
 export * from './search/search.component';
 export * from './material-details/material-details.component';

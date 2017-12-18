@@ -6,3 +6,4 @@ packages/*
 .vs/*
 */results.xml
 */obj/*
+*/bin/*/Release/*

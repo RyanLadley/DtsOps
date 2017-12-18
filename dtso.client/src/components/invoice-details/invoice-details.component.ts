@@ -26,7 +26,11 @@ export class InvoiceDetailsComponent implements OnInit {
     vendorsWithMaterial: any[];
     cityAccounts: any[];
     accounts: any[];
-    
+
+    //Datepicker Values
+    invoiceDate: any;
+    datePaid: any;
+
     sortExpensesAscending: boolean;
     currentExpenseSort: string;
 
@@ -67,6 +71,12 @@ export class InvoiceDetailsComponent implements OnInit {
                 this.toggleEditTable(false);
             }
 
+            //Initiazlie Date Picker Dates
+            let inDate = new Date(this.invoice.invoiceDate)
+            this.invoiceDate = { date: { year: inDate.getFullYear(), month: inDate.getMonth() + 1, day: inDate.getDate() } };
+            let paid = new Date(this.invoice.datePaid)
+            this.datePaid = { date: { year: paid.getFullYear(), month: paid.getMonth() + 1, day: paid.getDate() } };
+
             this.getEditData();
             this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
         }
@@ -85,6 +95,7 @@ export class InvoiceDetailsComponent implements OnInit {
         this.editTable = editing;
         if (editing) {
             if (this.editBasics) {
+                
                 this.toggleEditBasics(false);
             }
 
@@ -234,6 +245,17 @@ export class InvoiceDetailsComponent implements OnInit {
         }
         else {
             var invoiceForm = InvoiceForm.MapFromDetials(this.invoice);
+
+            if (this.invoiceDate == null) {
+                this.errorMessage = "An invoice date is required.";
+                return
+            }
+            if (this.datePaid == null) {
+                this.errorMessage = "A date paid date is required.";
+                return
+            }
+            invoiceForm.invoiceDate = new Date(this.invoiceDate.date.year, this.invoiceDate.date.month - 1, this.invoiceDate.date.day);
+            invoiceForm.datePaid = new Date(this.datePaid.date.year, this.datePaid.date.month - 1, this.datePaid.date.day);
 
             invoiceForm.cityExpensesToRemove = this.cityExpenseToRemove;
             invoiceForm.invoiceAccountsToRemove = this.invoiceAccountsToRemove;

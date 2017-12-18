@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { MyDatePickerModule } from 'mydatepicker';
 import { CookieModule } from 'ngx-cookie';
 
 import {
@@ -23,6 +23,7 @@ import {
     VendorDetailsComponent,
     AccountSelectComponent,
     TicketDetailsComponent,
+    ReportOverviewComponent,
     SearchComponent,
     MaterialDetailsComponent,
     ProfileComponent,
@@ -65,6 +66,7 @@ import { AppSettings } from '../settings/appsettings'
       SearchComponent,
       MaterialDetailsComponent,
       TicketDetailsComponent,
+      ReportOverviewComponent,
       ProfileComponent,
       LoadingComponent,
       //Pipes
@@ -74,6 +76,7 @@ import { AppSettings } from '../settings/appsettings'
       BrowserModule,
       HttpModule,
       FormsModule,
+      MyDatePickerModule,
       ReactiveFormsModule,
       CookieModule.forRoot(),
       RouterModule.forRoot(appRoutes, { useHash: true })

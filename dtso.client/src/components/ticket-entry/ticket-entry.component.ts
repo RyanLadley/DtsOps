@@ -66,11 +66,13 @@ export class TicketEntryComponent implements OnInit {
         
         if (!this.vendorId)
             return;
-
+        
         //Assign the selected accpunt and vendor ids to the tickets
         for (var i = 0; i < this.tickets.length; i++){
             this.tickets[i].accountId = this.accountId;
             this.tickets[i].vendorId = this.vendorId;
+
+            this.tickets[i].date = new Date(this.tickets[i].rawDate.date.year, this.tickets[i].rawDate.date.month - 1, this.tickets[i].rawDate.date.day);
         }
 
         this._server.post("api/ticket", this.tickets).subscribe(

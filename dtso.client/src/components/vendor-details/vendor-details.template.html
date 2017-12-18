@@ -31,12 +31,13 @@
                 <tr>
                     <td class="default-size bold">Contract Start</td>
                     <td class="number" *ngIf="!editBasics">{{vendor.contractStart | date:'shortDate'}}</td>
-                    <td class="number" *ngIf="editBasics"><input type="date"  [value]="vendor.contractStart | date:'yyyy-MM-dd'" (input)="vendor.contractStart=parseDate($event.target.value)" required></td>
+                    
+                    <td *ngIf="editBasics"><my-date-picker class="invoice-textfield datepicker right" [(ngModel)]="contractStart" required></my-date-picker></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Contract End</td>
                     <td class="number"  *ngIf="!editBasics">{{vendor.contractEnd | date:'shortDate'}}</td>
-                    <td class="number" *ngIf="editBasics"><input type="date" [value]="vendor.contractEnd | date:'yyyy-MM-dd'" (input)="vendor.contractEnd=parseDate($event.target.value)" required></td>
+                    <td *ngIf="editBasics"><my-date-picker class="invoice-textfield datepicker right" [(ngModel)]="contractEnd" required></my-date-picker></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Status</td>
@@ -123,7 +124,7 @@
             <tr class="table-head">
                 <th class="default-size sortable" (click)="sortTicketsBy('account')">Account<i class="fa" [ngClass]="getTicketSortIcon('account')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('ticketNumber')">Ticket Number<i class="fa" [ngClass]="getTicketSortIcon('ticketNumber')" aria-hidden="true"></i></th>
-                <th class="default-size sortable" (click)="sortTicketsBy('vendor')">Vendor<i class="fa" [ngClass]="getTicketSortIcon('vendor')" aria-hidden="true"></i></th>
+                <th class="default-size sortable" (click)="sortTicketsBy('date')">Date<i class="fa" [ngClass]="getTicketSortIcon('date')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('invoice')">Invoice<i class="fa" [ngClass]="getTicketSortIcon('invoice')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('material')">Material<i class="fa" [ngClass]="getTicketSortIcon('material')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('quantity')">Quantity<i class="fa" [ngClass]="getTicketSortIcon('quantity')" aria-hidden="true"></i></th>
@@ -133,7 +134,7 @@
                 <tr [routerLink]="['/ticket', ticket.ticketId]" class="clickable">
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>
-                    <td class="default-size">{{ticket.vendor.name}}</td>
+                    <td class="default-size">{{ticket.date | date:'shortDate'}}</td>
                     <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoiceNumber}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
                     <td class="default-size">{{ticket.material.name}}</td>
                     <td class="default-size">{{ticket.quantity}} {{ticket.material.unit}}</td>

@@ -28,14 +28,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="label-input">
+            <div class="label-input datepicker">
                 <label>Invoice Date</label>
-                <input type="date" class="invoice-textfield"  [(ngModel)]="invoice.invoiceDate" required>
+                <my-date-picker class="invoice-textfield" [(ngModel)]="invoiceDate" required></my-date-picker>
             </div>
 
-            <div class="label-input">
+            <div class="label-input datepicker">
                 <label>Date Paid</label>
-                <input type="date" class="invoice-textfield" [(ngModel)]="invoice.datePaid" required>
+                <my-date-picker class="invoice-textfield" [(ngModel)]="datePaid" required></my-date-picker>
             </div>
         </div>
 

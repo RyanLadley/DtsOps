@@ -41,7 +41,7 @@
                 <tr>
                     <td class="default-size bold">Ticket Date</td>
                     <td class="number" *ngIf="!editBasics">{{ticket.date | date:'shortDate'}}</td>
-                    <td class="number" *ngIf="editBasics"><input type="date" [value]="ticket.date | date:'yyyy-MM-dd'" (input)="ticket.date=parseDate($event.target.value)" /></td>
+                    <td *ngIf="editBasics"><my-date-picker class="invoice-textfield datepicker right" [(ngModel)]="ticketDate" required></my-date-picker></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Material</td>

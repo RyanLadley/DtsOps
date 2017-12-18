@@ -13,7 +13,9 @@ export class InvoiceEntryComponent implements OnInit {
     @Input() vendors: any[];
     @Input() invoiceTypes: any[];
     @Input() cityAccounts: any[];
-    
+
+    datePaid: any;
+    invoiceDate: any;
     invoice: InvoiceForm;
     errorMessage: string;
     constructor(private _router: Router, private _server: ServerRequest) {
@@ -21,6 +23,10 @@ export class InvoiceEntryComponent implements OnInit {
     }
     ngOnInit(){
         this.invoice = new InvoiceForm();
+
+        let now = new Date();
+        this.datePaid = { date: { year: now.getFullYear(), month: now.getMonth()+1, day: now.getDate() } };
+        this.invoiceDate = { date: { year: now.getFullYear(), month: now.getMonth()+1, day: now.getDate() } };
     }
 
     addAccount() {
@@ -45,7 +51,9 @@ export class InvoiceEntryComponent implements OnInit {
 
     submitNewInvoice() {
         //Add validation and stuff. Have fun future me
-        console.log(this.invoice);
+        this.invoice.datePaid = new Date(this.datePaid.date.year, this.datePaid.date.month-1, this.datePaid.date.day);
+        this.invoice.invoiceDate = new Date(this.invoiceDate.date.year, this.invoiceDate.date.month-1, this.invoiceDate.date.day);
+        console.log(this.invoice)
         this._server.post("api/invoice", this.invoice).subscribe(
             response => { this._router.navigate(['/invoice', response.invoiceId]); },
             error => { this.errorMessage = error; console.log(error) }

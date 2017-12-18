@@ -1,0 +1,4 @@
+﻿.report-overview-background {
+    @include background-horiz-img-gradient(#f9f9f9, rgba( 249, 249, 249,0.7), '../images/uccs.jpg', top, center);
+    background-size: cover;
+}

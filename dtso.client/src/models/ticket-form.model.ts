@@ -9,11 +9,13 @@
     quantity: number;
     cost: number;
     invoiceId: number;
-
+    rawDate: any;
     constructor() {
         this.material = { cost: 0 };
         this.cost = 0;
         this.quantity = 0;
+        let now = new Date();
+        this.rawDate = { date: { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() } };
     }
 
     static MapFromDetails(details: any) {

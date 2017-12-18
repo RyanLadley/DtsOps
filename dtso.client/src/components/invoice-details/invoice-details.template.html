@@ -47,12 +47,12 @@
                 <tr>
                     <td class="default-size bold">Invoice Date</td>
                     <td class="number" *ngIf="!editBasics">{{invoice.invoiceDate | date:'shortDate'}}</td>
-                    <td class="number" *ngIf="editBasics"><input type="date" class="invoice-textfield" [value]="invoice.invoiceDate | date:'yyyy-MM-dd'" (input)="invoice.invoiceDate=parseDate($event.target.value)" required></td>
+                    <td *ngIf="editBasics"><my-date-picker class="invoice-textfield datepicker right" [(ngModel)]="invoiceDate" required></my-date-picker></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Date Paid</td>
                     <td class="number" *ngIf="!editBasics">{{invoice.datePaid  | date:'shortDate'}}</td>
-                    <td class="number" *ngIf="editBasics"><input type="date" class="invoice-textfield" [value]="invoice.datePaid | date:'yyyy-MM-dd'" (input)="invoice.datePaid=parseDate($event.target.value)" required></td>
+                    <td *ngIf="editBasics"><my-date-picker class="invoice-textfield datepicker right" [(ngModel)]="datePaid" required></my-date-picker></td>
                 </tr>
                 <tr>
                     <td class="default-size bold">Total Expense</td>

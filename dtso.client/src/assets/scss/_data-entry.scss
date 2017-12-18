@@ -6,7 +6,7 @@
 .data-entry-page-head {
     box-sizing: border-box;
     width: 95%;
-    min-width: 560px;
+    min-width: 1150px;
 }
 .data-entry-header-bar {
     background: $purple;
@@ -33,6 +33,7 @@
 
 .data-entry-section {
     width: 95%;
+    min-width: 1150px;
     box-sizing: border-box;
 
     .remove-button, .add-button {

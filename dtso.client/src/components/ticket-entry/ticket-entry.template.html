@@ -16,9 +16,9 @@
 
             <a class=" remove-button button" (click)="removeTicket(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
 
-            <div class="label-input">
+            <div class="label-input datepicker">
                 <label>Date</label>
-                <input type="date" class="invoice-textfield" [(ngModel)]="ticket.date" name="date" required>
+                <my-date-picker class="invoice-textfield" [(ngModel)]="ticket.rawDate" name="ticketDate" required></my-date-picker>
             </div>
 
             <div class="label-input">

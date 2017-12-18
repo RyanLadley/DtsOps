@@ -141,7 +141,7 @@ export class OverviewComponent implements OnInit {
     getTotalRemaining() {
         this.totalRemaining = 0;
         this.totalExpendatures = 0
-        for (var i = 0; i <= this.accounts.length; i++) {
+        for (var i = 0; i < this.accounts.length; i++) {
             this.totalRemaining += this.accounts[i].remainingBalance
             this.totalExpendatures += this.accounts[i].expedituresToDate
         }

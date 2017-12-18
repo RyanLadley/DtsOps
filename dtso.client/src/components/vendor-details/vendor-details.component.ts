@@ -17,13 +17,17 @@ export class VendorDetailsComponent implements OnInit {
     editBasics: boolean
     permissions: any;
     errorMessage: string;
-    
+
+    //Datepicker Values
+    contractStart: any;
+    contractEnd: any;
+
     sortInvoiceAscending: boolean;
     currentInvoiceSort: string;
 
     sortTicketAscending: boolean;
     currentTicketSort: string;
-
+    
     constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _sorter: ArraySort) {
         
     }
@@ -45,10 +49,18 @@ export class VendorDetailsComponent implements OnInit {
 
         this.editBasics = editing;
         if (editing) {
-            
+
+            //Initiazlie Date Picker Dates
+            let end = new Date(this.vendor.contractEnd)
+            this.contractEnd = { date: { year: end.getFullYear(), month: end.getMonth() + 1, day: end.getDate() } };
+
+            let start = new Date(this.vendor.contractStart)
+            this.contractStart = { date: { year: start.getFullYear(), month: start.getMonth() + 1, day: start.getDate() } };
+
             this.tempVendor = JSON.parse(JSON.stringify(this.vendor));
         }
         else {
+            this.errorMessage = null;
             this.vendor = JSON.parse(JSON.stringify(this.tempVendor));
         }
     }
@@ -67,10 +79,9 @@ export class VendorDetailsComponent implements OnInit {
     getVendor(id: string) {
         this._server.get('api/vendor/' + id).subscribe(
             response => {
-                this.vendor = response; console.log(response);
+                this.vendor = response;
                 this.displayedBreakdown = "Invoice";
-                this.sortInvoicesBy(this.currentInvoiceSort);
-                this.sortTicketsBy(this.currentTicketSort);
+                this.processVendorFromServer() 
             },
             error => {}
         )
@@ -93,13 +104,32 @@ export class VendorDetailsComponent implements OnInit {
         //This means we are edinting tickets, se we have to send a diffrent call
         var vendorForm = VendorForm.MapFromDetails(this.vendor);
 
+        if (this.contractStart == null) {
+            this.errorMessage = "A contract start date is required.";
+            return
+        }
+        if (this.contractEnd == null) {
+            this.errorMessage = "A contract end date is required.";
+            return
+        }
+        vendorForm.contractStart = new Date(this.contractStart.date.year, this.contractStart.date.month - 1, this.contractStart.date.day);
+        vendorForm.contractEnd = new Date(this.contractEnd.date.year, this.contractEnd.date.month - 1, this.contractEnd.date.day);
+
         this._server.post('api/vendor/edit', vendorForm).subscribe(
             response => {
                 this.vendor = response;
+                this.sortInvoiceAscending = !this.sortInvoiceAscending // This is so we dont switch the direction of the ascent when processing
+                this.processVendorFromServer() 
                 this.editBasics = false;
             },
             error => { this.errorMessage = error  }
         )
+    }
+
+    processVendorFromServer() {
+
+        this.sortInvoicesBy(this.currentInvoiceSort);
+        this.sortTicketsBy(this.currentTicketSort);
     }
 
     getInvoiceSortIcon(field) {

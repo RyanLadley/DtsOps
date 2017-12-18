@@ -6,22 +6,26 @@
         <div class="sub-header-bar header-bar">
             <h3>Basic Information</h3>
         </div>
-        <div class="label-input">
-            <label>Vendor Name</label>
-            <input type="text" [(ngModel)]="vendor.vendorName" placeholder="Vendor Name" required>
-        </div>
         <div class="row">
             <div class="label-input">
+                <label>Vendor Name</label>
+                <input type="text" [(ngModel)]="vendor.vendorName" placeholder="Vendor Name" required>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="label-input">
                 <label>Contract Number</label>
-                <input type="text"  [(ngModel)]="vendor.contractNumber" placeholder="Contract Number" required>
+                <input type="text" [(ngModel)]="vendor.contractNumber" placeholder="Contract Number" required>
             </div>
-            <div class="label-input">
+
+            <div class="label-input datepicker">
                 <label>Contract Start</label>
-                <input type="date" class="invoice-textfield"  [(ngModel)]="vendor.contractStart" required>
+                <my-date-picker class="invoice-textfield" [(ngModel)]="contractStart" required></my-date-picker>
             </div>
-            <div class="label-input">
+            <div class="label-input datepicker">
                 <label>Contract End</label>
-                <input type="date" class="invoice-textfield"  [(ngModel)]="vendor.contractEnd" required>
+                <my-date-picker class="invoice-textfield" [(ngModel)]="contractEnd" required></my-date-picker>
             </div>
         </div>
 

@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
     userEditError: string;
     newUserError: string;
     tab: string;
+    bugErrorMessage: string;
 
     constructor(private _server: ServerRequest, private _authService: AuthService) {
         
@@ -136,7 +137,7 @@ export class ProfileComponent implements OnInit {
                 this.setDisplayedFilter(this.displayedFilter);
                 this.newBug = {}
             },
-            error => { }
+            error => { this.bugErrorMessage = error; }
         )
     }
 }

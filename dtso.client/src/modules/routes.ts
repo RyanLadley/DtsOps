@@ -11,6 +11,7 @@ import {
     SearchComponent,
     TicketDetailsComponent,
     MaterialDetailsComponent,
+    ReportOverviewComponent,
     ProfileComponent
 } from '../components/index'
 
@@ -26,5 +27,6 @@ export const appRoutes = [
     { path: 'search', component: SearchComponent },
     { path: 'ticket/:id', component: TicketDetailsComponent },
     { path: 'material/:id', component: MaterialDetailsComponent },
+    { path: 'report', component: ReportOverviewComponent },
     { path: 'profile', component: ProfileComponent }
 ];

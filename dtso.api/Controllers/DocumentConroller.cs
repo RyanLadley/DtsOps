@@ -14,14 +14,16 @@ namespace dtso.api.Controllers
     public class DocumentConroller : Controller
     {
         private WordDocumentHandle _wordDocument;
+        private SpreadsheetDocumentHandle _spreadsheet;
 
-        public DocumentConroller(WordDocumentHandle wordDocument)
+        public DocumentConroller(WordDocumentHandle wordDocument, SpreadsheetDocumentHandle spreadsheet)
         {
             _wordDocument = wordDocument;
+            _spreadsheet = spreadsheet;
         }
 
-        [HttpGet("coversheet/invoice/{invoiceid}")]
-        public async Task<IActionResult> CreateInvoiceAsync(int invoiceId)
+        //[HttpGet("coversheet/invoice/{invoiceid}")]
+        public IActionResult CreateInvoiceAsync(int invoiceId)
         {
             var filePath =  _wordDocument.WriteSingleInvoiceCoversheet(invoiceId);
 
@@ -34,6 +36,16 @@ namespace dtso.api.Controllers
             }
             memory.Position = 0;
             return File(memory, GetContentType(filePath), Path.GetFileName(filePath));*/
+        }
+
+        //[HttpGet("backup")]
+        [HttpGet("coversheet/invoice/{invoiceid}")]
+        public IActionResult CreateBackupSpreadsheet(int invoiceId)
+        {
+            var filePath = _spreadsheet.WriteBackupSpreadsheet();
+
+
+            return Ok(filePath);
         }
 
         private string GetContentType(string path)

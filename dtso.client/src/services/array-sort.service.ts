@@ -8,8 +8,6 @@ export class ArraySort {
         if (array.length <= 1) {
             return array;
         }
-        console.log(array);
-        console.log(property)
         //This finds out what the type of the property is, then sort accordingly
         //We loop through the array to find the frst none null value to sort by
         if (type == null) {
@@ -18,7 +16,7 @@ export class ArraySort {
             }
             else {
                 for (var i = 0; i < array.length; i++) {
-                    if (array[i] != null) {
+                    if (array[i][property] != null) {
                         type = typeof array[i][property];
                         break;
                     }

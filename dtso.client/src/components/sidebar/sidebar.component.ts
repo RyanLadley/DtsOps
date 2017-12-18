@@ -22,15 +22,24 @@ export class SidebarComponent implements OnInit {
         this.icons = new SiteLocation(this._router);
     }
 
-    canDisplay(): boolean{
+    canDisplay(): boolean {
         return !(this._router.url == "/login")
     }
+
     signOut() {
         this._authService.logout();
     }
 
     getPermissions() {
-        return this._authService.getPermissions();
+        var persmissions = this._authService.getPermissions();
+
+        if (persmissions == null || persmissions == undefined) {
+            this._authService.logout();
+            return false;
+        }
+        else {
+            return persmissions;
+        }
     }
 
 }

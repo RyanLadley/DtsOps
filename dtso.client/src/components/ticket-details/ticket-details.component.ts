@@ -12,6 +12,9 @@ export class TicketDetailsComponent implements OnInit {
     ticket: any;
     tempTicket: any;
 
+    //Datepicker value
+    ticketDate: any;
+
     vendors: any[];
     accounts: any[];
     materials: any[];
@@ -44,6 +47,11 @@ export class TicketDetailsComponent implements OnInit {
         this.editBasics = editing;
         if (editing) {
             this.getEditData();
+
+            //Initiazlie Date Picker Dates
+            let date = new Date(this.ticket.date)
+            this.ticketDate = { date: { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() } };
+
             this.tempTicket = JSON.parse(JSON.stringify(this.ticket));
         }
         else {
@@ -100,6 +108,12 @@ export class TicketDetailsComponent implements OnInit {
 
     submitTicketAdjustment(){
         var ticketForm = TicketForm.MapFromDetails(this.ticket);
+
+        if (this.ticketDate == null) {
+            this.errorMessage = "A ticket date is required.";
+            return
+        }
+        ticketForm.date = new Date(this.ticketDate.date.year, this.ticketDate.date.month - 1, this.ticketDate.date.day);
 
         this._server.post('api/ticket/edit', ticketForm).subscribe(
             response => {

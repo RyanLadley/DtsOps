@@ -16,6 +16,7 @@
 @import "invoice-details";
 @import "ticket-details";
 @import "material-details";
+@import "report-overview";
 @import "data-entry";
 @import "search";
 @import "profile";
@@ -29,7 +30,7 @@ body {
 }
 
 .content {
-    
+    min-width: 1280px;
     margin-left: $sidebar-extended-width + 20px;
 }
 

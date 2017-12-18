@@ -77,7 +77,7 @@ namespace dtso.api
             services.AddScoped<TicketManager>();
             services.AddScoped<TransferManager>();
             services.AddScoped<WordDocumentHandle>();
-
+            services.AddScoped<SpreadsheetDocumentHandle>();
             //Auth
             services.AddScoped<IPasswordManager, PasswordManager>();
             services.AddScoped<TokenManager>();
