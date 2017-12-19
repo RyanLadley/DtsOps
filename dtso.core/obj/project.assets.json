@@ -6239,7 +6239,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leulad\\.nuget\\packages\\": {},
+    "C:\\Users\\leu-lap\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -6248,17 +6248,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj",
+      "projectUniqueName": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.core\\dtso.core.csproj",
       "projectName": "dtso.core",
-      "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj",
-      "packagesPath": "C:\\Users\\leulad\\.nuget\\packages\\",
-      "outputPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\obj\\",
+      "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.core\\dtso.core.csproj",
+      "packagesPath": "C:\\Users\\leu-lap\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\leulad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leu-lap\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6271,8 +6271,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj"
+            "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj": {
+              "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj"
             }
           }
         }
@@ -6293,7 +6293,7 @@
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.0",
+            "version": "2.0.0",
             "autoReferenced": true
           },
           "DotNetCore.NPOI": {

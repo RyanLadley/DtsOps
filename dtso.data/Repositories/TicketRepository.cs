@@ -74,7 +74,7 @@ namespace dtso.data.Repositories
                  join vAccount in _context.vAccounts on ticket.AccountId equals vAccount.AccountId
                  where vAccount.AccountNumber == accountNumber 
                     && (!onlyPending || (onlyPending && ticket.InvoiceId == null))
-                 select ticket).Distinct()
+                 select ticket)
 
                 .Include(ticket => ticket.vAccount)
                 .Include(ticket => ticket.Invoice)
