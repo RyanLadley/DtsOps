@@ -19,6 +19,7 @@ using dtso.core.Utilities;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using dtso.core.Settings;
 
 namespace dtso.api
 {
@@ -44,6 +45,7 @@ namespace dtso.api
         {
             services.AddOptions();
             services.Configure<AuthSettings>(Configuration);
+            services.Configure<AppSettings>(Configuration);
 
             services.AddCors();
             services.AddMvc();

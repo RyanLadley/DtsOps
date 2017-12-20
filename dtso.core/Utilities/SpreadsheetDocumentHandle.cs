@@ -14,6 +14,13 @@ namespace dtso.core.Utilities
         private IInvoiceManager _invoiceManager;
         private IAccountManager _accountManager;
         private string _basePath;
+        private ICellStyle _moneyStyle;
+        private ICellStyle _borderStyle;
+        private ICellStyle _totalStyle;
+        private ICellStyle _monthlyHeaderStyle;
+        private ICellStyle _dateStyle;
+        private ICellStyle _monthlyTotalStyle;
+        private ICellStyle _monthlyTotalEndStyle;
 
         public SpreadsheetDocumentHandle(IInvoiceManager invoiceManager, IAccountManager accountManager)
         {
@@ -31,6 +38,64 @@ namespace dtso.core.Utilities
             accounts = _accountManager.PopulateHierarchyTransfers(accounts);
 
             IWorkbook workbook = new XSSFWorkbook();
+
+            var format = workbook.CreateDataFormat();
+            _moneyStyle = workbook.CreateCellStyle();
+            _moneyStyle.DataFormat = format.GetFormat("$#,##0.00");
+            _moneyStyle.BorderBottom = BorderStyle.Thin;
+            _moneyStyle.BorderTop = BorderStyle.Thin;
+            _moneyStyle.BorderLeft = BorderStyle.Thin;
+            _moneyStyle.BorderRight = BorderStyle.Thin;
+
+            _borderStyle = workbook.CreateCellStyle();
+            _borderStyle.BorderBottom = BorderStyle.Thin;
+            _borderStyle.BorderTop = BorderStyle.Thin;
+            _borderStyle.BorderLeft = BorderStyle.Thin;
+            _borderStyle.BorderRight = BorderStyle.Thin;
+
+
+            _totalStyle = workbook.CreateCellStyle();
+            _totalStyle.DataFormat = format.GetFormat("$#,##0.00");
+            _totalStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Yellow.Index;
+            _totalStyle.FillPattern = FillPattern.SolidForeground;
+            _totalStyle.BorderBottom = BorderStyle.Thin;
+            _totalStyle.BorderTop = BorderStyle.Thin;
+            _totalStyle.BorderLeft = BorderStyle.Thin;
+            _totalStyle.BorderRight = BorderStyle.Thin;
+
+            //Monthly Summary Block Header
+            _monthlyHeaderStyle = workbook.CreateCellStyle();
+            _monthlyHeaderStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
+            _monthlyHeaderStyle.Alignment = HorizontalAlignment.Center;
+            _monthlyHeaderStyle.FillPattern = FillPattern.SolidForeground;
+            _monthlyHeaderStyle.BorderLeft = BorderStyle.Thin;
+            _monthlyHeaderStyle.BorderBottom = BorderStyle.Thin;
+            _monthlyHeaderStyle.BorderRight = BorderStyle.Thin;
+            _monthlyHeaderStyle.BorderTop = BorderStyle.Thin;
+
+
+            _dateStyle = workbook.CreateCellStyle();
+            _dateStyle.DataFormat = format.GetFormat("m-d-yyyy");
+            _dateStyle.BorderBottom = BorderStyle.Thin;
+            _dateStyle.BorderTop = BorderStyle.Thin;
+            _dateStyle.BorderLeft = BorderStyle.Thin;
+            _dateStyle.BorderRight = BorderStyle.Thin;
+
+            _monthlyTotalStyle = workbook.CreateCellStyle();
+            _monthlyTotalStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
+            _monthlyTotalStyle.FillPattern = FillPattern.SolidForeground;
+            _monthlyTotalStyle.BorderBottom = BorderStyle.Thin;
+            _monthlyTotalStyle.BorderTop = BorderStyle.Thin;
+            _monthlyTotalStyle.BorderRight = BorderStyle.None;
+
+            _monthlyTotalEndStyle = workbook.CreateCellStyle();
+            _monthlyTotalEndStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
+            _monthlyTotalEndStyle.FillPattern = FillPattern.SolidForeground;
+            _monthlyTotalEndStyle.DataFormat = format.GetFormat("$#,##0.00");
+            _monthlyTotalEndStyle.BorderBottom = BorderStyle.Thin;
+            _monthlyTotalEndStyle.BorderRight = BorderStyle.Thin;
+            _monthlyTotalEndStyle.BorderTop = BorderStyle.Thin;
+
             _addSummarySheet(workbook, accounts);
 
             foreach(var account in accounts)
@@ -58,16 +123,16 @@ namespace dtso.core.Utilities
         {
             var summarySheet = workbook.CreateSheet("Summary");
 
-            var headerRow = summarySheet.CreateRow(0);
+            var row = summarySheet.CreateRow(0);
 
-            headerRow.CreateCell(0).SetCellValue("Account Code");
-            headerRow.CreateCell(1).SetCellValue("Sub Account");
-            headerRow.CreateCell(2).SetCellValue("Description");
-            headerRow.CreateCell(3).SetCellValue("2018 Budget");
-            headerRow.CreateCell(4).SetCellValue("Misc Transfer");
-            headerRow.CreateCell(5).SetCellValue("Total Budget");
-            headerRow.CreateCell(6).SetCellValue("Expenditures to Date");
-            headerRow.CreateCell(7).SetCellValue("Remaining Balance");
+            row.CreateCell(0).SetCellValue("Account Code");
+            row.CreateCell(1).SetCellValue("Sub Account");
+            row.CreateCell(2).SetCellValue("Description");
+            row.CreateCell(3).SetCellValue("2018 Budget");
+            row.CreateCell(4).SetCellValue("Misc Transfer");
+            row.CreateCell(5).SetCellValue("Total Budget");
+            row.CreateCell(6).SetCellValue("Expenditures to Date");
+            row.CreateCell(7).SetCellValue("Remaining Balance");
 
             //Add style to all cells
             var headerStyle = workbook.CreateCellStyle();
@@ -78,12 +143,11 @@ namespace dtso.core.Utilities
             headerFont.Color = NPOI.HSSF.Util.HSSFColor.White.Index;
 
             headerStyle.SetFont(headerFont);
-            foreach (var headerCell in headerRow.Cells)
+            foreach (var headerCell in row.Cells)
             {
                 headerCell.CellStyle = headerStyle;
             }
 
-            IRow row;
             int currentRow = 1;
             ICell cell;
 
@@ -92,9 +156,17 @@ namespace dtso.core.Utilities
             var accountNumberFont = workbook.CreateFont();
             accountNumberFont.IsBold = true;
             accountNumberStyle.SetFont(accountNumberFont);
+            accountNumberStyle.BorderBottom = BorderStyle.Thin;
+            accountNumberStyle.BorderTop = BorderStyle.Thin;
+            accountNumberStyle.BorderLeft = BorderStyle.Thin;
+            accountNumberStyle.BorderRight = BorderStyle.Thin;
 
             var shredNumberSyle = workbook.CreateCellStyle();
             shredNumberSyle.Alignment = HorizontalAlignment.Center;
+            shredNumberSyle.BorderBottom = BorderStyle.Thin;
+            shredNumberSyle.BorderTop = BorderStyle.Thin;
+            shredNumberSyle.BorderLeft = BorderStyle.Thin;
+            shredNumberSyle.BorderRight = BorderStyle.Thin;
 
 
             foreach (var account in accounts)
@@ -135,36 +207,34 @@ namespace dtso.core.Utilities
             rowNumber++; // Rows in exccell start at 1... losers
 
             ICell cell;
-            var format = workbook.CreateDataFormat();
-            var moneyStyle = workbook.CreateCellStyle();
-            moneyStyle.DataFormat = format.GetFormat("$#,##0.00");
 
             cell = row.CreateCell(2);
             cell.SetCellValue(account.Description);
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(3);
             cell.SetCellValue(System.Convert.ToDouble(account.AnnualBudget));
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
             cell = row.CreateCell(4);
             cell.SetCellValue(System.Convert.ToDouble(account.Transfers));
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
             //Total Budget = Annual Budget(D) - Transfers(E) 
             var totalBudgetFormula = $"D{rowNumber}-E{rowNumber}";
             cell = row.CreateCell(5);
             cell.CellFormula = totalBudgetFormula;
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
             cell = row.CreateCell(6);
             cell.SetCellValue(System.Convert.ToDouble(account.ExpedituresToDate));
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
             //Remaining = TotalBudget(5) - Expeditures(6);
             var remainingBalanceFormula = $"F{rowNumber}-G{rowNumber}";
             cell = row.CreateCell(7);
             cell.CellFormula = remainingBalanceFormula;
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
         }
 
 
@@ -185,30 +255,22 @@ namespace dtso.core.Utilities
             headerFont.Color = NPOI.HSSF.Util.HSSFColor.White.Index;
             headerStyle.SetFont(headerFont);
 
-            var headerRow = accountSheet.CreateRow(0);
-            cell = headerRow.CreateCell(0);
+            var row = accountSheet.CreateRow(0);
+            cell = row.CreateCell(0);
             cell.SetCellValue($"{accountNumber.stringifyAccountNumber()}-{account.Description}");
             cell.CellStyle = headerStyle;
             accountSheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 6));
             accountSheet.CreateRow(1);
             _addInvoiceHeader(workbook, accountSheet, 2);
 
-            //Monthly Summary Block Header
-            var monthlyHeaderStyle = workbook.CreateCellStyle();
-            monthlyHeaderStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
-            monthlyHeaderStyle.Alignment = HorizontalAlignment.Center;
-            monthlyHeaderStyle.FillPattern = FillPattern.SolidForeground;
-            monthlyHeaderStyle.BorderLeft = BorderStyle.Thin;
-            monthlyHeaderStyle.BorderBottom = BorderStyle.Thin;
-            monthlyHeaderStyle.BorderRight = BorderStyle.Thin;
-            monthlyHeaderStyle.BorderTop = BorderStyle.Thin;
+            
 
-            var row = accountSheet.CreateRow(6);
+            row = accountSheet.CreateRow(6);
             cell = row.CreateCell(8);
             cell.SetCellValue("Monthly Totals");
-            cell.CellStyle = monthlyHeaderStyle;
+            cell.CellStyle = _monthlyHeaderStyle;
             cell = row.CreateCell(9);
-            cell.CellStyle = monthlyHeaderStyle;
+            cell.CellStyle = _monthlyHeaderStyle;
             accountSheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(6, 6, 8, 9));
 
             row = accountSheet.CreateRow(7);
@@ -235,115 +297,65 @@ namespace dtso.core.Utilities
         {
             var format = workbook.CreateDataFormat();
 
-            var borderStyle = workbook.CreateCellStyle();
-            borderStyle.BorderBottom = BorderStyle.Thin;
-            borderStyle.BorderTop = BorderStyle.Thin;
-            borderStyle.BorderLeft = BorderStyle.Thin;
-            borderStyle.BorderRight = BorderStyle.Thin;
-            
 
-            var totalStyle = workbook.CreateCellStyle();
-            totalStyle.DataFormat = format.GetFormat("$#,##0.00");
-            totalStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Yellow.Index;
-            totalStyle.FillPattern = FillPattern.SolidForeground;
-            totalStyle.BorderBottom = BorderStyle.Thin;
-            totalStyle.BorderTop = BorderStyle.Thin;
-            totalStyle.BorderLeft = BorderStyle.Thin;
-            totalStyle.BorderRight = BorderStyle.Thin;
 
             var row = accountSheet.GetRow(21);
             var cell = row.CreateCell(8);
             cell.SetCellValue("Total");
-            cell.CellStyle = borderStyle;
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(9);
             cell.CellFormula = $"SUM(J9:J21)";
-            cell.CellStyle = totalStyle;
+            cell.CellStyle = _totalStyle;
         }
 
         private void _addAccountBudget(IWorkbook workbook, ISheet accountSheet, Account account)
         {
-            var borderStyle = workbook.CreateCellStyle();
-            borderStyle.BorderBottom = BorderStyle.Thin;
-            borderStyle.BorderTop = BorderStyle.Thin;
-            borderStyle.BorderLeft = BorderStyle.Thin;
-            borderStyle.BorderRight = BorderStyle.Thin;
-
-            var format = workbook.CreateDataFormat();
-            var moneyStyle = workbook.CreateCellStyle();
-            moneyStyle.DataFormat = format.GetFormat("$#,##0.00");
-            moneyStyle.BorderBottom = BorderStyle.Thin;
-            moneyStyle.BorderTop = BorderStyle.Thin;
-            moneyStyle.BorderLeft = BorderStyle.Thin;
-            moneyStyle.BorderRight = BorderStyle.Thin;
-
-            var totalStyle = workbook.CreateCellStyle();
-            totalStyle.DataFormat = format.GetFormat("$#,##0.00");
-            totalStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Yellow.Index;
-            totalStyle.FillPattern = FillPattern.SolidForeground;
-            totalStyle.BorderBottom = BorderStyle.Thin;
-            totalStyle.BorderTop = BorderStyle.Thin;
-            totalStyle.BorderLeft = BorderStyle.Thin;
-            totalStyle.BorderRight = BorderStyle.Thin;
 
             var row = accountSheet.GetRow(0) ?? accountSheet.CreateRow(0);
             
             var cell = row.CreateCell(8);
             cell.SetCellValue("Budget");
-            cell.CellStyle = borderStyle;
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(9);
             cell.SetCellValue(System.Convert.ToDouble(account.AnnualBudget - account.Transfers));
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
             row = accountSheet.GetRow(1) ?? accountSheet.CreateRow(1);
 
             cell = row.CreateCell(8);
             cell.SetCellValue("Expensed");
-            cell.CellStyle = borderStyle;
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(9);
             cell.CellFormula = "$J$22";
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
 
 
             row = accountSheet.GetRow(2) ?? accountSheet.CreateRow(2);
 
             cell = row.CreateCell(8);
             cell.SetCellValue("Remaining");
-            cell.CellStyle = borderStyle;
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(9);
             cell.CellFormula = $"j1-j2";
-            cell.CellStyle = totalStyle;
+            cell.CellStyle = _totalStyle;
         }
 
         private void _addMonthlyAccountSummaryCell(IWorkbook workbook, ISheet accountSheet, int totalRow, int index, string month)
         {
-            var borderStyle = workbook.CreateCellStyle();
-            borderStyle.BorderBottom = BorderStyle.Thin;
-            borderStyle.BorderTop = BorderStyle.Thin;
-            borderStyle.BorderLeft = BorderStyle.Thin;
-            borderStyle.BorderRight = BorderStyle.Thin;
-
-            var format = workbook.CreateDataFormat();
-            var moneyStyle = workbook.CreateCellStyle();
-            moneyStyle.DataFormat = format.GetFormat("$#,##0.00");
-            moneyStyle.BorderBottom = BorderStyle.Thin;
-            moneyStyle.BorderTop = BorderStyle.Thin;
-            moneyStyle.BorderLeft = BorderStyle.Thin;
-            moneyStyle.BorderRight = BorderStyle.Thin;
-
             var startRow = 8;
 
             var row = accountSheet.GetRow(startRow + index);
             var cell = row.CreateCell(8);
             cell.SetCellValue(month);
-            cell.CellStyle = borderStyle;
+            cell.CellStyle = _borderStyle;
 
             cell = row.CreateCell(9);
             cell.CellFormula = $"$G${totalRow}";
-            cell.CellStyle = moneyStyle;
+            cell.CellStyle = _moneyStyle;
         }
 
         private void _addInvoiceHeader(IWorkbook workbook, ISheet accountSheet, int rowNumber)
@@ -408,38 +420,18 @@ namespace dtso.core.Utilities
 
             var headerRange = new NPOI.SS.Util.CellRangeAddress(rowNumber, rowNumber, 0, 6);
             accountSheet.AddMergedRegion(headerRange);
-            var headerRow = accountSheet.CreateRow(rowNumber);
-            cell = headerRow.CreateCell(0);
+            var row = accountSheet.CreateRow(rowNumber);
+            cell = row.CreateCell(0);
             cell.SetCellValue($"{monthName}");
             cell.CellStyle = headerStyle;
-            cell = headerRow.CreateCell(6);
+            cell = row.CreateCell(6);
             cell.SetCellValue($"{monthName}");
             cell.CellStyle = headerStyle;
 
 
-            var format = workbook.CreateDataFormat();
-            var moneyStyle = workbook.CreateCellStyle();
-            moneyStyle.DataFormat = format.GetFormat("$#,##0.00");
-            moneyStyle.BorderBottom = BorderStyle.Thin;
-            moneyStyle.BorderTop = BorderStyle.Thin;
-            moneyStyle.BorderLeft = BorderStyle.Thin;
-            moneyStyle.BorderRight = BorderStyle.Thin;
-
-            var dateStyle = workbook.CreateCellStyle();
-            dateStyle.DataFormat = format.GetFormat("m-d-yyyy");
-            dateStyle.BorderBottom = BorderStyle.Thin;
-            dateStyle.BorderTop = BorderStyle.Thin;
-            dateStyle.BorderLeft = BorderStyle.Thin;
-            dateStyle.BorderRight = BorderStyle.Thin;
-
-            var normalStyle = workbook.CreateCellStyle();
-            normalStyle.BorderBottom = BorderStyle.Thin;
-            normalStyle.BorderTop = BorderStyle.Thin;
-            normalStyle.BorderLeft = BorderStyle.Thin;
-            normalStyle.BorderRight = BorderStyle.Thin;
+            
 
             rowNumber++;
-            IRow row;
             foreach(var invoice in account.MonthlyDetails[monthIndex+1].Invoices)
             {
                 foreach(var invoiceAccount in invoice.AccountTotals)
@@ -448,31 +440,31 @@ namespace dtso.core.Utilities
 
                     cell=row.CreateCell(0);
                     cell.SetCellValue(new AccountNumberTemplate(invoiceAccount.Account).stringifyAccountNumber());
-                    cell.CellStyle = normalStyle;
+                    cell.CellStyle = _borderStyle;
 
                     cell = row.CreateCell(1);
                     cell.SetCellValue(invoice.Vendor.Name);
-                    cell.CellStyle = normalStyle;
+                    cell.CellStyle = _borderStyle;
 
                     cell = row.CreateCell(2);
                     cell.SetCellValue(invoice.InvoiceDate);
-                    cell.CellStyle = dateStyle;
+                    cell.CellStyle = _dateStyle;
 
                     cell = row.CreateCell(3);
                     cell.SetCellValue(invoice.DatePaid);
-                    cell.CellStyle = dateStyle;
+                    cell.CellStyle = _dateStyle;
 
                     cell = row.CreateCell(4);
                     cell.SetCellValue(invoice.InvoiceNumber);
-                    cell.CellStyle = normalStyle;
+                    cell.CellStyle = _borderStyle;
 
                     cell = row.CreateCell(5);
                     cell.SetCellValue(invoice.Description);
-                    cell.CellStyle = normalStyle;
+                    cell.CellStyle = _borderStyle;
 
                     cell = row.CreateCell(6);
                     cell.SetCellValue(System.Convert.ToDouble(invoiceAccount.Expense));
-                    cell.CellStyle = moneyStyle;
+                    cell.CellStyle = _moneyStyle;
 
                     rowNumber++;
                 }
@@ -483,68 +475,55 @@ namespace dtso.core.Utilities
             {
                 row = accountSheet.GetRow(rowNumber) ?? accountSheet.CreateRow(rowNumber);
                 cell = row.CreateCell(0);
-                cell.CellStyle = normalStyle;
+                cell.CellStyle = _borderStyle;
 
                 cell = row.CreateCell(1);
-                cell.CellStyle = normalStyle;
+                cell.CellStyle = _borderStyle;
 
                 cell = row.CreateCell(2);
-                cell.CellStyle = dateStyle;
+                cell.CellStyle = _dateStyle;
 
                 cell = row.CreateCell(3);
-                cell.CellStyle = dateStyle;
+                cell.CellStyle = _dateStyle;
 
                 cell = row.CreateCell(4);
-                cell.CellStyle = normalStyle;
+                cell.CellStyle = _borderStyle;
 
                 cell = row.CreateCell(5);
-                cell.CellStyle = normalStyle;
+                cell.CellStyle = _borderStyle;
 
                 cell = row.CreateCell(6);
-                cell.CellStyle = moneyStyle;
+                cell.CellStyle = _moneyStyle;
 
                 rowNumber++;
                 usedRows++;
             }
 
-            var totalStyle = workbook.CreateCellStyle();
-            totalStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
-            totalStyle.FillPattern = FillPattern.SolidForeground;
-            totalStyle.BorderBottom = BorderStyle.Thin;
-            totalStyle.BorderTop = BorderStyle.Thin;
-            totalStyle.BorderRight = BorderStyle.None;
 
-            var totalEndStyle = workbook.CreateCellStyle();
-            totalEndStyle.FillForegroundColor = NPOI.HSSF.Util.HSSFColor.Coral.Index;
-            totalEndStyle.FillPattern = FillPattern.SolidForeground;
-            totalEndStyle.DataFormat = format.GetFormat("$#,##0.00");
-            totalEndStyle.BorderBottom = BorderStyle.Thin;
-            totalEndStyle.BorderRight = BorderStyle.Thin;
-            totalEndStyle.BorderTop = BorderStyle.Thin;
 
-            var totalRow = accountSheet.CreateRow(rowNumber);
-            cell = totalRow.CreateCell(0);
+            row = accountSheet.CreateRow(rowNumber);
+            cell = row.CreateCell(0);
             cell.SetCellValue($"{monthName} Total");
-            cell.CellStyle = totalStyle;
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(1);
-            cell.CellStyle = totalStyle;
+            cell = row.CreateCell(1);
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(2);
-            cell.CellStyle = totalStyle;
+            cell = row.CreateCell(2);
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(3);
-            cell.CellStyle = totalStyle;
+            cell = row.CreateCell(3);
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(4);
-            cell.CellStyle = totalStyle;
+            cell = row.CreateCell(4);
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(5);
-            cell.CellStyle = totalStyle;
+            cell = row.CreateCell(5);
+            cell.CellStyle = _monthlyTotalStyle;
 
-            cell = totalRow.CreateCell(6);
+            cell = row.CreateCell(6);
             cell.CellFormula = $"SUM(G{startRow+2}:G{rowNumber})";
-            cell.CellStyle = totalEndStyle;
+            cell.CellStyle = _monthlyTotalEndStyle;
 
             rowNumber++;
 
