@@ -76,8 +76,8 @@ export class MaterialDetailsComponent implements OnInit {
 
     getVendors() {
         this._server.get('api/vendor').subscribe(
-            response => { console.log(response);this.vendors = response;},
-            error => { }
+            response => { this.vendors = response; },
+            error => { this.errorMessage = error }
         )
     }
     
@@ -150,7 +150,7 @@ export class MaterialDetailsComponent implements OnInit {
                 this.material = response;
                 this.editTable = false;
             },
-            error => { }
+            error => { this.errorMessage = error}
         )
     }
 

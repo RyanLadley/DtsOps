@@ -18,6 +18,11 @@
     }
 }
 
+//Remove the red border from firefox required fields
+.input:invalid {
+    box-shadow: inherit;
+}
+
 .label-input {
     float: left;
     margin: 10px 20px 10px 0;

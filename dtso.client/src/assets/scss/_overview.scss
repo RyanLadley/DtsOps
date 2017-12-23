@@ -4,7 +4,7 @@
 }
 
 #overview-table {
-    width: 1400px;
+    width: 95%;
     background: #F5F5F5;
 
     tr {
@@ -90,7 +90,7 @@
     }
 
     .total-label {
-        width: 965px;
+        width: 69%;
         text-align: right;
         font-weight: bold;
     }
@@ -108,4 +108,21 @@
 
 .overview-button {
     margin-bottom: 50px;
+}
+
+@media screen and (max-width: $mobile-site-start-width) {
+    #overview-table {
+        width: 100% !important;
+        min-width: 702px;
+
+        tr {
+            td, th {
+                width: 18%;
+            }
+        }
+
+        .total-label {
+            width: 57.5%;
+        }
+    }
 }

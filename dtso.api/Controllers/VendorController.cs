@@ -3,6 +3,7 @@ using dtso.api.Models.Responses;
 using dtso.api.Utilities;
 using dtso.core.Enums;
 using dtso.core.Managers;
+using dtso.core.Models;
 using dtso.core.Utilties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,31 +48,37 @@ namespace dtso.api.Controllers
         public IActionResult CreateVendor([FromBody] VendorForm form)
         {
             var error = new Error();
+            var materials = new List<MaterialVendor>();
+            foreach (var material in form.NewMaterial)
+            {
+                material.VendorId = form.VendorId;
+                materials.Add(material.MapToCore());
+            }
+            foreach (var material in form.KnownMaterial)
+            {
+                material.VendorId = form.VendorId;
+                materials.Add(material.MapToCore());
+            }
+
+            //Validate materials
+            foreach (var material in materials)
+            {
+                _materialManager.ValidateMaterial(material, ref error);
+                if (error.ErrorCode != ErrorCode.OKAY)
+                    return BadRequest(error.Message);
+            }
+            
             var vendorId = _vendorManager.CreateVendor(form.MapToCore(), ref error);
 
             if (error.ErrorCode != ErrorCode.OKAY)
                 return BadRequest(error.Message);
-
-            foreach(var material in form.NewMaterial)
-            {
-                material.VendorId = vendorId;
-                _materialManager.AddMaterial(material.MapToCore());
-            }
-            foreach(var material in form.KnownMaterial)
-            {
-                material.VendorId = vendorId;
-                _materialManager.AddMaterial(material.MapToCore());
-            }
-
-            if (vendorId > 0)
-                return Ok(new { VendorId = vendorId });
-            else
-                return BadRequest("There was an error processing your request");
+            
+            return Ok(new { VendorId = vendorId });
         }
 
         [HttpPost("edit")]
         [Authorize(Roles = "Admin")]
-        public IActionResult EdirVendor([FromBody] VendorForm form)
+        public IActionResult EditVendor([FromBody] VendorForm form)
         {
             var error = new Error();
             var vendor = _vendorManager.UpdateVendor(form.MapToCore(), ref error);
@@ -80,6 +87,38 @@ namespace dtso.api.Controllers
                 return BadRequest(error.Message);
 
             return Ok(VendorDetails.MapFromObject(vendor, _responseGenerator));
+        }
+
+        [HttpPost("materials")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditMaterials([FromBody] VendorForm form)
+        {
+            var error = new Error();
+
+            var materials = new List<MaterialVendor>();
+            foreach (var material in form.NewMaterial)
+            {
+                material.VendorId = form.VendorId;
+                materials.Add(material.MapToCore());
+            }
+            foreach (var material in form.KnownMaterial)
+            {
+                material.VendorId = form.VendorId;
+                materials.Add(material.MapToCore());
+            }
+
+            //Validate materials
+            foreach(var material in materials)
+            {
+                _materialManager.ValidateMaterial(material, ref error);
+                if (error.ErrorCode != ErrorCode.OKAY)
+                    return BadRequest(error.Message);
+            }
+            
+            _materialManager.AddMaterials(materials, ref error);
+
+
+            return GetVendorDetails(form.VendorId);
         }
 
         [HttpGet("overview")]

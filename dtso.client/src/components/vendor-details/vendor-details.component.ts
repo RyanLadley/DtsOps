@@ -2,7 +2,7 @@
 
 import { ActivatedRoute, Router } from '@angular/router'
 import { ServerRequest, ArraySort } from '../../services/index';
-import { VendorForm } from "../../models/index";
+import { VendorForm, MaterialKnown, MaterialNew } from "../../models/index";
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -17,6 +17,8 @@ export class VendorDetailsComponent implements OnInit {
     editBasics: boolean
     permissions: any;
     errorMessage: string;
+    errorMessageTable: string;
+    materials: any;
 
     //Datepicker Values
     contractStart: any;
@@ -27,7 +29,10 @@ export class VendorDetailsComponent implements OnInit {
 
     sortTicketAscending: boolean;
     currentTicketSort: string;
-    
+
+    editTable: boolean;
+    vendorForm: VendorForm;
+
     constructor(private _authService: AuthService, private _route: ActivatedRoute, private _router: Router, private _server: ServerRequest, private _sorter: ArraySort) {
         
     }
@@ -39,6 +44,7 @@ export class VendorDetailsComponent implements OnInit {
         });
 
         this.getVendor(urlId);
+        this.getMaterials();
         this.permissions = this._authService.getPermissions();
 
         this.currentInvoiceSort = "accountNumber";
@@ -65,8 +71,28 @@ export class VendorDetailsComponent implements OnInit {
         }
     }
 
+    toggleEditTable(editing: boolean) {
+
+        this.editTable = editing;
+        if (editing) {
+            if (this.editBasics) {
+                this.toggleEditBasics(false);
+            }
+            this.tempVendor = JSON.parse(JSON.stringify(this.vendor));
+
+            this.vendorForm = new VendorForm();
+            this.vendorForm.vendorId = this.vendor.vendorId;
+            this.vendorForm.knownMaterial = this.vendor.materials
+        }
+        else {
+            this.errorMessageTable = null;
+            this.vendor = JSON.parse(JSON.stringify(this.tempVendor));
+        }
+    }
+
     setDisplayedBreakdown(displayed) {
         this.displayedBreakdown = displayed;
+
     }
 
     selectFilter(filter: string) {
@@ -74,6 +100,37 @@ export class VendorDetailsComponent implements OnInit {
     }
 
     getStatusIcon(status: string) {
+    }
+
+    addKnownMaterial() {
+        this.vendorForm.knownMaterial.push(new MaterialKnown());
+    }
+
+    removeKnownMaterial(index: number) {
+        this.vendorForm.knownMaterial.splice(index, 1);
+    }
+
+    addNewMaterial() {
+        this.vendorForm.newMaterial.push(new MaterialNew());
+    }
+
+    removeNewMaterial(index: number) {
+        this.vendorForm.newMaterial.splice(index, 1);
+    }
+
+    selectKnownMaterial(materialId: number, index: number) {
+        for (var i = 0; i < this.materials.length; i++) {
+            if (this.materials[i].materialId == materialId) {
+                this.vendorForm.knownMaterial[index].unit = this.materials[i].unit;
+            }
+        }
+    }
+
+    getMaterials() {
+        this._server.get('api/material').subscribe(
+            response => { this.materials = response;},
+            error => { }
+        )
     }
 
     getVendor(id: string) {
@@ -101,7 +158,6 @@ export class VendorDetailsComponent implements OnInit {
     }
 
     submitAdjustment() {
-        //This means we are edinting tickets, se we have to send a diffrent call
         var vendorForm = VendorForm.MapFromDetails(this.vendor);
 
         if (this.contractStart == null) {
@@ -118,11 +174,25 @@ export class VendorDetailsComponent implements OnInit {
         this._server.post('api/vendor/edit', vendorForm).subscribe(
             response => {
                 this.vendor = response;
+                this.getMaterials(); //Just in case new materails were added, we should update the list
                 this.sortInvoiceAscending = !this.sortInvoiceAscending // This is so we dont switch the direction of the ascent when processing
-                this.processVendorFromServer() 
-                this.editBasics = false;
+                this.processVendorFromServer()
+                this.toggleEditBasics(false);
             },
             error => { this.errorMessage = error  }
+        )
+    }
+
+    submitTableAdjustment() {
+        
+        this._server.post('api/vendor/materials', this.vendorForm).subscribe(
+            response => {
+                this.vendor = response;
+                this.sortInvoiceAscending = !this.sortInvoiceAscending // This is so we dont switch the direction of the ascent when processing
+                this.processVendorFromServer()
+                this.toggleEditTable(false);
+            },
+            error => { this.errorMessageTable = error }
         )
     }
 

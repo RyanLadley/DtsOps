@@ -162,7 +162,13 @@
     color: $red;
 }
 
-@media screen and (max-width: 600px) {
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .section {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
     .column-6 {
         width: 100%;
         padding-right: 0;
@@ -171,5 +177,14 @@
     .column-divider {
         padding-left: 0px;
         border-left: none;
+    }
+
+    .header-bar {
+
+        .edit-button {
+            display: inline-block;
+            font-size: 22px;
+        }
+
     }
 }

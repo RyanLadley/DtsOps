@@ -2,7 +2,7 @@
     <label>Account Code</label>
     <select [(ngModel)]="selectedAccount" (change)="populateSubAccounts(selectedAccount)">
         <option [ngValue]="undefined" selected hidden>Select an Account</option>
-        <option [ngValue]="account" *ngFor="let account of accounts">{{account | accountName}}</option>
+        <option [ngValue]="account" *ngFor="let account of accounts">{{account | accountName}} - {{account.description}}</option>
     </select> 
 </div>
 
@@ -10,7 +10,7 @@
     <label>Sub-Account Code</label>
     <select [(ngModel)]="selectedSubAccount" (change)="populateShredAccounts(selectedSubAccount)">
         <option [ngValue]="undefined" selected>No Sub-Account Selected</option>
-        <option [ngValue]="subAccount" *ngFor="let subAccount of subAccounts">{{subAccount | accountName}}</option>
+        <option [ngValue]="subAccount" *ngFor="let subAccount of subAccounts">{{subAccount | accountName}} - {{subAccount.description}}</option>
     </select>
 </div>
 
@@ -18,6 +18,6 @@
     <label>Shred-Out-Account Code</label>
     <select [(ngModel)]="selectedShredAccount" (change)="asssignShredout(selectedShredAccount);">
         <option [ngValue]="undefined" selected>No Shred-out Selected</option>
-        <option [ngValue]="shredAccount" *ngFor="let shredAccount of shredAccounts">{{shredAccount | accountName}}</option>
+        <option [ngValue]="shredAccount" *ngFor="let shredAccount of shredAccounts">{{shredAccount | accountName}} - {{shredAccount.description}}</option>
     </select>
 </div>

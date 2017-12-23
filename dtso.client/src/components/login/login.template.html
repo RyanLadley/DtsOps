@@ -14,11 +14,11 @@
             <p class="error red center">{{errorMessage}}</p>
             <div class="login-section">
                 <h3>Email</h3>
-                <input type="email" name="loginEmail" [(ngModel)]="loginForm.email" placeholder="Email" (keyup.enter)="login()" autofocus>
+                <input type="email" name="loginEmail" [(ngModel)]="loginForm.email" (keyup.enter)="login()" autofocus>
             </div>
             <div class="login-section">
                 <h3>Password</h3>
-                <input type="password" [(ngModel)]="loginForm.passphrase" placeholder="Password" (keyup.enter)="login()">
+                <input type="password" [(ngModel)]="loginForm.passphrase" (keyup.enter)="login()">
             </div>
 
             <div class="login-section">

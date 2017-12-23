@@ -102,3 +102,62 @@ $sidebar-item-height: $sidebar-width;
     float: left;
     margin-left: 5px;
 }
+
+.mobile-menu-bar, .mobile-menu {
+    display: none;
+}
+@media screen and (max-width: $mobile-site-start-width) {
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-menu-bar {
+        display: inline-block;
+        position: fixed;
+        @include box-shadow(1px, 1px, 5px, black);
+        width: 100%;
+        background: $dark-grey;
+        color: lightgray;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: $mobile-menu-height;
+        z-index: 999;
+
+        .selected {
+            color: white;
+        }
+    }
+
+    .mobile-menu {
+        display: inline-block;
+        position: fixed;
+        left: -$sidebar-extended-width;
+        width: $sidebar-extended-width;
+        top: $mobile-menu-height;
+        bottom: 0;
+        background: $dark-grey;
+        @include transition-time(.5s);
+        z-index: 998;
+
+        .selected {
+            color: white;
+
+            i {
+                text-shadow: 1px 1px 3px #fcfcfc;
+            }
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+
+    .mobileMenuDisplayed {
+        left: 0;
+    }
+
+    .menu-button {
+        padding: 13px;
+    }
+}

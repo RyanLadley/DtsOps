@@ -1,8 +1,10 @@
 ﻿using dtso.core.Settings;
 using dtso.core.Utilities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using System.Text;
 
@@ -10,28 +12,41 @@ namespace dtso.core
 {
     public class ScheduledTasks
     {
-        private SpreadsheetDocumentHandle _spreadsheet;
-        private AppSettings _settings;
+        private IServiceProvider _serviceProvider;
 
-        public ScheduledTasks(SpreadsheetDocumentHandle spreadsheet, IOptions<AppSettings> settings)
+        public ScheduledTasks(IServiceProvider serviceProvider)
         {
-            _spreadsheet = spreadsheet;
-            _settings = settings.Value;
+            _serviceProvider = serviceProvider;
         }
 
         public void Daily_SpreadsheetBackup()
         {
-            var backupPath = _spreadsheet.WriteBackupSpreadsheet();
+            //SInce these are scheduled Tasks, we have to inject the dependicies here
+            var spreadsheetHandle = _serviceProvider.CreateScope().ServiceProvider.GetService<BackupSpreadsheetHandle>();
+            var settings = _serviceProvider.CreateScope().ServiceProvider.GetService<IOptions<AppSettings>>().Value;
 
-            SmtpClient client = new SmtpClient("mysmtpserver");
+            var backupPath = spreadsheetHandle.WriteBackupSpreadsheet();
+
+            SmtpClient client = new SmtpClient(settings.SmtpSettings.Server);
             client.UseDefaultCredentials = true;
 
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("dtsops@gmail.com");
-            mailMessage.To.Add("dtsops@gmail.com");
-            mailMessage.Body = $"Attatched is the backup for {DateTime.Now.ToString("dddd, dd MMMM yyyy")}";
+            mailMessage.From = new MailAddress("dtsops.cosprings@gmail.com");
+            mailMessage.To.Add("dtsops.cosprings@gmail.com");
+            mailMessage.Subject = "Daily Backup";
+            mailMessage.Body = $"Attached is the backup for {DateTime.Now.ToString("dddd, dd MMMM yyyy")}";
             mailMessage.Attachments.Add(new System.Net.Mail.Attachment($"StaticDocuments/{backupPath}"));
             client.Send(mailMessage);
+        }
+
+        public void Daily_CleanupStaticDocuments()
+        {
+            var directory = new DirectoryInfo("StaticDocuments");
+
+            foreach (var file in directory.GetFiles())
+            {
+                file.Delete();
+            }
         }
     }
 }

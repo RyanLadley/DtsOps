@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { SiteLocation } from '../../models/index';
 import { AuthService } from '../../services/index';
 import { Router } from "@angular/router";
@@ -12,8 +12,9 @@ export class SidebarComponent implements OnInit {
     icons: SiteLocation;
     expand: boolean;
     positionStyle: any;
+    displayMobileMenu: boolean;
 
-    constructor(private _authService: AuthService, private _router: Router) {
+    constructor(private _authService: AuthService, private _router: Router, private _element: ElementRef) {
 
     }
 
@@ -40,6 +41,17 @@ export class SidebarComponent implements OnInit {
         else {
             return persmissions;
         }
+    }
+
+    //Mobile Stuff
+    @HostListener('document:click', ['$event'])
+    public documentClick(event: Event): void {
+        if (!this._element.nativeElement.contains(event.target)) // or some similar check
+            this.displayMobileMenu = false;
+    }
+
+    toggleMobileMenu() {
+        this.displayMobileMenu = !this.displayMobileMenu
     }
 
 }

@@ -68,3 +68,10 @@
     margin-bottom: 5px;
     margin-right: 25%;
 }
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .data-entry-section, .data-entry-page-head {
+        min-width: unset;
+    }
+
+}

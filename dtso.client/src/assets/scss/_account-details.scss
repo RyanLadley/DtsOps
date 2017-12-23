@@ -59,7 +59,7 @@
 
 .account-details-section {
     box-sizing: border-box;
-    width: 100%;
+    min-width: 350px;
 }
 .account-header-bar {
     background: #2f4433;
@@ -75,6 +75,16 @@
 .account-details-column{
     float: left;
     margin-right: 40px;
-    width: 350px;
+    min-width: 350px;
     display: inline-block;
+}
+
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .account-details-column {
+        margin-right: inherit;
+        width: 100%;
+        box-sizing: border-box;
+        min-width: unset;
+    }
 }

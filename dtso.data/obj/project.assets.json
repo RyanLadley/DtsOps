@@ -3393,7 +3393,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leu-lap\\.nuget\\packages\\": {},
+    "C:\\Users\\leulad\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -3402,17 +3402,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj",
+      "projectUniqueName": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj",
       "projectName": "dtso.data",
-      "projectPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\dtso.data.csproj",
-      "packagesPath": "C:\\Users\\leu-lap\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\leu-lap\\Desktop\\Development\\projects\\NET\\DtsOps\\dtso.data\\obj\\",
+      "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj",
+      "packagesPath": "C:\\Users\\leulad\\.nuget\\packages\\",
+      "outputPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\leu-lap\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leulad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3447,7 +3447,7 @@
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.0.0",
+            "version": "2.0",
             "autoReferenced": true
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {

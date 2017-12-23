@@ -93,3 +93,15 @@
     }
 }
 
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .table {
+        tr {
+            height: 50px;
+        }
+
+        td {
+            font-size: 18px;
+        }
+    }
+}

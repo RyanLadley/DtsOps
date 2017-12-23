@@ -32,9 +32,7 @@
                     </tr>
                 </table>
             </div>
-
-        </div>
-        <div class="account-details-section section">
+            <br />
             <div class="account-header-bar header-bar">
                 <h3>Budget</h3>
             </div>
@@ -80,10 +78,10 @@
                 <th class="default-size sortable" (click)="sortInvoicesBy('accountNumber')">Account<i class="fa" [ngClass]="getInvoiceSortIcon('accountNumber')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortInvoicesBy('invoiceNumber')">Invoice<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceNumber')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortInvoicesBy('vendor')">Vendor<i class="fa" [ngClass]="getInvoiceSortIcon('vendor')" aria-hidden="true"></i></th>
-                <th class="default-size sortable" (click)="sortInvoicesBy('invoiceType')">Type<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceType')" aria-hidden="true"></i></th>
-                <th class="description sortable" (click)="sortInvoicesBy('description')">Descrpition<i class="fa" [ngClass]="getInvoiceSortIcon('description')" aria-hidden="true"></i></th>
+                <th class="default-size sortable hide-mobile" (click)="sortInvoicesBy('invoiceType')">Type<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceType')" aria-hidden="true"></i></th>
+                <th class="description sortable  hide-mobile" (click)="sortInvoicesBy('description')">Descrpition<i class="fa" [ngClass]="getInvoiceSortIcon('description')" aria-hidden="true"></i></th>
                 <th class="number sortable" (click)="sortInvoicesBy('invoiceDate')">Invoice Date<i class="fa" [ngClass]="getInvoiceSortIcon('invoiceDate')" aria-hidden="true"></i></th>
-                <th class="number sortable" (click)="sortInvoicesBy('datePaid')">Date Paid<i class="fa" [ngClass]="getInvoiceSortIcon('datePaid')" aria-hidden="true"></i></th>
+                <th class="number sortable  hide-mobile" (click)="sortInvoicesBy('datePaid')">Date Paid<i class="fa" [ngClass]="getInvoiceSortIcon('datePaid')" aria-hidden="true"></i></th>
                 <th class="number sortable" (click)="sortInvoicesBy('expense')">Expense<i class="fa" [ngClass]="getInvoiceSortIcon('expense')" aria-hidden="true"></i></th>
             </tr>
             <ng-container *ngFor="let invoice of displayedInvoices">
@@ -91,10 +89,10 @@
                     <td class="default-size">{{invoice.accountNumber}}</td>
                     <td class="default-size">{{invoice.invoiceNumber}}</td>
                     <td class="default-size">{{invoice.vendor.name}}</td>
-                    <td class="default-size">{{invoice.invoiceType.name}}</td>
-                    <td class="description">{{invoice.description}}</td>
+                    <td class="default-size  hide-mobile">{{invoice.invoiceType.name}}</td>
+                    <td class="description  hide-mobile">{{invoice.description}}</td>
                     <td class="number default-size">{{invoice.invoiceDate | date:'shortDate'}}</td>
-                    <td class="number default-size">{{invoice.datePaid  | date:'shortDate'}}</td>
+                    <td class="number default-size  hide-mobile">{{invoice.datePaid  | date:'shortDate'}}</td>
                     <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
@@ -106,18 +104,18 @@
                 <th class="default-size sortable" (click)="sortTicketsBy('ticketNumber')">Ticket Number<i class="fa" [ngClass]="getTicketSortIcon('ticketNumber')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('vendor')">Vendor<i class="fa" [ngClass]="getTicketSortIcon('vendor')" aria-hidden="true"></i></th>
                 <th class="default-size sortable" (click)="sortTicketsBy('invoice')">Invoice<i class="fa" [ngClass]="getTicketSortIcon('invoice')" aria-hidden="true"></i></th>
-                <th class="default-size sortable" (click)="sortTicketsBy('material')">Material<i class="fa" [ngClass]="getTicketSortIcon('material')" aria-hidden="true"></i></th>
-                <th class="default-size sortable" (click)="sortTicketsBy('quantity')">Quantity<i class="fa" [ngClass]="getTicketSortIcon('quantity')" aria-hidden="true"></i></th>
+                <th class="default-size sortable  hide-mobile" (click)="sortTicketsBy('material')">Material<i class="fa" [ngClass]="getTicketSortIcon('material')" aria-hidden="true"></i></th>
+                <th class="default-size sortable  hide-mobile" (click)="sortTicketsBy('quantity')">Quantity<i class="fa" [ngClass]="getTicketSortIcon('quantity')" aria-hidden="true"></i></th>
                 <th class="number sortable" (click)="sortTicketsBy('cost')">Cost<i class="fa" [ngClass]="getTicketSortIcon('cost')" aria-hidden="true"></i></th>
             </tr>
             <ng-container *ngFor="let ticket of displayedTickets">
-                <tr class="clickable">
+                <tr [routerLink]="['/ticket', ticket.ticketId]" class="clickable">
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>
                     <td class="default-size">{{ticket.vendor.name}}</td>
                     <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoice}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
-                    <td class="default-size">{{ticket.material.name}}</td>
-                    <td class="default-size">{{ticket.quantity}} {{ticket.material.unit}}</td>
+                    <td class="default-size  hide-mobile">{{ticket.material.name}}</td>
+                    <td class="default-size  hide-mobile">{{ticket.quantity}} {{ticket.material.unit}}</td>
                     <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>

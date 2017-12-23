@@ -60,15 +60,16 @@
             <div class="row">
                 <h4 class="divide-title">Known Material</h4>
                 <div class="row" *ngFor="let known of vendor.knownMaterial; let i = index">
-                    <a class=" remove-button button" (click)="removeKnownMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
-                    <div class="label-input">
-                        <label>Material</label>
-                        <select  [(ngModel)]="known.materialId" (change)="selectKnownMaterial(known.materialId, i)">
-                            <option [ngValue]="" disabled selected hidden>Select a Material</option>
-                            <option [ngValue]="material.materialId" *ngFor="let material of materials">{{material.name}}</option>
-                        </select>
+                    <div class="row">
+                        <a class=" remove-button button" (click)="removeKnownMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                        <div class="label-input">
+                            <label>Material</label>
+                            <select [(ngModel)]="known.materialId" (change)="selectKnownMaterial(known.materialId, i)">
+                                <option [ngValue]="" disabled selected hidden>Select a Material</option>
+                                <option [ngValue]="material.materialId" *ngFor="let material of materials">{{material.name}}</option>
+                            </select>
+                        </div>
                     </div>
-
                     <div class="label-display">
                         <label>Unit</label>
                         <p>{{known.unit || "None Selected"}}</p>
@@ -76,8 +77,9 @@
 
                     <div class="label-input">
                         <label>Cost per Unit</label>
-                        <div class="dollar-input">
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01"  [(ngModel)]="known.cost">
+                        <div class="dollar-input icon-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01"  [(ngModel)]="known.cost" required>
                         </div>
                     </div>
                 </div>
@@ -101,8 +103,9 @@
 
                     <div class="label-input">
                         <label>Cost per Unit</label>
-                        <div class="dollar-input">
-                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="new.cost">
+                        <div class="dollar-input icon-input">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="new.cost" required>
                         </div>
                     </div>
                 </div>

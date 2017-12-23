@@ -1,4 +1,5 @@
 ﻿@import "shared/colors";
+@import "shared/variables";
 @import "shared/mixins";
 @import "shared/input";
 @import "shared/buttons";
@@ -41,4 +42,17 @@ body {
     min-width: 560px;
     padding: 40px;
     text-align: center;
+}
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .content {
+        min-width: unset;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: $mobile-menu-height + 20px;
+    }
+
+    .hide-mobile{
+        display: none !important;
+    }
 }

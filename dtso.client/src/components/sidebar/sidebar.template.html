@@ -37,3 +37,43 @@
         <h4 class="sidebar-text">Sign Out</h4>
     </a>
 </div>
+
+<!--Bellow is the Mobile Menu, only to be displayed when in mobile mode-->
+
+<div class="mobile-menu-bar" *ngIf="canDisplay()">
+    <i class="fa fa-bars fa-lg menu-button" [ngClass]="{selected : displayMobileMenu}" aria-hidden="true" (click)="toggleMobileMenu()"></i>
+</div>
+
+<div class="mobile-menu" [ngClass]="{mobileMenuDisplayed : displayMobileMenu}" *ngIf="canDisplay()">
+    <a [routerLink]="['/']" class="sidebar-item" [ngClass]="{selected : icons.home}" (click)="displayMobileMenu = false">
+        <i class="fa fa-home fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Home</h4>
+    </a>
+
+    <a [routerLink]="['/overview']" class="sidebar-item" [ngClass]="{selected : icons.overview}"  (click)="displayMobileMenu = false">
+        <i class="fa   fa-globe fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Overview</h4>
+    </a>
+
+    <a [routerLink]="['/entry']" class="sidebar-item" [ngClass]="{selected : icons.entry}" *ngIf="getPermissions() == 'Admin'" (click)="displayMobileMenu = false">
+        <i class="fa fa-keyboard-o fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Data Entry</h4>
+    </a>
+    <a [routerLink]="['/vendor']" class="sidebar-item" [ngClass]="{selected : icons.vendors}" (click)="displayMobileMenu = false">
+        <i class="fa fa-truck  fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Vendors</h4>
+    </a>
+    <a [routerLink]="['/report']" class="sidebar-item" [ngClass]="{selected : icons.reports}" (click)="displayMobileMenu = false">
+        <i class="fa fa-pie-chart fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Reports</h4>
+    </a>
+    <a [routerLink]="['/profile']" class="sidebar-item" [ngClass]="{selected : icons.profile}" (click)="displayMobileMenu = false">
+        <i class="fa fa-user fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Profile</h4>
+    </a>
+
+    <a class="clickable sidebar-item" (click)="signOut()">
+        <i class="fa fa-sign-out fa-lg sidebar-icon" aria-hidden="true"></i>
+        <h4 class="sidebar-text">Sign Out</h4>
+    </a>
+</div>

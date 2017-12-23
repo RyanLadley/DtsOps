@@ -16,17 +16,41 @@ namespace dtso.core.Managers
             _materialRepository = materialRepo;
         }
 
-        public string AddMaterial(MaterialVendor materialVendor)
+        public void AddMaterials(List<MaterialVendor> materialVendors, ref Error error)
         {
-            if(materialVendor.Material.MaterialId == 0)
+            foreach(var materialVendor in materialVendors)
+            {
+                if (materialVendor.Material.MaterialId == 0)
+                {
+                    var newMaterial = _materialRepository.Add(materialVendor.Material.MapToEntity());
+                    materialVendor.Material.MaterialId = newMaterial.MaterialId;
+                }
+                if (materialVendor.MaterialVendorId == 0)
+                {
+                    _materialRepository.Add(materialVendor.MapToEntity());
+                }
+                else
+                {
+                    _materialRepository.Update(materialVendor.MapToEntity());
+                }
+            }
+        }
+
+        public void AddMaterial(MaterialVendor materialVendor)
+        {
+            if (materialVendor.Material.MaterialId == 0)
             {
                 var newMaterial = _materialRepository.Add(materialVendor.Material.MapToEntity());
                 materialVendor.Material.MaterialId = newMaterial.MaterialId;
             }
-
-            _materialRepository.Add(materialVendor.MapToEntity());
-
-            return "SUCCESS";
+            if (materialVendor.MaterialVendorId == 0)
+            {
+                _materialRepository.Add(materialVendor.MapToEntity());
+            }
+            else
+            {
+                _materialRepository.Update(materialVendor.MapToEntity());
+            }
         }
 
         public List<Material> GetMaterials()
@@ -96,6 +120,34 @@ namespace dtso.core.Managers
                 error.ErrorCode = ErrorCode.INVALID;
                 error.Message = "The Material Unit Must Be Provided";
             }
+        }
+
+        public void ValidateMaterial(MaterialVendor materialVendor, ref Error error)
+        {
+            if(materialVendor.VendorId == 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "Please select a vendor";
+            }
+            else if(materialVendor.Cost <= 0)
+            {
+                error.ErrorCode = ErrorCode.INVALID;
+                error.Message = "Material costs must be greater than 0";
+            }
+            //New Material Check
+            else if(materialVendor.Material.MaterialId == 0 ){
+                if (string.IsNullOrEmpty(materialVendor.Material.Name))
+                {
+                    error.ErrorCode = ErrorCode.INVALID;
+                    error.Message = $"Please provide a name for the new material {materialVendor.Material.Name}";
+                }
+                else if (string.IsNullOrEmpty(materialVendor.Material.Unit))
+                {
+                    error.ErrorCode = ErrorCode.INVALID;
+                    error.Message = $"Please provide the units for {materialVendor.Material.Name}";
+                }
+            }
+            
         }
     }
 }

@@ -20,6 +20,8 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using dtso.core.Settings;
+using Hangfire;
+using dtso.core;
 
 namespace dtso.api
 {
@@ -79,7 +81,8 @@ namespace dtso.api
             services.AddScoped<TicketManager>();
             services.AddScoped<TransferManager>();
             services.AddScoped<WordDocumentHandle>();
-            services.AddScoped<SpreadsheetDocumentHandle>();
+            services.AddScoped<BackupSpreadsheetHandle>();
+            services.AddScoped<ScheduledTasks>();
             //Auth
             services.AddScoped<IPasswordManager, PasswordManager>();
             services.AddScoped<TokenManager>();
@@ -89,10 +92,17 @@ namespace dtso.api
             services.AddTransient<ResponseGenerator>();
 
             services.AddDbContext<MainContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Make sure this is after all the depedency injection and dbcontext setups 
+            services.AddHangfire(options =>
+            {
+                options.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection"));
+            }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ScheduledTasks tasks)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -111,10 +121,15 @@ namespace dtso.api
                 EnableDirectoryBrowsing = true
             });
 
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+
             app.UseAuthentication();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            RecurringJob.AddOrUpdate(() => tasks.Daily_SpreadsheetBackup(), "0 7  * * *"); //Runs Daily At Midnight local (7am utc)
+            RecurringJob.AddOrUpdate(() => tasks.Daily_CleanupStaticDocuments(), "0 8  * * *"); //Runs Daily At 1am local ( 8am utc)
             app.UseMvc();
         }
 

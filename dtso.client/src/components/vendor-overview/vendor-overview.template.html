@@ -20,12 +20,12 @@
         <tr class="table-head">
             <th class="default-size sortable" (click)="sortBy('name')">Name<i class="fa" [ngClass]="getSortIcon('name')" aria-hidden="true"></i></th>
             <th class="default-size sortable" (click)="sortBy('contractNumber')">Contract Number<i class="fa" [ngClass]="getSortIcon('contractNumber')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('contractStart')">Contract Start<i class="fa" [ngClass]="getSortIcon('contractStart')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('contractEnd')">Contract End<i class="fa" [ngClass]="getSortIcon('contractEnd')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('pointOfContact')">Point Of Contact<i class="fa" [ngClass]="getSortIcon('pointOfContact')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('phoneNumber')">Phone Number<i class="fa" [ngClass]="getSortIcon('phoneNumber')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('email')">Email<i class="fa" [ngClass]="getSortIcon('email')" aria-hidden="true"></i></th>
-            <th class="default-size sortable" (click)="sortBy('website')">Website<i class="fa" [ngClass]="getSortIcon('website')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('contractStart')">Contract Start<i class="fa" [ngClass]="getSortIcon('contractStart')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('contractEnd')">Contract End<i class="fa" [ngClass]="getSortIcon('contractEnd')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('pointOfContact')">Point Of Contact<i class="fa" [ngClass]="getSortIcon('pointOfContact')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('phoneNumber')">Phone Number<i class="fa" [ngClass]="getSortIcon('phoneNumber')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('email')">Email<i class="fa" [ngClass]="getSortIcon('email')" aria-hidden="true"></i></th>
+            <th class="default-size sortable hide-mobile" (click)="sortBy('website')">Website<i class="fa" [ngClass]="getSortIcon('website')" aria-hidden="true"></i></th>
             <th class="number sortable" (click)="sortBy('status')">Status<i class="fa" [ngClass]="getSortIcon('status')" aria-hidden="true"></i></th>
             <th></th>
 
@@ -34,12 +34,12 @@
             <tr  [routerLink]="['/vendor', vendor.vendorId]">
                 <td class="default-size">{{vendor.name}}</td>
                 <td class="default-size">{{vendor.contractNumber}}</td>
-                <td class="default-size">{{vendor.contractStart |  date:'shortDate'}}</td>
-                <td class="default-size">{{vendor.contractEnd | date:'shortDate'}}</td>
-                <td class="default-size">{{vendor.pointOfContact}}</td>
-                <td class="default-size">{{vendor.phoneNumber}}</td>
-                <td class="default-size">{{vendor.email}}</td>
-                <td class="default-size">{{vendor.website}}</td>
+                <td class="default-size hide-mobile">{{vendor.contractStart |  date:'shortDate'}}</td>
+                <td class="default-size hide-mobile">{{vendor.contractEnd | date:'shortDate'}}</td>
+                <td class="default-size hide-mobile">{{vendor.pointOfContact}}</td>
+                <td class="default-size hide-mobile">{{vendor.phoneNumber}}</td>
+                <td class="default-size hide-mobile">{{vendor.email}}</td>
+                <td class="default-size hide-mobile">{{vendor.website}}</td>
                 <td class="number">{{vendor.status}}</td>
                 <td class="default-size"><i class="fa fa-lg" [ngClass]="getStatusIcon(vendor.status)"></i></td>
             </tr>

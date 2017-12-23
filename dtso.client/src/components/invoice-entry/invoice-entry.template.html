@@ -70,7 +70,10 @@
                         </div>
                         <div class="label-input">
                             <label>Ammount</label>
-                            <input type="number" value="0" [(ngModel)]="cityAccount.expense" (ngModelChange)="calculateAccountExpense(i)"required>
+                            <div class="dollar-input icon-input">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                <input type="Number" placeholder="Enter a Dollar Amount" step="0.01" [(ngModel)]="cityAccount.expense" (ngModelChange)="calculateAccountExpense(i)" required>
+                            </div>
                         </div>
                     </div>
                 </div>

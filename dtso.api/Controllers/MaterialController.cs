@@ -2,6 +2,7 @@
 using dtso.api.Models.Responses;
 using dtso.core.Enums;
 using dtso.core.Managers;
+using dtso.core.Models;
 using dtso.core.Utilties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +51,28 @@ namespace dtso.api.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditMaterialVendors([FromBody] MaterialVendorsEditForm form)
         {
-            foreach(var materialVendor in form.MaterialVendors)
+            var error = new Error();
+
+            if (form.MaterialVendors.Count <= 0)
+                return BadRequest("No material vendors were provided");
+
+            var materials = new List<MaterialVendor>();
+            foreach (var materialVendor in form.MaterialVendors)
             {
-                _materialManager.UpdateMaterialVendor(materialVendor.MapToCore());
+                materials.Add(materialVendor.MapToCore());
             }
+            foreach (var materialVendor in materials)
+            {
+                _materialManager.ValidateMaterial(materialVendor, ref error);
+
+                if (error.ErrorCode != ErrorCode.OKAY)
+                    return BadRequest(error.Message);
+            }
+            foreach (var materialVendor in materials)
+            {
+                _materialManager.UpdateMaterialVendor(materialVendor);
+            }
+            
 
             var material = _materialManager.GetMaterial(form.MaterialVendors[0].MaterialId);
             var response = MaterialDetails.MapFromObject(material);

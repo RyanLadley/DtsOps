@@ -55,3 +55,21 @@ $grid-margins: 10px;
     width: $grid-container-width/4 - $grid-margins*2;
     background: black;
 }
+
+@media screen and (max-width: $mobile-site-start-width) {
+    //On Mobile, this acts like a 6-x
+    .grid-12-3, .grid-12-2 {
+        width: 100%;
+    }
+    .grid-6-12, .grid-3-6, .grid-6-6, .grid-3-9 {
+        width: 100%;
+        height: 300px;
+    }
+
+    .grid-container {
+        padding:0;
+        width: 100%;
+        margin: auto;
+        display: inline-block;
+    }
+}
