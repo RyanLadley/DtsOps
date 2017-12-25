@@ -98,10 +98,10 @@ namespace dtso.core.Managers
                 error.ErrorCode = ErrorCode.INVALID;
                 error.Message = "An Account Must Be Selected";
             }
-            else if (ticket.Date.Year < 2000)
+            else if (ticket.Date.Year != 2018)
             {
                 error.ErrorCode = ErrorCode.INVALID;
-                error.Message = "A Valid Date Must Be Provided";
+                error.Message = "The Tciket Date Must Be In 2018";
             }
             else if (string.IsNullOrEmpty(ticket.TicketNumber))
             {

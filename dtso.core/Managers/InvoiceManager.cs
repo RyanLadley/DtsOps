@@ -121,12 +121,12 @@ namespace dtso.core.Managers
                 error.ErrorCode = ErrorCode.INVALID;
                 error.Message = "An Invoice Number Must Be Provided";
             }
-            else if(invoice.InvoiceDate.Year < 2000)
+            else if(invoice.InvoiceDate.Year != 2018)
             {
                 error.ErrorCode = ErrorCode.INVALID;
-                error.Message = "An Invoice Date Must Be Provided";
+                error.Message = "An Invoice Date Must In The Year 2018";
             }
-            else if (invoice.DatePaid.Year < 2000)
+            else if (invoice.DatePaid.Year != 2018)
             {
                 error.ErrorCode = ErrorCode.INVALID;
                 error.Message = "The Date Paid Must Be Provided";

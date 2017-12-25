@@ -103,7 +103,6 @@ export class OverviewComponent implements OnInit {
     }
 
     submitAccountUpdates() {
-        console.log(this.accounts);
         var accountForms : AccountForm[] = []
         for (var i = 0; i < this.accounts.length; i++) {
             accountForms.push(AccountForm.MapFromAccount(this.accounts[i], null));

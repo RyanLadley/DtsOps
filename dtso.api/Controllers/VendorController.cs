@@ -40,7 +40,8 @@ namespace dtso.api.Controllers
             {
                 response.Add(VendorListing.MapFromObject(vendor));
             }
-            return Ok(response);
+            
+            return Ok(response.OrderBy(vendor => vendor.Name).ToList());
         }
 
         [HttpPost]

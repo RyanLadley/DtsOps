@@ -31,3 +31,43 @@
         }
     }
 }
+
+.profile-table-container {
+    width: 65%;
+    //float: left;
+    display: inline-block;
+
+    .table-title {
+        margin-top: 15px;
+    }
+
+    .filter {
+        float: left;
+        border-bottom: 5px solid $dark-red;
+        color: white;
+        cursor: pointer;
+        padding: 10px;
+
+        &:hover {
+            border-bottom: 5px solid #318a31;
+            text-shadow: 1px 1px 1px #888888;
+        }
+    }
+
+    .selected-filter, .selected-filter:hover {
+        border-bottom: 5px solid #00ff00;
+        text-shadow: 1px 1px 1px #c8c8c8;
+    }
+}
+
+.profile-side-section {
+    box-sizing: border-box;
+    width: 400px;
+    float:left;
+}
+
+@media screen and (max-width: $mobile-site-start-width) {
+    .profile-side-section {
+        width: 100% !important;
+    }
+}

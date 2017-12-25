@@ -115,7 +115,6 @@ export class ProfileComponent implements OnInit {
                     this.displayedBugs.push(this.bugs[i]);
                 }
             }
-            console.log(this.bugs)
         }
     }
 
@@ -130,7 +129,6 @@ export class ProfileComponent implements OnInit {
     }
 
     addNewBug() {
-        console.log(this.newBug);
         this._server.post('api/bug', this.newBug).subscribe(
             response => {
                 this.bugs = response;

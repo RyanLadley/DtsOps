@@ -53,10 +53,9 @@ export class InvoiceEntryComponent implements OnInit {
         //Add validation and stuff. Have fun future me
         this.invoice.datePaid = new Date(this.datePaid.date.year, this.datePaid.date.month-1, this.datePaid.date.day);
         this.invoice.invoiceDate = new Date(this.invoiceDate.date.year, this.invoiceDate.date.month-1, this.invoiceDate.date.day);
-        console.log(this.invoice)
         this._server.post("api/invoice", this.invoice).subscribe(
             response => { this._router.navigate(['/invoice', response.invoiceId]); },
-            error => { this.errorMessage = error; console.log(error) }
+            error => { this.errorMessage = error;}
         )
     }
 

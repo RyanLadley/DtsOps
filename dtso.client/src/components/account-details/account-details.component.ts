@@ -55,7 +55,7 @@ export class AccountDetailsComponent implements OnInit{
     getAccount(id: string) {
         this._server.get('api/account/' + id).subscribe(
             response => {
-                this.account = response; console.log(response);
+                this.account = response;
                 this.selectMonth(this.selectedMonth);
             },
             error => { }

@@ -177,7 +177,7 @@
                 </tr>
                 <ng-container *ngFor="let known of vendorForm.knownMaterial; let i = index">
                     <tr class="clickable">
-                        <td><a class=" remove-button button" (click)="removeKnownMaterial(i)"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
+                        <td><a class=" remove-button button" (click)="removeKnownMaterial(i)" *ngIf="!known.materialVendorId"><i class="fa fa-minus-square" aria-hidden="true"></i></a></td>
                         <td class="default-size">
                             <select [(ngModel)]="known.materialId" (change)="selectKnownMaterial(known.materialId, i)">
                                 <option [ngValue]="" disabled selected hidden>Select a Material</option>

@@ -48,7 +48,7 @@ export class ServerRequest {
 
         return this._http.request(new Request(requestOptions))
             .map(response => {return response.text() ? response.json() : {} })
-            .catch((error) => { console.log(error); return this._handleError(error); })
+            .catch((error) => {return this._handleError(error); })
     }
 
     private _handleError(error: Response) {

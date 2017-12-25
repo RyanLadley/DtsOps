@@ -173,11 +173,11 @@ export class VendorDetailsComponent implements OnInit {
 
         this._server.post('api/vendor/edit', vendorForm).subscribe(
             response => {
-                this.vendor = response;
                 this.getMaterials(); //Just in case new materails were added, we should update the list
                 this.sortInvoiceAscending = !this.sortInvoiceAscending // This is so we dont switch the direction of the ascent when processing
                 this.processVendorFromServer()
                 this.toggleEditBasics(false);
+                this.vendor = response;
             },
             error => { this.errorMessage = error  }
         )
@@ -187,10 +187,10 @@ export class VendorDetailsComponent implements OnInit {
         
         this._server.post('api/vendor/materials', this.vendorForm).subscribe(
             response => {
-                this.vendor = response;
                 this.sortInvoiceAscending = !this.sortInvoiceAscending // This is so we dont switch the direction of the ascent when processing
                 this.processVendorFromServer()
                 this.toggleEditTable(false);
+                this.vendor = response;
             },
             error => { this.errorMessageTable = error }
         )

@@ -24,7 +24,6 @@ export class AccountForm {
         form.description = account.description;
         form.annualBudget = account.annualBudget;
         form.parentId = parentId;
-        console.log(parentId)
         return form;
     }
 

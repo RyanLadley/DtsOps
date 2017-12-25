@@ -17,7 +17,7 @@
 </div>
 
 <ng-container *ngIf="tab == 'User'">
-    <div class="account-details-column section">
+    <div class="profile-side-section section">
         <h2 class="section-title">Profile Manager</h2>
 
         <div class="profile-header-bar header-bar">
@@ -53,7 +53,7 @@
 
 
 <ng-container *ngIf="tab == 'Admin' && getPermissions() == 'Admin'">
-    <div class="account-details-column section">
+    <div class="profile-side-section section">
         <h2 class="section-title">User Manager</h2>
 
         <div class="profile-header-bar header-bar">
@@ -127,7 +127,7 @@
 </ng-container>
 
 <ng-container *ngIf="tab == 'Bug'">
-    <div class="account-details-column section">
+    <div class="profile-side-section section">
         <h2 class="section-title">Bug Report</h2>
 
         <div class="profile-header-bar header-bar">
@@ -153,7 +153,7 @@
             <button class="button standard-button row" (click)="addNewBug()">Add Bug</button>
         </div>
     </div>
-    <div class="invoice-table-container section">
+    <div class="profile-table-container section">
         <h2 class="section-title">Bugs</h2>
         <div class="filter-container profile-header-bar header-bar">
             <div class="filter" [ngClass]="{'selected-filter' : displayedFilter == 'All'}" (click)="setDisplayedFilter('All')">

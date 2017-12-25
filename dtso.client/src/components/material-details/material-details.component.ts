@@ -31,7 +31,7 @@ export class MaterialDetailsComponent implements OnInit {
 
     getMaterial(urlId) {
         this._server.get('api/material/' + urlId).subscribe(
-            response => { this.material = response; console.log(this.material) },
+            response => { this.material = response; },
             error => { }
         )
     }

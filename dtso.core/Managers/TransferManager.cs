@@ -62,12 +62,12 @@ namespace dtso.core.Managers
             if(transfer.FromAccount.AccountId == 0)
             {
                 error.ErrorCode = ErrorCode.INVALID;
-                error.Message = "An Account To Transfer From Mus Be Selected";
+                error.Message = "An Account To Transfer From Must Be Selected";
             }
             else if (transfer.ToAccount.AccountId == 0)
             {
                 error.ErrorCode = ErrorCode.INVALID;
-                error.Message = "An Account To Transfer To Mus Be Selected";
+                error.Message = "An Account To Transfer To Must Be Selected";
             }
             else if (transfer.Amount == 0)
             {

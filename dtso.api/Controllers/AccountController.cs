@@ -7,6 +7,7 @@ using dtso.core.Models;
 using dtso.api.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using dtso.api.Models.Forms;
+using System.Linq;
 
 namespace dtso.api.Controllers
 {
@@ -74,7 +75,7 @@ namespace dtso.api.Controllers
         }
 
         [HttpGet("city")]
-        public IActionResult GetCityAccoutns()
+        public IActionResult GetCityAccounts()
         {
             var accounts = _accountManager.GetCityAccounts();
 
@@ -84,7 +85,7 @@ namespace dtso.api.Controllers
                 response.Add(CityAccountListing.MapFromObject(account));
             }
 
-            return Ok(response);
+            return Ok(response.OrderBy(cityAccount => cityAccount.Name).ToList());
         }
 
         [HttpGet("{accountNumber}")]
