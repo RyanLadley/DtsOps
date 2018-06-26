@@ -100,6 +100,9 @@ namespace dtso.data.Repositories
 
                 .Include(invoice => invoice.InvoiceAccounts)
                     .ThenInclude(ia => ia.vAccount)
+                .Include(invoice => invoice.InvoiceType)
+                
+
                 .Include(invoice => invoice.Vendor);
 
             return invoices.ToList();
@@ -118,8 +121,9 @@ namespace dtso.data.Repositories
 
                 .Include(invoice => invoice.InvoiceAccounts)
                     .ThenInclude(ia => ia.vAccount)
-                .Include(invoice => invoice.InvoiceAccounts)
-                    .ThenInclude(ia => ia.CityExpenses)
+
+                .Include(invoice => invoice.InvoiceType)
+                
                 .Include(invoice => invoice.Vendor);
 
             return invoices.ToList(); 

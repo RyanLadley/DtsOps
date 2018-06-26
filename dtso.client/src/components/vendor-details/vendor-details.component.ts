@@ -19,6 +19,11 @@ export class VendorDetailsComponent implements OnInit {
     errorMessage: string;
     errorMessageTable: string;
     materials: any;
+    
+    invoicesTotal: number;
+    
+    ticketsTotal: number;
+    pendingTotal: number;
 
     //Datepicker Values
     contractStart: any;
@@ -197,7 +202,7 @@ export class VendorDetailsComponent implements OnInit {
     }
 
     processVendorFromServer() {
-
+        this.caluclateTotals();
         this.sortInvoicesBy(this.currentInvoiceSort);
         this.sortTicketsBy(this.currentTicketSort);
     }
@@ -254,5 +259,26 @@ export class VendorDetailsComponent implements OnInit {
         this.sortTicketAscending = direction;
 
         this._sorter.sort(this.vendor.tickets, field, direction);
+    }
+
+
+    caluclateTotals() {
+        //Invoice Totals
+        this.invoicesTotal = 0
+        for (var i = 0; i < this.vendor.invoices.length; i++) {
+            this.invoicesTotal += this.vendor.invoices[i].expense;
+        }
+
+        //TIcket Totals
+        this.ticketsTotal = 0;
+        this.pendingTotal = 0;
+        for (var i = 0; i < this.vendor.tickets.length; i++) {
+            this.ticketsTotal += this.vendor.tickets[i].cost;
+
+            if (!this.vendor.tickets[i].invoice) {
+                this.pendingTotal += this.vendor.tickets[i].cost;
+            }
+        }
+        
     }
 }

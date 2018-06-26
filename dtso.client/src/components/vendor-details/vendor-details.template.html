@@ -127,6 +127,10 @@
                     <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
+            <tr class="total-row">
+                <td colspan="7">Total</td>
+                <td class="number">{{invoicesTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
         </table>
 
         <table *ngIf="displayedBreakdown == 'Ticket'" class="vendor-details-table table">
@@ -150,6 +154,14 @@
                     <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
+            <tr class="total-row">
+                <td colspan="6">Pending</td>
+                <td class="number">{{pendingTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="6">Total</td>
+                <td class="number">{{ticketsTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
         </table>
 
         <table *ngIf="displayedBreakdown == 'Material'" class="vendor-details-table table">

@@ -10260,13 +10260,11 @@
   },
   "packageFolders": {
     "C:\\Users\\leulad\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
       "projectUniqueName": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\dtso.api.csproj",
       "projectName": "dtso.api",
@@ -10275,27 +10273,30 @@
       "outputPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\leulad\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\leulad\\AppData\\Local\\Esri\\NuGet": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj"
-            },
             "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.auth\\dtso.auth.csproj": {
               "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.auth\\dtso.auth.csproj"
+            },
+            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj": {
+              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj"
             },
             "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj": {
               "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.data\\dtso.data.csproj"
@@ -10312,34 +10313,34 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.AspNetCore": {
-            "target": "Package",
-            "version": "2.0.0"
-          },
-          "Microsoft.EntityFrameworkCore": {
-            "target": "Package",
-            "version": "2.0.0"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "2.0",
-            "autoReferenced": true
-          },
-          "Microsoft.AspNetCore.Mvc": {
-            "target": "Package",
-            "version": "2.0.0"
-          },
           "HangFire": {
             "target": "Package",
-            "version": "1.6.17"
+            "version": "[1.6.17, )"
           },
           "Microsoft.ApplicationInsights.AspNetCore": {
             "target": "Package",
-            "version": "2.1.1"
+            "version": "[2.1.1, )"
+          },
+          "Microsoft.AspNetCore": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.AspNetCore.Mvc": {
+            "target": "Package",
+            "version": "[2.0.0, )"
           },
           "Microsoft.AspNetCore.StaticFiles": {
             "target": "Package",
-            "version": "2.0.0"
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           }
         },
         "imports": [

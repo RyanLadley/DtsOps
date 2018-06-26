@@ -11576,13 +11576,11 @@
   },
   "packageFolders": {
     "C:\\Users\\leulad\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
       "projectUniqueName": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api.unittests\\dtso.api.unittests.csproj",
       "projectName": "dtso.api.unittests",
@@ -11591,27 +11589,30 @@
       "outputPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api.unittests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\leulad\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\leulad\\AppData\\Local\\Esri\\NuGet": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj": {
-              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj"
-            },
             "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\dtso.api.csproj": {
               "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.api\\dtso.api.csproj"
+            },
+            "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj": {
+              "projectPath": "E:\\Programing\\Projects\\NET\\DtsOps\\DtsOps\\dtso.core\\dtso.core.csproj"
             }
           }
         }
@@ -11625,22 +11626,22 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "MSTest.TestFramework": {
-            "target": "Package",
-            "version": "1.1.18"
-          },
           "MSTest.TestAdapter": {
             "target": "Package",
-            "version": "1.1.18"
+            "version": "[1.1.18, )"
           },
-          "Microsoft.NETCore.App": {
+          "MSTest.TestFramework": {
             "target": "Package",
-            "version": "2.0",
-            "autoReferenced": true
+            "version": "[1.1.18, )"
           },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
-            "version": "15.3.0-preview-20170628-02"
+            "version": "[15.3.0-preview-20170628-02, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           }
         },
         "imports": [

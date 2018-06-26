@@ -9,10 +9,17 @@ import { MonthProvider, ServerRequest, ArraySort } from '../../services/index';
 export class AccountDetailsComponent implements OnInit{
     collapse: boolean;
     selectedMonth: any;
-    displayedBreakdown: string
+    displayedBreakdown: string;
+
     displayedInvoices: any = [];
+    invoicesTotal: number;
+
     displayedTickets: any = [];
+    ticketsTotal: number;
+    pendingTotal: number;
+
     displayedTransfers: any = [];
+    transfersTotal : number;
     months: string[]
     account: any;
 
@@ -57,6 +64,7 @@ export class AccountDetailsComponent implements OnInit{
             response => {
                 this.account = response;
                 this.selectMonth(this.selectedMonth);
+                console.log(this.account)
             },
             error => { }
         )
@@ -83,6 +91,8 @@ export class AccountDetailsComponent implements OnInit{
             this.displayedTickets = this.account.monthlyDetails[this.selectedMonth + 1].tickets
             this.displayedTransfers = this.account.monthlyDetails[this.selectedMonth + 1].transfers
         }
+
+        this.caluclateTotals();
         //This keeps the asccending from chainging afterselecting new month
         this.sortTransferAscending = !this.sortTransferAscending;
         this.sortTicketAscending = !this.sortTicketAscending;
@@ -91,6 +101,31 @@ export class AccountDetailsComponent implements OnInit{
         this.sortInvoicesBy(this.currentInvoiceSort);
         this.sortTicketsBy(this.currentTicketSort);
         this.sortTransferBy(this.currentTransferSort);
+    }
+
+    caluclateTotals() {
+        //Invoice Totals
+        this.invoicesTotal = 0
+        for (var i = 0; i < this.displayedInvoices.length; i++) {
+            this.invoicesTotal += this.displayedInvoices[i].expense;
+        }
+
+        //TIcket Totals
+        this.ticketsTotal = 0;
+        this.pendingTotal = 0;
+        for (var i = 0; i < this.displayedTickets.length; i++) {
+            this.ticketsTotal += this.displayedTickets[i].cost;
+
+            if (!this.displayedTickets[i].invoice) {
+                this.pendingTotal += this.displayedTickets[i].cost;
+            }
+        }
+
+        //Transfer Totals
+        this.transfersTotal = 0;
+        for (var i = 0; i < this.displayedTransfers.length; i++) {
+            this.transfersTotal += this.displayedTransfers[i].amount;
+        }
     }
 
     getInvoiceSortIcon(field) {

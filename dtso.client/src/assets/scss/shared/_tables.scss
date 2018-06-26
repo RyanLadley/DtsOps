@@ -91,6 +91,16 @@
             color: #2020DE;
         }
     }
+
+    .total-row {
+        cursor: default;
+        color: #898989;
+
+        &:hover {
+            background: #f1f1f1;
+            color: #4a4a4a;
+        }
+    }
 }
 
 

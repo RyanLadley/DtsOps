@@ -70,13 +70,8 @@ export class InvoiceDetailsComponent implements OnInit {
             if (this.editTable) {
                 this.toggleEditTable(false);
             }
-
-            //Initiazlie Date Picker Dates
-            let inDate = new Date(this.invoice.invoiceDate)
-            this.invoiceDate = { date: { year: inDate.getFullYear(), month: inDate.getMonth() + 1, day: inDate.getDate() } };
-            let paid = new Date(this.invoice.datePaid)
-            this.datePaid = { date: { year: paid.getFullYear(), month: paid.getMonth() + 1, day: paid.getDate() } };
-
+            
+            this.initializeDatePicker();
             this.getEditData();
             this.tempInvoice = JSON.parse(JSON.stringify(this.invoice));
         }
@@ -95,10 +90,10 @@ export class InvoiceDetailsComponent implements OnInit {
         this.editTable = editing;
         if (editing) {
             if (this.editBasics) {
-                
                 this.toggleEditBasics(false);
             }
 
+            this.initializeDatePicker();
             this.getEditData();
             //If we are editing tickets, always get pending just incase the user altered the vendor id in a previous edit
             if (this.displayedBreakdown == "Tickets") {
@@ -112,6 +107,13 @@ export class InvoiceDetailsComponent implements OnInit {
         }
     }
 
+    initializeDatePicker() {
+        //Initiazlie Date Picker Dates
+        let inDate = new Date(this.invoice.invoiceDate)
+        this.invoiceDate = { date: { year: inDate.getFullYear(), month: inDate.getMonth() + 1, day: inDate.getDate() } };
+        let paid = new Date(this.invoice.datePaid)
+        this.datePaid = { date: { year: paid.getFullYear(), month: paid.getMonth() + 1, day: paid.getDate() } };
+    }
     isEditing(): boolean{
         return this.editBasics || this.editTable;
     }
@@ -254,12 +256,13 @@ export class InvoiceDetailsComponent implements OnInit {
                 this.errorMessage = "A date paid date is required.";
                 return
             }
+            
             invoiceForm.invoiceDate = new Date(this.invoiceDate.date.year, this.invoiceDate.date.month - 1, this.invoiceDate.date.day);
             invoiceForm.datePaid = new Date(this.datePaid.date.year, this.datePaid.date.month - 1, this.datePaid.date.day);
 
             invoiceForm.cityExpensesToRemove = this.cityExpenseToRemove;
             invoiceForm.invoiceAccountsToRemove = this.invoiceAccountsToRemove;
-
+            
             this._server.post('api/invoice/edit', invoiceForm).subscribe(
                 response => {
                     this.invoice = response;

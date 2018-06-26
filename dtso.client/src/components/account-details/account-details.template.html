@@ -96,6 +96,10 @@
                     <td class="number">{{invoice.expense  | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
+            <tr class="total-row">
+                <td colspan="7">Total</td>
+                <td  class="number">{{invoicesTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
         </table>
 
         <table *ngIf="displayedBreakdown == 'Ticket'" class="table account-details-table">
@@ -113,12 +117,20 @@
                     <td class="default-size">{{ticket.account | accountName}}</td>
                     <td class="default-size">{{ticket.ticketNumber}}</td>
                     <td class="default-size">{{ticket.vendor.name}}</td>
-                    <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoice}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
+                    <td class="default-size"><span *ngIf="ticket.invoice">{{ticket.invoice.invoiceNumber}}</span><span *ngIf="!ticket.invoice">Pending</span></td>
                     <td class="default-size  hide-mobile">{{ticket.material.name}}</td>
                     <td class="default-size  hide-mobile">{{ticket.quantity}} {{ticket.material.unit}}</td>
                     <td class="number">{{ticket.cost | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
+            <tr class="total-row">
+                <td colspan="6">Pending</td>
+                <td class="number">{{pendingTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="6">Total</td>
+                <td class="number">{{ticketsTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
         </table>
         <table *ngIf="displayedBreakdown == 'Transfer'" class="table account-details-table">
             <tr class="table-head">
@@ -137,6 +149,10 @@
                     <td class="number">{{transfer.amount | currency:'USD':true:'1.2-2'}}</td>
                 </tr>
             </ng-container>
+            <tr class="total-row">
+                <td colspan="4">Total</td>
+                <td class="number">{{transfersTotal | currency:'USD':true:'1.2-2'}}</td>
+            </tr>
         </table>
 
     </div>

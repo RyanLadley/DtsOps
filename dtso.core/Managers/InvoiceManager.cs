@@ -5,6 +5,7 @@ using dtso.core.Utilties;
 using dtso.data.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace dtso.core.Managers
@@ -34,12 +35,16 @@ namespace dtso.core.Managers
         public List<Invoice> GetInvoicesForAccount(AccountNumberTemplate accountNumber)
         {
             var invoices = new List<Invoice>();
-            foreach(var invoiceEntity in _invoiceRepository.GetInvoicesForAccount(accountNumber.AccountNumber.Value, accountNumber.SubNo, accountNumber.ShredNo))
+            var invoiceEntities = _invoiceRepository.GetInvoicesForAccount(accountNumber.AccountNumber.Value, accountNumber.SubNo, accountNumber.ShredNo);
+
+            //Dedupe Id's
+            invoiceEntities = invoiceEntities.GroupBy(entity => entity.InvoiceId).Select(entity => entity.First()).ToList();
+            foreach (var invoiceEntity in invoiceEntities)
             {
                 var invoice = Invoice.MapFromEntity(invoiceEntity);
 
                 //Remove AccountTotals/Expenses associated with this invoice that don't match the mapping of the provided account number
-                invoice.AccountTotals.RemoveAll(accountTotal => !_IsMatchingAccount(accountTotal.Account, accountNumber));
+                invoice.AccountTotals.RemoveAll(accountTotal => !_isMatchingAccount(accountTotal.Account, accountNumber));
                 invoices.Add(invoice);
             }
 
@@ -155,7 +160,7 @@ namespace dtso.core.Managers
             return types;
         }
 
-        private bool _IsMatchingAccount(Account account, AccountNumberTemplate accountNumber)
+        private bool _isMatchingAccount(Account account, AccountNumberTemplate accountNumber)
         {
             if (accountNumber.ShredNo.HasValue)
                 return account.ShredNo == accountNumber.ShredNo && account.SubNo == accountNumber.SubNo && account.AccountNumber == accountNumber.AccountNumber;
