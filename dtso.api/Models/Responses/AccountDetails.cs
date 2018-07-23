@@ -22,7 +22,7 @@ namespace dtso.api.Models.Responses
         {
             get
             {
-                return AnnualBudget - Transfers;
+                return AnnualBudget + Transfers;
             }
         }
 

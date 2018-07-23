@@ -21,7 +21,7 @@ namespace dtso.api.Models.Responses
         {
             get
             {
-                return AnnualBudget - Transfers;
+                return AnnualBudget + Transfers; //Transfers Have correct signage to reflect to or from
             }
         }
 
